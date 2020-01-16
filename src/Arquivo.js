@@ -47,8 +47,8 @@ class Arquivo extends React.Component{
                 {
                     this.state.dataSource.map(t => 
                         <TouchableOpacity
-                        key={t.id}
-                        style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}>
+                            key={t.id}
+                            style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}>
                             <Text>{t.tipo_protocolo}</Text>
                             <Text>{t.dt_emissao}</Text>
                         </TouchableOpacity>

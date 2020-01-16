@@ -4,23 +4,31 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import * as actions from './src/store/actions';
+import store from './src/store/reducer';
+
 import Home from './src/Home';
 import BuscaFarmacia from './src/BuscaFarmacia';
 import BuscaMedicamento from './src/BuscaMedicamento';
 import BuscaPaciente from './src/BuscaPaciente';
 import Scan from './src/Scan';
 import Arquivo from './src/Arquivo';
+import Login from './src/Login';
 
-const rootReducer = (state = {}, action) => {
-  return state
-}
 
-const store = createStore(rootReducer);
 
 export default class App extends React.Component {
   
   state = {
       currentScreen: actions.HOME
+  }
+
+  isUserLogged = (props) => {
+      const isLogged = props.isLogged;
+      if(isLogged){
+          return <Home/>;
+      }else{
+          return <Login/>;
+      }
   }
 
   switchScreen = (currentScreen) => {
@@ -64,7 +72,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-            {this.renderScreen()}
+            {this.isUserLogged(false)}
         </View>
       </Provider>
     );

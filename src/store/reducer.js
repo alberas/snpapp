@@ -1,16 +1,14 @@
 import * as actionTypes from './actions';
 import {createStore} from 'redux';
 
-function switchScreen(state = {currentScreen: 'home'}, action){
-    switch(action.type){
-        case actionTypes.MEDICAMENTO:
-            return {
-                ...state,
-                currentScreen: action.teste
-            }
-        default:
-            return state
+import * as actions from './actions'
+
+function reducer(){
+    return {
+        currentScreen: actions.HOME,
+        idUsuario: 0
     }
 }
 
-export default createStore(switchScreen);
+
+export default createStore(reducer);
