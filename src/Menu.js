@@ -41,6 +41,9 @@ export default class Menu extends React.Component{
                     <Text>Pesquisar Medicamento</Text>
                 </ListItem>
                 <ListItem>
+                    <Text>Minhas receitas</Text>
+                </ListItem>
+                <ListItem>
                     <Text>Scanear Documento</Text>
                 </ListItem>
                 

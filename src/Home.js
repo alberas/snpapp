@@ -37,6 +37,13 @@ class Home extends React.Component{
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.homeButton}
+                    onPress={() => this.props.switchScreen(actions.ARQUIVO)}
+                    >
+                    <Icon name="list" style={style.icon}/>
+                    <Text>Arquivo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={style.homeButton}
                     onPress={() => this.props.switchScreen(actions.RECEITA_ENVIAR)}
                     >
                     <Icon name="list" style={style.icon}/>
