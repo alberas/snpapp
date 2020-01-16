@@ -5,11 +5,11 @@ import { Provider } from 'react-redux';
 
 import * as actions from './src/store/actions';
 import Home from './src/Home';
-import Menu from './src/Menu';
 import BuscaFarmacia from './src/BuscaFarmacia';
 import BuscaMedicamento from './src/BuscaMedicamento';
 import BuscaPaciente from './src/BuscaPaciente';
 import Scan from './src/Scan';
+import Arquivo from './src/Arquivo';
 
 const rootReducer = (state = {}, action) => {
   return state
@@ -45,7 +45,11 @@ export default class App extends React.Component {
               return(
                   <BuscaPaciente switchScreen={this.switchScreen}/>
               )
-          case actions.RECEITA_ENVIAR:
+          case actions.ARQUIVO:
+              return(
+                  <Arquivo switchScreen={this.switchScreen}/>
+              )
+        case actions.RECEITA_ENVIAR:
               return(
                   <Scan switchScreen={this.switchScreen}/>
               )
