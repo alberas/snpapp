@@ -50,6 +50,7 @@ class Arquivo extends React.Component{
                         key={t.id}
                         style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}>
                             <Text>{t.tipo_protocolo}</Text>
+                            <Text>{t.dt_emissao}</Text>
                         </TouchableOpacity>
                     )
                 }
