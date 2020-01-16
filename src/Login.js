@@ -26,15 +26,11 @@ class Login extends React.Component{
         .then((response) => response.json())
         .then((responseJson) => {
 
-            this.setState({
-                usuario: responseJson.Data,
-            }, function(){
-                if(parseInt(this.state.usuario.id) > 0){
-                    return (<Home/>);
-                }else{
-                    this.setState({...this.state, msg: "Dados incorretos" });
-                }
-            });
+            if(parseInt(responseJson.Data.id) > 0){
+                return (<Home/>);
+            }else{
+                this.setState({...this.state, msg: "Dados incorretos" });
+            }
 
         })
         .catch((error) =>{
