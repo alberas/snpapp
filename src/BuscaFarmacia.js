@@ -6,11 +6,10 @@ import Paciente from './Paciente';
 import axios from 'axios';
 import Farmacia from './Farmacia';
 import SearchButton from './components/SearchButton/SearchButton';
+import Cabecalho from './Cabecalho';
 
 
-
-
-export default class BuscaFarmacia extends React.Component{
+class BuscaFarmacia extends React.Component{
 
     state = {
         termo: "",
@@ -19,6 +18,10 @@ export default class BuscaFarmacia extends React.Component{
     }
 
    
+    componentDidMount = () => {
+
+    }
+
     search = () => {
         this.setState({onCall: 1});
 
@@ -70,29 +73,7 @@ export default class BuscaFarmacia extends React.Component{
     render(){
         return (
             <View style={{flex:1}}>
-                <Header
-                    searchBar={true}
-                    rounded={true}
-                    >
-                    <Left>
-                        <Button 
-                            transparent
-                            onPress={()=>this.props.switchScreen('home')}>
-                            <Icon name='arrow-back' />
-                        </Button>
-                    </Left>
-
-                    <Body>
-                        <Title>FARMÁCIAS/LOCAIS</Title>
-                    </Body>
-                    <Right>
-                        <Button transparent
-                            onPress={()=>this.props.switchScreen('menu')}>
-                            <Icon name='menu' />
-                        </Button>
-                    </Right>
-                    
-                </Header>
+                <Cabecalho titulo="FARMÁCIAS/LOCAIS"/>
 
                 <TouchableOpacity
                     style={style.button}
@@ -128,3 +109,4 @@ const style = StyleSheet.create({
 });
 
 
+export default BuscaFarmacia;

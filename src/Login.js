@@ -7,6 +7,12 @@ var logo = require('../assets/icons/logo_small.png');
 
 class Login extends React.Component{
 
+    
+    
+    static navigationOptions = {
+        title: 'Login',
+    };
+
     state = {
         msg: "",
         txtLogin: "",
@@ -15,6 +21,8 @@ class Login extends React.Component{
     }
 
     efetuarLogin = () => {
+        const {navigate} = this.props.navigation;
+
         this.setState({...this.state,msg:""});
 
         const usuario = [];
@@ -27,7 +35,7 @@ class Login extends React.Component{
         .then((responseJson) => {
 
             if(parseInt(responseJson.Data.id) > 0){
-                return (<Home/>);
+                navigate('Home');
             }else{
                 this.setState({...this.state, msg: "Dados incorretos" });
             }
@@ -36,12 +44,14 @@ class Login extends React.Component{
         .catch((error) =>{
             console.error(error);
         });
-
         
     }
 
     
     render(){
+        
+        
+
         return(
             <View style={{flex:1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={logo} style={{marginBottom:10}}></Image>

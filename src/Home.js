@@ -11,7 +11,13 @@ var logo = require('../assets/icons/logo_small.png');
 
 class Home extends React.Component{
 
+    static navigationOptions = {
+        title: 'Home',
+    };
+
     render(){
+        const {navigate} = this.props.navigation;
+        
         return(
             <View style={{flex:1, paddingHorizontal: 20, justifyContent: "center" }}>
                     
