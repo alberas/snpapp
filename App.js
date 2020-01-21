@@ -1,6 +1,4 @@
 import React from 'react';
-import { Platform, View, StyleSheet,  Text, Image } from 'react-native';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -10,13 +8,23 @@ import store from './src/store/reducer';
 
 import Home from './src/Home';
 import Login from './src/Login';
-import MainPage from './src/MainPage';
+import Arquivo from './src/Arquivo';
+import Arquivos from './src/Arquivos';
+import BuscaFarmacia from './src/BuscaFarmacia';
+import BuscaMedicamento from './src/BuscaMedicamento';
+import Paciente from './src/Paciente';
+import Scan from './src/Scan';
 
 
 const MainNavigator = createStackNavigator({
     Login: {screen: Login},
-    MainPage: {screen: MainPage},
     Home: {screen: Home},
+    Arquivos: {screen: Arquivos},
+    Arquivo: {screen: Arquivo},
+    Locais: {screen: BuscaFarmacia},
+    BuscaMedicamento: {screen: BuscaMedicamento},
+    Paciente: {screen: Paciente},
+    Scan: {screen: Scan}
   });
 
 const Navigation = createAppContainer(MainNavigator);

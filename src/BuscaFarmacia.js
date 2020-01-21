@@ -49,8 +49,6 @@ class BuscaFarmacia extends React.Component{
 
     }
 
-
-
     renderBody = () =>{
         switch(this.state.onCall){
             case 1:
@@ -73,7 +71,6 @@ class BuscaFarmacia extends React.Component{
     render(){
         return (
             <View style={{flex:1}}>
-                <Cabecalho titulo="FARMÁCIAS/LOCAIS"/>
 
                 <TouchableOpacity
                     style={style.button}

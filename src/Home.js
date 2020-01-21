@@ -20,44 +20,46 @@ class Home extends React.Component{
         
         return(
             <View style={{flex:1, paddingHorizontal: 20, justifyContent: "center" }}>
-                    
+                    <Text>
+                        Olá, {this.props.usuario.nome}
+                    </Text>
                 <TouchableOpacity
                     style={style.homeButton}
-                    onPress={() => this.props.switchScreen(actions.HOME)}
+                    onPress={() => navigate('Home')}
                     >
                     <Image source={logo}/>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.homeButton}
-                    onPress={() => this.props.switchScreen(actions.MEDICAMENTOS)}
+                    onPress={() => navigate('BuscaMedicamento')}
                     >
                     <Icon name="list" style={style.icon}/>
                     <Text>Medicamentos</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.homeButton}
-                    onPress={() => this.props.switchScreen(actions.LOCAIS)}
+                    onPress={() => navigate('Locais')}
                     >
                     <Icon name="list" style={style.icon}/>
                     <Text>Farmácias</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.homeButton}
-                    onPress={() => this.props.switchScreen(actions.ARQUIVO)}
+                    onPress={() => navigate('Arquivo')}
                     >
                     <Icon name="list" style={style.icon}/>
                     <Text>Arquivo</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.homeButton}
-                    onPress={() => this.props.switchScreen(actions.RECEITA_ENVIAR)}
+                    onPress={() => navigate('Scan')}
                     >
                     <Icon name="list" style={style.icon}/>
                     <Text>Scanear receita</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.homeButton}
-                    onPress={() => this.props.switchScreen(actions.PACIENTES)}
+                    onPress={() => navigate('Paciente')}
                     >
                     <Icon name="list" style={style.icon}/>
                     <Text>Pacientes</Text>
@@ -84,14 +86,13 @@ const style = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        currScreen: state.currentScreen
+        usuario: state.usuario
     };
 };
 
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSwitchScreen: (actionType) => dispatch({type: actionType}),
     }
 };
 

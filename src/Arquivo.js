@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, Text, View, TouchableOpacity, ActivityIndicator} from 'react-native';
-import Cabecalho from './Cabecalho';
+import { Icon } from 'native-base';
+import { connect } from 'react-redux';
 
 
 class Arquivo extends React.Component{
@@ -11,7 +12,7 @@ class Arquivo extends React.Component{
     }
     
     componentDidMount(){
-        return fetch("http://www.snpmed.com.br/api/arquivo/2")
+        return fetch("http://www.snpmed.com.br/api/arquivo/" + this.props.usuario.id)
             .then((response) => response.json())
             .then((responseJson) => {
 
@@ -42,7 +43,6 @@ class Arquivo extends React.Component{
         return(
             <View>
                 
-            <Cabecalho titulo="ARQUIVO"/>
             <ScrollView>
                 {
                     this.state.dataSource.map(t => 
@@ -51,6 +51,7 @@ class Arquivo extends React.Component{
                             style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}>
                             <Text>{t.tipo_protocolo}</Text>
                             <Text>{t.dt_emissao}</Text>
+                            <Icon name="search" style={{position: "absolute", right: 5, bottom: 5}}/>
                         </TouchableOpacity>
                     )
                 }
@@ -59,4 +60,16 @@ class Arquivo extends React.Component{
         );
     }
 }
-export default Arquivo;
+
+const mapStateToProps = state => {
+    return {
+        usuario: state.usuario
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Arquivo);

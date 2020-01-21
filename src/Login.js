@@ -1,14 +1,12 @@
 import React from 'react';
 import {View, Text, Image, TextInput } from 'react-native';
-import {Container, Content, Header, Button, Form, Input, Label, Item} from 'native-base';
-import Home from './Home';
+import { Button, ActionSheet} from 'native-base';
+import * as actions from './store/actions';
+import {connect} from 'react-redux';
 
 var logo = require('../assets/icons/logo_small.png');
 
 class Login extends React.Component{
-
-    
-    
     static navigationOptions = {
         title: 'Login',
     };
@@ -16,8 +14,7 @@ class Login extends React.Component{
     state = {
         msg: "",
         txtLogin: "",
-        txtSenha: "",
-        usuario: []
+        txtSenha: ""
     }
 
     efetuarLogin = () => {
@@ -25,7 +22,6 @@ class Login extends React.Component{
 
         this.setState({...this.state,msg:""});
 
-        const usuario = [];
         const txtLogin = this.state.txtLogin;
         const txtSenha = this.state.txtSenha;
 
@@ -35,6 +31,7 @@ class Login extends React.Component{
         .then((responseJson) => {
 
             if(parseInt(responseJson.Data.id) > 0){
+                this.props.loginUser(responseJson.Data);     
                 navigate('Home');
             }else{
                 this.setState({...this.state, msg: "Dados incorretos" });
@@ -50,8 +47,6 @@ class Login extends React.Component{
     
     render(){
         
-        
-
         return(
             <View style={{flex:1, alignItems: "center", justifyContent: "center" }}>
                 <Image source={logo} style={{marginBottom:10}}></Image>
@@ -77,4 +72,16 @@ class Login extends React.Component{
     };
 }
 
-export default Login;
+const mapStateToProps = state => {
+    return {
+        usuario: state.usuario
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        loginUser:  (usuario) => dispatch({type: actions.LOGIN, usuario: usuario})
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

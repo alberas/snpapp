@@ -45,28 +45,7 @@ export default class BuscaPaciente extends React.Component{
     render(){
         return (
             <View style={{flex:1}}>
-                <Header
-                    searchBar={true}
-                    rounded={true}
-                    >
-                    <Left>
-                        <Button 
-                            transparent
-                            onPress={()=>this.props.switchScreen('home')}>
-                            <Icon name='arrow-back' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>PACIENTES</Title>
-                    </Body>
-                    <Right>
-                        <Button transparent
-                            onPress={()=>this.props.switchScreen('menu')}>
-                            <Icon name='menu' />
-                        </Button>
-                    </Right>
-                    
-                </Header>
+                
                 <ScrollView>
 
                     <Input

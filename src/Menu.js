@@ -16,8 +16,7 @@ export default class Menu extends React.Component{
                     >
                     <Left>
                         <Button 
-                            transparent
-                            onPress={()=>this.props.switchScreen('home')}>
+                            transparent>
                             <Icon name='arrow-back' />
                         </Button>
                     </Left>
@@ -25,8 +24,7 @@ export default class Menu extends React.Component{
                         <Title>SINAPSE</Title>
                     </Body>
                     <Right>
-                        <Button transparent
-                            onPress={()=>this.props.switchScreen('menu')}>
+                        <Button transparent>
                             <Icon name='menu' />
                         </Button>
                     </Right>

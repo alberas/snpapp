@@ -1,8 +1,6 @@
 import React from 'react';
-import {ScrollView, Text, View, TouchableOpacity, ScrollViewBase} from 'react-native';
-import { Icon, Header, Left, Body, Right, Button, Title } from 'native-base';
-import axios from 'axios';
-import Medicamento from './Medicamento';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import { Icon } from 'native-base';
 
 class Arquivos extends React.Component{
 

@@ -13,7 +13,7 @@ class Cabecalho extends React.Component{
                 <Left>
                     <Button 
                         transparent
-                        onPress={()=>this.props.switchScreen('home')}>
+                        >
                         <Icon name='arrow-back' />
                     </Button>
                 </Left>
@@ -22,7 +22,7 @@ class Cabecalho extends React.Component{
                 </Body>
                 <Right>
                     <Button transparent
-                        onPress={()=>this.props.switchScreen('menu')}>
+                        >
                         <Icon name='menu' />
                     </Button>
                 </Right>

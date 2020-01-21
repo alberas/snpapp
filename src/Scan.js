@@ -18,7 +18,7 @@ export default function Scan() {
     return <View />;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>Sem acesso à camera</Text>;
   }
   return (
     <View style={{ flex: 1 }}>

@@ -9,7 +9,6 @@ class HomeButton extends Component {
         return(
             <Button
                 className="HomeButton"
-                onPress={(action = this.props.actionType) => this.props.switchScreen(action)}
                 >
                 <Icon name={this.props.icon}/>
                 <Text>{this.props.text}</Text>

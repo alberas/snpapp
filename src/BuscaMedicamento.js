@@ -5,7 +5,7 @@ import axios from 'axios';
 import Loader from './Loader';
 import Medicamento from './Medicamento';
 
-export default class BuscaMedicamento extends React.Component{
+class BuscaMedicamento extends React.Component{
     state = {
         termo: "",
         onCall: 0,
@@ -58,30 +58,10 @@ export default class BuscaMedicamento extends React.Component{
     }
 
     render(){
+
         return(
             <View>
-                <Header
-                    searchBar={true}
-                    rounded={true}
-                    >
-                    <Left>
-                        <Button 
-                            transparent
-                            onPress={()=>this.props.switchScreen('home')}>
-                            <Icon name='arrow-back' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>MEDICAMENTOS</Title>
-                    </Body>
-                    <Right>
-                        <Button transparent
-                            onPress={()=>this.props.switchScreen('menu')}>
-                            <Icon name='menu' />
-                        </Button>
-                    </Right>
-                    
-                </Header>
+                
                 <View style={{flexDirection: 'row'}}>
                     <TextInput
                         style={styles.inputStyle}
@@ -111,3 +91,5 @@ const styles = StyleSheet.create({
         flex: 2
     }
   });
+
+  export default BuscaMedicamento;
