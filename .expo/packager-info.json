@@ -2,8 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 6812,
-  "expoServerNgrokUrl": "https://jh-hvv.anonymous.snpapp.exp.direct",
-  "packagerNgrokUrl": "https://packager.jh-hvv.anonymous.snpapp.exp.direct",
-  "ngrokPid": 23068
+  "packagerPid": 21924,
+  "expoServerNgrokUrl": "https://3c-w88.alberas.snpapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.3c-w88.alberas.snpapp.exp.direct",
+  "ngrokPid": 7032,
+  "webpackServerPort": 19006
 }

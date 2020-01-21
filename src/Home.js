@@ -1,8 +1,6 @@
 import React from 'react';
 import {View, Text, Image } from 'react-native';
 import {Icon, Header, Body, Title} from 'native-base';
-import HomeButton from './components/HomeButton/HomeButton';
-import * as actions from './store/actions'
 import { connect } from 'react-redux';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 

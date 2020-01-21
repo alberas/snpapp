@@ -14,6 +14,7 @@ import BuscaFarmacia from './src/BuscaFarmacia';
 import BuscaMedicamento from './src/BuscaMedicamento';
 import Paciente from './src/Paciente';
 import Scan from './src/Scan';
+import Local from './src/Local';
 
 
 const MainNavigator = createStackNavigator({
@@ -24,7 +25,8 @@ const MainNavigator = createStackNavigator({
     Locais: {screen: BuscaFarmacia},
     BuscaMedicamento: {screen: BuscaMedicamento},
     Paciente: {screen: Paciente},
-    Scan: {screen: Scan}
+    Scan: {screen: Scan},
+    Local: {screen: Local}
   });
 
 const Navigation = createAppContainer(MainNavigator);

@@ -42,20 +42,19 @@ class Arquivo extends React.Component{
 
         return(
             <View>
-                
-            <ScrollView>
-                {
-                    this.state.dataSource.map(t => 
-                        <TouchableOpacity
-                            key={t.id}
-                            style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}>
-                            <Text>{t.tipo_protocolo}</Text>
-                            <Text>{t.dt_emissao}</Text>
-                            <Icon name="search" style={{position: "absolute", right: 5, bottom: 5}}/>
-                        </TouchableOpacity>
-                    )
-                }
-            </ScrollView>
+                <ScrollView>
+                    {
+                        this.state.dataSource.map(t => 
+                            <TouchableOpacity
+                                key={t.id}
+                                style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}>
+                                <Text>{t.tipo_protocolo}</Text>
+                                <Text>{t.dt_emissao}</Text>
+                                <Icon name="search" style={{position: "absolute", right: 5, bottom: 5}}/>
+                            </TouchableOpacity>
+                        )
+                    }
+                </ScrollView>
             </View>
         );
     }
