@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { Camera } from 'expo-camera';
-import * as Permissions from 'expo-permissions';
+import React, { useState, useEffect } from "react";
+import { Text, View, TouchableOpacity } from "react-native";
+import { Camera } from "expo-camera";
+import * as Permissions from "expo-permissions";
 
 export default function Scan() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -9,8 +9,8 @@ export default function Scan() {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Permissions.getAsync(Permissions.CAMERA);
-      setHasPermission(status === 'granted');
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      setHasPermission(status === "granted");
     })();
   }, []);
 
@@ -26,14 +26,15 @@ export default function Scan() {
         <View
           style={{
             flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-          }}>
+            backgroundColor: "transparent",
+            flexDirection: "row"
+          }}
+        >
           <TouchableOpacity
             style={{
               flex: 0.1,
-              alignSelf: 'flex-end',
-              alignItems: 'center',
+              alignSelf: "flex-end",
+              alignItems: "center"
             }}
             onPress={() => {
               setType(
@@ -41,8 +42,12 @@ export default function Scan() {
                   ? Camera.Constants.Type.front
                   : Camera.Constants.Type.back
               );
-            }}>
-            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+            }}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>
+              {" "}
+              Flip{" "}
+            </Text>
           </TouchableOpacity>
         </View>
       </Camera>
