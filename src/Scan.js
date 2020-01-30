@@ -8,14 +8,14 @@ export default function Scan() {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
-  takePicture = async() => {
+  takePicture = async () => {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
       console.log(data.uri);
     }
   };
-  
+
   useEffect(() => {
     (async () => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -31,7 +31,7 @@ export default function Scan() {
   }
   return (
     <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={type}>
+      <Camera style={{ flex: 1 }} type={type} ref={ref => (this.camera = ref)}>
         <View
           style={{
             flex: 1,
@@ -48,11 +48,15 @@ export default function Scan() {
               alignItems: "center"
             }}
             onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
+              (async () => {
+                const { base64, ...image } = await this.camera.takePictureAsync(
+                  {
+                    quality: 1,
+                    base64: true,
+                    exif: true
+                  }
+                );
+              })();
             }}
           >
           </TouchableOpacity>
@@ -70,21 +74,21 @@ export default function Scan() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'black'
+    flexDirection: "column",
+    backgroundColor: "black"
   },
   preview: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   capture: {
     flex: 0,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 5,
     padding: 15,
     paddingHorizontal: 20,
-    alignSelf: 'center',
-    margin: 20,
-  },
+    alignSelf: "center",
+    margin: 20
+  }
 });
