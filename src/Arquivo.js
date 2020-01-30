@@ -47,7 +47,9 @@ class Arquivo extends React.Component{
                         this.state.dataSource.map(t => 
                             <TouchableOpacity
                                 key={t.id}
-                                style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}>
+                                style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}
+                                onPress={() => this.props.navigation.navigate('Receita', { id: t.id })}
+                                >
                                 <Text>{t.tipo_protocolo}</Text>
                                 <Text>{t.dt_emissao}</Text>
                                 <Icon name="search" style={{position: "absolute", right: 5, bottom: 5}}/>

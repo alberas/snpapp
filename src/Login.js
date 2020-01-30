@@ -1,14 +1,17 @@
 import React from 'react';
 import {View, Text, Image, TextInput } from 'react-native';
-import { Button, ActionSheet} from 'native-base';
 import * as actions from './store/actions';
 import {connect} from 'react-redux';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 var logo = require('../assets/icons/logo_small.png');
 
 class Login extends React.Component{
     static navigationOptions = {
         title: 'Login',
+        headerTitle: (
+            <Image source={logo}/>
+        ),
     };
 
     state = {
@@ -44,12 +47,11 @@ class Login extends React.Component{
         
     }
 
-    
     render(){
         
         return(
             <View style={{flex:1, alignItems: "center", justifyContent: "center" }}>
-                <Image source={logo} style={{marginBottom:10}}></Image>
+                <Text style={{fontSize: 20, fontWeight:"bold"}}>Digite seus dados para acessar</Text>
                 <Text>{this.state.msg}</Text>
                 <TextInput 
                     onChangeText={(text) => this.setState({txtLogin: text})} 
@@ -60,14 +62,13 @@ class Login extends React.Component{
                     onChangeText={(text) => this.setState({txtSenha: text})} 
                     style={{height: 50, width: 200, borderColor: 'green', borderWidth:1}} 
                     placeholder="Digite sua senha" />
-                <Button
+                <TouchableOpacity
                     onPress={this.efetuarLogin}
                     >
                     <Text>ACESSAR</Text>
-                </Button>
+                </TouchableOpacity>
                 
             </View>
-                         
         );
     };
 }

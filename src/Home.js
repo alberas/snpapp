@@ -11,22 +11,19 @@ class Home extends React.Component{
 
     static navigationOptions = {
         title: 'Home',
+        headerTitle: (
+            <Image source={logo}/>
+        ),
     };
 
     render(){
         const {navigate} = this.props.navigation;
         
         return(
-            <View style={{flex:1, paddingHorizontal: 20, justifyContent: "center" }}>
-                    <Text>
-                        Olá, {this.props.usuario.nome}
-                    </Text>
-                <TouchableOpacity
-                    style={style.homeButton}
-                    onPress={() => navigate('Home')}
-                    >
-                    <Image source={logo}/>
-                </TouchableOpacity>
+            <View style={{flex:1, justifyContent: "center" }}>
+                <Text>
+                    Olá, {this.props.usuario.nome}
+                </Text>
                 <TouchableOpacity
                     style={style.homeButton}
                     onPress={() => navigate('BuscaMedicamento')}
@@ -54,6 +51,13 @@ class Home extends React.Component{
                     >
                     <Icon name="list" style={style.icon}/>
                     <Text>Scanear receita</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={style.homeButton}
+                    onPress={() => navigate('Scan2')}
+                    >
+                    <Icon name="list" style={style.icon}/>
+                    <Text>Scanear Código de barras</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.homeButton}
