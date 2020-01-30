@@ -9,9 +9,15 @@ var logo = require('../assets/icons/logo_small.png');
 class Login extends React.Component{
     static navigationOptions = {
         title: 'Login',
-        headerTitle: (
-            <Image source={logo}/>
-        ),
+        headerTitle: () => <Image source={logo}/>,
+        headerStyle: {
+            backgroundColor: '#000',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: '#fff'
+        },
     };
 
     state = {

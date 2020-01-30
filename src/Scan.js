@@ -36,7 +36,9 @@ export default function Scan() {
           style={{
             flex: 1,
             backgroundColor: "transparent",
-            flexDirection: "row"
+            flexDirection: "row",
+            borderWidth: 1, 
+            borderColor: '#fff' 
           }}
         >
           <TouchableOpacity
@@ -53,12 +55,14 @@ export default function Scan() {
               );
             }}
           >
-            <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
-                <Icon name='paper' />
-            </TouchableOpacity>
           </TouchableOpacity>
         </View>
       </Camera>
+      <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+        <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
+            <Icon name='paper' />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

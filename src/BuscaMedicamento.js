@@ -22,21 +22,16 @@ class BuscaMedicamento extends React.Component{
                 <View/>
             );
         }
-
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                axios.get("http://www.snpmed.com.br/api/medicamento?q=" + this.state.termo)
-                .then(function(response){
-                    self.setState({dados: response.data.Data});
-                    self.setState({onCall: 2});
-                })
-                .catch(function(error){
-                    console.log(error);
-                });
-            },
-            error => Alert.alert(error.message),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-          );
+        
+        axios.get("http://www.snpmed.com.br/api/medicamento?q=" + this.state.termo)
+        .then(function(response){
+            self.setState({dados: response.data.Data});
+            self.setState({onCall: 2});
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+            
 
     }
 

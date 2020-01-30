@@ -12,7 +12,7 @@ class Arquivo extends React.Component{
     }
     
     componentDidMount(){
-        return fetch("http://www.snpmed.com.br/api/arquivo/" + this.props.usuario.id)
+        return fetch("http://www.snpmed.com.br/api/historico/" + this.props.usuario.id)
             .then((response) => response.json())
             .then((responseJson) => {
 

@@ -11,9 +11,15 @@ class Home extends React.Component{
 
     static navigationOptions = {
         title: 'Home',
-        headerTitle: (
-            <Image source={logo}/>
-        ),
+        headerTitle: () => <Image source={logo}/>,
+        headerStyle: {
+            backgroundColor: '#000',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: '#fff'
+        },
     };
 
     render(){
