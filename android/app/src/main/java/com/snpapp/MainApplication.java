@@ -3,6 +3,13 @@ package com.snpapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
+import org.wonday.pdf.RCTPdfView;
+import com.airbnb.android.react.maps.MapsPackage;
+import org.reactnative.camera.RNCameraPackage;
+import org.reactnative.maskedview.RNCMaskedViewPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -40,6 +47,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeYouTube(),
+            new SafeAreaContextPackage(),
+            new RCTPdfView(),
+            new MapsPackage(),
+            new RNCameraPackage(),
+            new RNCMaskedViewPackage(),
+            new RNFetchBlobPackage(),
           new ReanimatedPackage(),
           new RNGestureHandlerPackage(),
           new RNScreensPackage(),
