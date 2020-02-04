@@ -1,8 +1,5 @@
 import React from 'react';
 import {View, ScrollView, Text, Image} from 'react-native';
-import axios from 'axios';
-
-
 
 var img = require('../assets/icons/default-avatar.jpg');
 

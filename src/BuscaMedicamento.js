@@ -1,75 +1,83 @@
 import React from 'react';
-import {View, StyleSheet, TextInput, Alert} from 'react-native';
-import {Button, Header, Left, Right, Body, Icon, Title} from 'native-base';
+import {View, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, Text} from 'react-native';
 import axios from 'axios';
 import Loader from './Loader';
 import Medicamento from './Medicamento';
+import  * as colors from './constants/colors'
+import AppLogo from './components/AppLogo/AppLogo';
+import { Icon } from 'native-base';
+
 
 class BuscaMedicamento extends React.Component{
-    state = {
-        termo: "",
-        onCall: 0,
-        dados: [],
-    }
-   
-    search = () => {
-        this.setState({onCall: 1});
 
-        var self = this;
+    static navigationOptions = {
+        title: 'Buscar medicamentos',
+        headerTitle: () => <AppLogo />,
+        headerStyle: {
+            backgroundColor: colors.HEADER_BACKGROUND_COLOR,
+        },
+        headerTintColor: colors.HEADER_FONT_COLOR,
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: colors.HEADER_FONT_COLOR
+        },
+    };
+
+    constructor(props){
+        super(props);
+        this.state = { isLoading: true}
+    }
+
+   
+   
+    componentDidMount(){
         
-        if(this.state.termo===""){
-            return (
-                <View/>
+        return fetch("http://www.snpmed.com.br/api/medicamento?q=" + this.props.navigation.getParam('termo'))
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState(
+                    {
+                        isLoading: false,
+                        dataSource: responseJson.Data,
+                    }, 
+                    function(){
+                        
+                    }
+                );
+
+            })
+            .catch((error) =>{
+                console.error(error);
+            });
+    }
+
+   
+    render(){
+        if(this.state.isLoading){
+            return(
+                <View style={{flex: 1, padding: 20}}>
+                    <ActivityIndicator/>
+                </View>
             );
         }
-        
-        axios.get("http://www.snpmed.com.br/api/medicamento?q=" + this.state.termo)
-        .then(function(response){
-            self.setState({dados: response.data.Data});
-            self.setState({onCall: 2});
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-            
-
-    }
-
-    renderBody = () =>{
-        switch(this.state.onCall){
-            case 1:
-                return(
-                    <Loader/>
-                );
-            case 2:
-                return(
-                    <Medicamento dados={this.state.dados}/>
-                );
-            default:
-                return (
-                    <View/>
-                );
-        }
-    }
-
-    render(){
-
         return(
-            <View>
-                
-                <View style={{flexDirection: 'row'}}>
-                    <TextInput
-                        style={styles.inputStyle}
-                        onChangeText={(text)=>this.setState({termo: text})}
-                        value={this.state.termo}
-                        placeholder="Pesquisar medicamento"
+            <ScrollView>
+                {
+                this.state.dataSource.map(t=>(
+                    <TouchableOpacity key={t.id}
+                        style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}
+                        onPress={() => this.props.navigation.navigate('Agendamento',{idMedicamento: t.id, nomeMedicamento: t.nome})}
                         >
-                    </TextInput>
-                    <Icon name="search" style={styles.icon}  onPress={() => this.search()}/>                    
-                </View>  
-
-                {this.renderBody()}
-            </View>
+                        <Text>{t.nome}</Text> 
+                        <Text>{t.principio_ativo}</Text>
+                        <Text>{t.apresentacao}</Text>
+                        <Text>Faixa de preço R${Math.ceil(t.preco_pmvg * (1.2))} - R${Math.ceil(t.preco_pf * (1.2))}</Text>
+                        <Icon name="keypad" style={{position: "absolute", right: 5, bottom: 5}}/>
+                    </TouchableOpacity>
+                    )
+                )
+                }
+            </ScrollView>
         );
     }
 }

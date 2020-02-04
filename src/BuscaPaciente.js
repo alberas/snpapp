@@ -11,33 +11,43 @@ export default class BuscaPaciente extends React.Component{
 
     state = {
         termo: "",
-        onCall: true,
-        data: {}
+        isLoading: false,
+        dataSource: {}
     }
     search = () => {
-        this.setState({onCall: true});
+        this.setState({isLoading: true});
 
         var self = this;
 
-        axios.get("http://www.snpmed.com.br/api/paciente/" + this.state.termo)
-        .then(function(response){
-            console.log(response.data);
-            self.setState({data: response.data});
-            self.setState({onCall: false});
-        })
+        fetch("http://www.snpmed.com.br/api/paciente/" + this.state.termo)
+        .then((response) => response.json())
+            .then((responseJson) => {
+
+                this.setState(
+                    {
+                        isLoading: false,
+                        dataSource: responseJson.Data,
+                    }, 
+                    function(){
+
+                        console.log(this.state.dataSource);
+                    }
+                );
+
+            })
         .catch(function(error){
             console.log(error);
         });
     }
 
     renderBody = () =>{
-        if(this.state.onCall){
+        if(this.state.isLoading){
             return(
                 <Loader/>
             );
         }else{
             return(
-                <Paciente data={this.state.data}/>
+                <Paciente data={this.state.dataSource}/>
             );
         }
     }

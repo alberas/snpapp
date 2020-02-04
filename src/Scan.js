@@ -3,8 +3,10 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
 import { Icon } from "native-base";
+//import RNFetchBlob from "rn-fetch-blob";
 
 export default function Scan() {
+  
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
@@ -12,6 +14,7 @@ export default function Scan() {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
+      //console.log(RNFetchBlob.fs.readStream(data.uri,'base64',4095));
       console.log(data.uri);
     }
   };

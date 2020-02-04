@@ -1,9 +1,24 @@
 import React from 'react';
 import {ScrollView, View, Text, TouchableOpacity, Image, Alert, StyleSheet, ActivityIndicator} from 'react-native';
 import { Icon } from 'native-base';
+import  * as colors from './constants/colors'
 
+var logo = require('../assets/icons/logo_small.png');
 
 class BuscaFarmacia extends React.Component{
+
+    static navigationOptions = {
+        title: 'Buscar farmácias',
+        headerTitle: () => <Image source={logo}/>,
+        headerStyle: {
+            backgroundColor: colors.HEADER_BACKGROUND_COLOR,
+        },
+        headerTintColor: colors.HEADER_FONT_COLOR,
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: colors.HEADER_FONT_COLOR
+        },
+    };
 
     constructor(props){
         super(props);

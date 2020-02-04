@@ -1,18 +1,27 @@
 import React from 'react';
-import {ScrollView, View, Text, TouchableOpacity, Image, Alert, StyleSheet} from 'react-native';
-import {Header, Icon, Input, Button, Right, Left, Body, Title} from 'native-base';
-import Loader from  './Loader';
-import Paciente from './Paciente';
-import axios from 'axios';
-import Farmacia from './Farmacia';
-import SearchButton from './components/SearchButton/SearchButton';
-import Cabecalho from './Cabecalho';
+import {Image} from 'react-native';
 import MapView from 'react-native-maps';
+import  * as COLORS from './constants/colors'
+
+var logo = require('../assets/icons/logo_small.png');
 
 class Local extends React.Component{
 
+    static navigationOptions = {
+        title: 'Farmácias',
+        headerTitle: () => <Image source={logo}/>,
+        headerStyle: {
+            backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
+        },
+        headerTintColor: COLORS.HEADER_FONT_COLOR,
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: COLORS.HEADER_FONT_COLOR
+        },
+    };
+
     render(){
-        console.log(this.props.navigation.getParam('lat2'));
+        
         return (
             <MapView        
                 style={{flex: 1}}        

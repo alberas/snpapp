@@ -4,8 +4,16 @@ import { Icon } from 'native-base';
 import Agendamento from './Agendamento';
 
 class Medicamento extends React.Component{
+    state = {
+        id: 0
+    }
+    static navigationOptions = {
+        title: 'Medicamento',
+      };
 
-    agendar = (id) => (<Agendamento id={id} />)
+    teste = (idMedicamento, nomeMedicamento) => {
+        this.props.navigation.navigate('Agendamento',{idMedicamento: idMedicamento, nomeMedicamento: nomeMedicamento});
+    }
 
     render(){
 
@@ -24,7 +32,7 @@ class Medicamento extends React.Component{
             this.props.dados.map(t=>(
                 <TouchableOpacity key={t.id}
                     style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}
-                    onPress={() => this.agendar(t.id)}
+                    onPress={() => this.teste(t.id, t.nome)}
                     >
                     <Text>{t.nome}</Text> 
                     <Text>{t.principio_ativo}</Text>

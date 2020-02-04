@@ -1,10 +1,26 @@
 import React from 'react';
-import {ScrollView, Text, View, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity, ActivityIndicator, Image} from 'react-native';
 import { Icon } from 'native-base';
 import { connect } from 'react-redux';
+import  * as colors from './constants/colors'
+import AppLogo from './components/AppLogo/AppLogo';
 
+var i_pdf = require('../assets/icons/i_pdf.gif');
 
 class Arquivo extends React.Component{
+
+    static navigationOptions = {
+        title: 'Histórico',
+        headerTitle: () => <AppLogo/>,
+        headerStyle: {
+            backgroundColor: colors.HEADER_BACKGROUND_COLOR,
+        },
+        headerTintColor: colors.HEADER_FONT_COLOR,
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: colors.HEADER_FONT_COLOR
+        },
+    };
 
     constructor(props){
         super(props);
@@ -16,11 +32,13 @@ class Arquivo extends React.Component{
             .then((response) => response.json())
             .then((responseJson) => {
 
-            this.setState({
-                isLoading: false,
-                dataSource: responseJson.Data,
-            }, function(){
-            });
+                this.setState(
+                    {
+                        isLoading: false,
+                        dataSource: responseJson.Data,
+                    }, 
+                    function(){}
+                );
 
             })
             .catch((error) =>{
@@ -28,6 +46,11 @@ class Arquivo extends React.Component{
             });
     }
         
+    renderPdfIcon = (qtd_arquivos) => {
+        if(qtd_arquivos > 0){
+            return (<Image source={i_pdf} style={{position: "absolute", right: 5, bottom: 5}}/>);
+        }
+    }
         
         
     render(){
@@ -41,23 +64,26 @@ class Arquivo extends React.Component{
         }
 
         return(
-            <View>
-                <ScrollView>
-                    {
-                        this.state.dataSource.map(t => 
-                            <TouchableOpacity
-                                key={t.id}
-                                style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}
-                                onPress={() => this.props.navigation.navigate('Receita', { id: t.id })}
-                                >
-                                <Text>{t.tipo_protocolo}</Text>
-                                <Text>{t.dt_emissao}</Text>
-                                <Icon name="search" style={{position: "absolute", right: 5, bottom: 5}}/>
+            <ScrollView>
+                {
+                    this.state.dataSource.map(t => 
+                        <View
+                            key={t.id}
+                            style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}
+                            >
+                            <Text>{t.tipo_protocolo}</Text>
+                            <Text>Dr(a) {t.nome_medico}</Text>
+                            <Text>{t.dt_emissao}</Text>
+                            {this.renderPdfIcon(t.qtd_arquivos)}
+                            <TouchableOpacity 
+                                style={{width: 50, height: 50, backgroundColor: 'skyblue', alignItems: 'center', justifyContent: 'center'}}
+                                onPress={() => this.props.navigation.navigate('Receita', { id: t.id })}>
+                                <Icon name="search"/>
                             </TouchableOpacity>
-                        )
-                    }
-                </ScrollView>
-            </View>
+                        </View>
+                    )
+                }
+            </ScrollView>
         );
     }
 }

@@ -1,20 +1,45 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
-import {Button, Icon} from 'native-base';
-import {connect} from 'react-redux';
+import { Text, StyleSheet } from 'react-native';
+import {Icon } from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class HomeButton extends Component {
 
+    
     render(){
+        const {navigate} = this.props.navigation;
+
         return(
-            <Button
-                className="HomeButton"
+            <TouchableOpacity
+                style={homeButton(this.props.color)}
+                onPress={() => navigate(this.props.telaDestino)}
                 >
-                <Icon name={this.props.icon}/>
-                <Text>{this.props.text}</Text>
-            </Button>
+                <Icon name="list" style={{position: "absolute", left:5, color: this.props.color}}/>
+                <Text style={{color: this.props.color, fontSize: 20}}>{this.props.rotulo}</Text>
+            </TouchableOpacity>
         );
     };
 }
 
-export default connect()(HomeButton);
+
+
+
+
+const homeButton = (p_color) => {
+
+    return{
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: "center",
+        backgroundColor: '#FFF',
+        marginBottom: 10,
+        flexDirection: 'row',
+        borderRadius: 10,
+        borderColor: p_color,
+        borderWidth: 1,
+        
+    }
+}
+
+
+export default HomeButton;

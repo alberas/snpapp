@@ -1,9 +1,26 @@
 import React from 'react';
 import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { Icon } from 'native-base';
+import  * as COLORS from './constants/colors'
+
+var logo = require('../assets/icons/logo_small.png');
 
 class Arquivos extends React.Component{
 
+    
+    static navigationOptions = {
+        title: 'Login',
+        headerTitle: () => <Image source={logo}/>,
+        headerStyle: {
+            backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
+        },
+        headerTintColor: COLORS.HEADER_FONT_COLOR,
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: COLORS.HEADER_FONT_COLOR
+        },
+    };
+    
     render(){
 
 

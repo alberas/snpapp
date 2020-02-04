@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
-import { Camera } from "expo-camera";
-import * as Permissions from "expo-permissions";
 import Medicamento from "./Medicamento";
+import  * as COLORS from './constants/colors'
+import AppLogo from "./components/AppLogo/AppLogo";
 
 class Receita extends React.Component {
   
+  static navigationOptions = {
+    title: 'Detalhamento',
+    headerTitle: () => <AppLogo />,
+    headerStyle: {
+        backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
+    },
+    headerTintColor: COLORS.HEADER_FONT_COLOR,
+    headerTitleStyle: {
+        fontWeight: 'bold',
+        color: COLORS.HEADER_FONT_COLOR
+    },
+  };
+
     constructor(props){
       super(props);
       this.state = { isLoading: true}
@@ -39,8 +52,7 @@ class Receita extends React.Component {
             </View>
         );
     }else{
-      console.log(this.state.dataSource);
-      return (<Medicamento dados={this.state.dataSource}/>);
+      return (<Medicamento dados={this.state.dataSource} navigation={this.props.navigation}/>);
     }
   }
 
