@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View, Text, ActivityIndicator} from 'react-native';
+import {ScrollView, View, Text, ActivityIndicator, TouchableOpacity} from 'react-native';
 import { retornaPromocoes } from './api/evento';
 
 export default class Descontos extends React.Component{
@@ -15,7 +15,6 @@ export default class Descontos extends React.Component{
                 this.setState({ promocoes: x.Data, isLoading: false });
             }
         )
-       
     }
 
     
@@ -25,17 +24,21 @@ export default class Descontos extends React.Component{
         }
 
         if(this.state.promocoes!==null){
-            console.log( this.state.promocoes);
+            
             return (
-                this.state.promocoes.map(t=>{
-                    <Text>ssssssssssssssss</Text>
-                })
-            );
+                    
+                this.state.promocoes.map(t=>(
+                        <TouchableOpacity key={t.id}><Text>{t.titulo}</Text></TouchableOpacity>
+                    )
+                )
+                
+            )
+
         }else{
-            <View><Text>Nenhuma promoção encontrada</Text></View>
+            return (
+                <Text>Nenhuma promoção encontrada</Text>);
         }
     }
-    
 
     render(){
         return (
