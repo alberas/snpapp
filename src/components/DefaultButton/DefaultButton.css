@@ -1,0 +1,8 @@
+.DefaultButton{
+    padding: 10;
+    align-items: 'center';
+    justify-content: "center";
+    background-color: '#2D2D2D';
+    color: "#fff";
+    border-radius: 10;
+}

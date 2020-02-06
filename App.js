@@ -19,6 +19,8 @@ import Scan2 from './src/Scan2';
 import Receita from './src/Receita';
 import BuscaPaciente from './src/BuscaPaciente';
 import Agendamento from './src/Agendamento';
+import Descontos from './src/Descontos';
+import Dicas from './src/Dicas';
 
 const MainNavigator = createStackNavigator({
     Home: {screen: Home},
@@ -33,7 +35,10 @@ const MainNavigator = createStackNavigator({
     Local: {screen: Local},
     Scan2: {screen: Scan2},
     Receita: {screen: Receita},
-    Agendamento: {screen: Agendamento}
+    Agendamento: {screen: Agendamento},
+    Descontos: {screen: Descontos},
+    Dicas: {screen: Dicas}
+
   });
 
 const Navigation = createAppContainer(MainNavigator);

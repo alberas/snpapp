@@ -3,6 +3,7 @@ package com.snpapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.CreateThumbnailPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import org.wonday.pdf.RCTPdfView;
@@ -47,6 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CreateThumbnailPackage(),
             new ReactNativeYouTube(),
             new SafeAreaContextPackage(),
             new RCTPdfView(),
