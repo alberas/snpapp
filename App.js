@@ -21,6 +21,8 @@ import BuscaPaciente from './src/BuscaPaciente';
 import Agendamento from './src/Agendamento';
 import Descontos from './src/Descontos';
 import Dicas from './src/Dicas';
+import Voucher from './src/Voucher';
+import Vouchers from './src/Vouchers';
 
 const MainNavigator = createStackNavigator({
     Home: {screen: Home},
@@ -37,7 +39,9 @@ const MainNavigator = createStackNavigator({
     Receita: {screen: Receita},
     Agendamento: {screen: Agendamento},
     Descontos: {screen: Descontos},
-    Dicas: {screen: Dicas}
+    Dicas: {screen: Dicas},
+    Voucher: {screen: Voucher},
+    Vouchers: {screen: Vouchers}
 
   });
 

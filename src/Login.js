@@ -41,8 +41,12 @@ class Login extends React.Component{
         .then((responseJson) => {
 
             if(parseInt(responseJson.Data.id) > 0){
-                this.props.loginUser(responseJson.Data);     
-                navigate('Home');
+                this.props.loginUser(responseJson.Data); 
+                if(this.props.previousScreen)   {
+                    navigate(this.props.previousScreen);    
+                }else{
+                    navigate('Home');
+                }
             }else{
                 this.setState({...this.state, msg: "Dados incorretos" });
             }
@@ -58,25 +62,26 @@ class Login extends React.Component{
         
         return(
             <View style={style.screen}>
-                <Text style={{fontSize: 20, fontWeight:"bold", color: COLORS.COMPONENT_FONT_COLOR}}>Digite seus dados para acessar</Text>
-                <Text style={{color: COLORS.COMPONENT_FONT_COLOR}}>{this.state.msg}</Text>
-                <TextInput 
-                    onChangeText={(text) => this.setState({txtLogin: text})} 
-                    style={style.input} 
-                    placeholder="Digite seu CPF"
-                    placeholderTextColor={COLORS.COMPONENT_FONT_COLOR} />
-                <TextInput 
-                    secureTextEntry={true}
-                    onChangeText={(text) => this.setState({txtSenha: text})} 
-                    style={style.input} 
-                    placeholder="Digite sua senha"
-                    placeholderTextColor={COLORS.COMPONENT_FONT_COLOR} />
-                <TouchableOpacity
-                style={style.button}
-                onPress={() => this.efetuarLogin()}>
-                <Text style={{color: COLORS.COMPONENT_FONT_COLOR}}>ACESSAR</Text>
-            </TouchableOpacity>
-                
+                <View style={style.box}>
+                    <Text style={{fontSize: 20, fontWeight:"bold"}}>Digite seus dados para acessar</Text>
+                    <Text>{this.state.msg}</Text>
+                    <TextInput 
+                        onChangeText={(text) => this.setState({txtLogin: text})} 
+                        style={style.input} 
+                        placeholder="Digite seu CPF"
+                        />
+                        <TextInput 
+                            secureTextEntry={true}
+                            onChangeText={(text) => this.setState({txtSenha: text})} 
+                            style={style.input} 
+                            placeholder="Digite sua senha"
+                            />
+                        <TouchableOpacity
+                        style={style.button}
+                        onPress={() => this.efetuarLogin()}>
+                        <Text>ACESSAR</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     };
@@ -85,9 +90,13 @@ class Login extends React.Component{
 style = StyleSheet.create({
     screen: {
         flex:1, 
-        alignItems: "center", 
-        justifyContent: "center", 
         backgroundColor: COLORS.SCREEN_BACKGROUND_COLOR
+    },
+    box:{
+        padding: 20,
+        borderRadius: 15,
+        borderWidth: 1,
+        margin: 10
     },
     button: {
         borderWidth: 1, 
@@ -103,8 +112,7 @@ style = StyleSheet.create({
         borderColor: COLORS.COMPONENT_BORDER_COLOR, 
         borderWidth:1, 
         marginBottom: 5, 
-        marginTop: 5,
-        color: COLORS.COMPONENT_FONT_COLOR,
+        marginTop: 5
     }
 });
 
