@@ -11,7 +11,7 @@ export const upload = async (idUsuario, bytArquivo) => {
              },
             body: "byt_arquivo=" + bytArquivo
         });
-        const responseJson = await response.text();
+        const responseJson = await response.json();
         return responseJson;
     }
     catch (error) {

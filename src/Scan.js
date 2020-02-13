@@ -15,12 +15,11 @@ export default function Scan({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
 
   takePicture = async () => {
-    setIsLoading(true);
     if (this.camera) {
-      const options = { quality: 0.4, base64: true, exif: false };
+      
+      const options = { quality: 0.4, base64: true, exif: false, skipProcessing: true };
       const data = await this.camera.takePictureAsync(options);
-
-      return (<View><Image source={{uri: 'data:image/png;base64,' + data.base64}}/></View>); 
+      navigation.navigate('Documento', {idUsuario: idUsuario, bytArquivo: data.base64 });
       
       /*
       upload(idUsuario, data.base64).then(
@@ -45,13 +44,13 @@ export default function Scan({ navigation }) {
   if(idUsuario<=0){
     return (<Login navigation={navigation}/>);
   }
-  /*
+  
   if(isLoading){
     return (<View style={{flex: 1, padding: 50}}>
             <ActivityIndicator/>
         </View>);
   }
-  */
+  
 
   if (hasPermission === null) {
     return <View />;

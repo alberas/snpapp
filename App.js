@@ -25,6 +25,7 @@ import Descontos from './src/Descontos';
 import Dicas from './src/Dicas';
 import Voucher from './src/Voucher';
 import Vouchers from './src/Vouchers';
+import Documento from './src/Documento';
 
 const MainNavigator = createStackNavigator({
     Home: {screen: Home},
@@ -43,7 +44,8 @@ const MainNavigator = createStackNavigator({
     Descontos: {screen: Descontos},
     Dicas: {screen: Dicas},
     Voucher: {screen: Voucher},
-    Vouchers: {screen: Vouchers}
+    Vouchers: {screen: Vouchers},
+    Documento: {screen: Documento}
 
   });
 
