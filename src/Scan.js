@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from "react-native";
 import { Camera } from "expo-camera";
+import { useSelector } from 'react-redux';
 import * as Permissions from "expo-permissions";
 import { Icon } from "native-base";
-//import RNFetchBlob from "rn-fetch-blob";
+import { upload } from "./api/arquivo";
+import Login from "./Login";
 
-export default function Scan() {
+export default function Scan({ navigation }) {
   
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [idUsuario, setIdUsuario] = useState(useSelector(state => state.usuario.id));
+  const [isLoading, setIsLoading] = useState(true);
 
   takePicture = async () => {
+    setIsLoading(true);
     if (this.camera) {
-      const options = { quality: 0.5, base64: true };
+      const options = { quality: 0.4, base64: true, exif: false };
       const data = await this.camera.takePictureAsync(options);
-      //console.log(RNFetchBlob.fs.readStream(data.uri,'base64',4095));
-      console.log(data.uri);
+
+      return (<View><Image source={{uri: 'data:image/png;base64,' + data.base64}}/></View>); 
+      
+      /*
+      upload(idUsuario, data.base64).then(
+            x => {
+              console.log(x);
+              setIsLoading(false);
+            }
+      );
+      */
     }
   };
 
@@ -23,8 +37,21 @@ export default function Scan() {
     (async () => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       setHasPermission(status === "granted");
+      setIsLoading(false);
     })();
   }, []);
+
+
+  if(idUsuario<=0){
+    return (<Login navigation={navigation}/>);
+  }
+  /*
+  if(isLoading){
+    return (<View style={{flex: 1, padding: 50}}>
+            <ActivityIndicator/>
+        </View>);
+  }
+  */
 
   if (hasPermission === null) {
     return <View />;
@@ -95,3 +122,4 @@ const styles = StyleSheet.create({
     margin: 20
   }
 });
+

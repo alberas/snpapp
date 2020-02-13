@@ -80,14 +80,14 @@ class Descontos extends React.Component{
     render(){
         return (
             <View style={{flex:1}}>
-                <View style={{flexDirection:"column"}}>
+                <View style={{flexDirection:"row", justifyContent: "space-between"}}>
                     <TouchableOpacity 
-                        style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10, alignSelf="flex-start"}} 
+                        style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10, width: 190, alignItems: "center"}} 
                         onPress={() => this.loadData()}>
                         <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>Atualizar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
-                        style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10, alignSelf="flex-end"}} 
+                        style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10, width: 190, alignItems: "center"}} 
                         onPress={() => this.props.navigation.navigate('Vouchers')}>
                         <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>Meus Vouchers</Text>
                     </TouchableOpacity>

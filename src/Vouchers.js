@@ -24,7 +24,6 @@ class Vouchers extends React.Component{
         retornaVouchers(this.props.usuario.id)
         .then(
             x => {
-                console.log(x.Data);
                 this.setState({ dataSource: x.Data, isLoading: false });
             }
         )
@@ -65,8 +64,8 @@ class Vouchers extends React.Component{
                     </Body>
                 </CardItem>
                 <CardItem>
-                    <Left style={{justifyContent: "center"}}>
-                        <Text>{t.dt_emissao}</Text>
+                    <Left style={{justifyContent: "left"}}>
+                        <Text>{t.voucher}</Text>
                     </Left>
                     {this.isUtilizado(t.dt_utilizacao)}
                 </CardItem>

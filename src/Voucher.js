@@ -50,6 +50,10 @@ class Voucher extends React.Component{
            
     }
 
+    teste = () => {
+        
+    }
+
     render(){
         if(this.props.usuario.id<=0){
             return (<Login navigation={this.props.navigation} previousScreen="Voucher"/>);

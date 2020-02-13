@@ -48,4 +48,6 @@ target 'snpapp' do
 
   pod 'react-native-create-thumbnail', :path => '../node_modules/react-native-create-thumbnail'
 
+  pod 'react-native-calendar-events', :path => '../node_modules/react-native-calendar-events'
+
 end

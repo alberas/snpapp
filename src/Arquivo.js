@@ -57,7 +57,7 @@ class Arquivo extends React.Component{
 
         if(this.state.isLoading){
             return(
-                <View style={{flex: 1, padding: 20}}>
+                <View style={{flex: 1, padding: 50}}>
                     <ActivityIndicator/>
                 </View>
             )

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { Asset } from 'expo-asset';
+import { AppLoading } from 'expo';
 
 import * as actions from './src/store/actions';
 import store from './src/store/reducer';
@@ -48,11 +50,33 @@ const MainNavigator = createStackNavigator({
 const Navigation = createAppContainer(MainNavigator);
 
 export default class App extends React.Component {
-    render() {
+  state = {
+    isReady: false,
+  };
+  
+  render() {
+      if (!this.state.isReady) {
+        return (
+          <AppLoading
+            startAsync={this._cacheResourcesAsync}
+            onFinish={() => this.setState({ isReady: true })}
+            onError={console.warn}
+          />
+        ); 
+      }
       return (
         <Provider store={store}>
           <Navigation />
         </Provider>
       );
+    }
+
+    async _cacheResourcesAsync() {
+      const images = [require('./assets/icons/logo_small.png')];
+  
+      const cacheImages = images.map(image => {
+        return Asset.fromModule(image).downloadAsync();
+      }); 
+      return Promise.all(cacheImages);
     }
   }

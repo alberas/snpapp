@@ -39,7 +39,6 @@ export const gerarVoucher = async (idEvento, idUsuario) => {
 
 export const retornaVouchers = async (idUsuario) => {
     let url = API_URL + "/vouchers/" + idUsuario;
-    
     try {
         const response = await fetch(url);
         const responseJson = await response.json();
