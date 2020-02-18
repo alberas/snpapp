@@ -6,6 +6,7 @@ import * as Permissions from "expo-permissions";
 import { Icon } from "native-base";
 import { upload } from "./api/arquivo";
 import Login from "./Login";
+import Loader from "./Loader";
 
 export default function Scan({ navigation }) {
   
@@ -17,7 +18,7 @@ export default function Scan({ navigation }) {
   takePicture = async () => {
     if (this.camera) {
       
-      const options = { quality: 0.4, base64: true, exif: false, skipProcessing: true };
+      const options = { quality: 0.3, base64: true, exif: false, skipProcessing: true };
       const data = await this.camera.takePictureAsync(options);
       navigation.navigate('Documento', {idUsuario: idUsuario, bytArquivo: data.base64 });
       
@@ -46,9 +47,7 @@ export default function Scan({ navigation }) {
   }
   
   if(isLoading){
-    return (<View style={{flex: 1, padding: 50}}>
-            <ActivityIndicator/>
-        </View>);
+    return (<Loader/>);
   }
   
 

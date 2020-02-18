@@ -8,3 +8,5 @@ export const BUTTON_FONT_COLOR = '#FFF';
 export const COMPONENT_BACKGROUND_COLOR = '#2D2D2D';
 export const COMPONENT_FONT_COLOR = '#FFF';
 export const COMPONENT_BORDER_COLOR = '#FFF';
+
+export const LIST_ITEM_BACKGROUND_COLOR = '#B0C4DE';

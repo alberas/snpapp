@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from "react-native";
 import { upload } from "./api/arquivo";
 import * as COLORS from "./constants/colors";
+import Loader from "./Loader";
 
 export default function Documento({ navigation }) {
     const [isLoading, setLoading] = useState(false);
@@ -13,15 +14,26 @@ export default function Documento({ navigation }) {
       setLoading(true);
       upload(idUsuario, bytArquivo).then(
         x => {
-          console.log(x);
-          setLoading(false);
+            
+            let param = "";
+            x.Data.map(t=>{
+                if(param!=""){ 
+                  param = param + ",";
+                }
+                param = param + t.ids
+              }      
+
+            );
+            
+            navigation.navigate('ListaMedicamentos',{ids: param});
+            setLoading(false);
         }
       )
     }
 
     if(isLoading){
       return (
-        <View><ActivityIndicator></ActivityIndicator></View>
+        <Loader/>
         );
     }
 

@@ -16,8 +16,9 @@ import BuscaFarmacia from './src/BuscaFarmacia';
 import BuscaMedicamento from './src/BuscaMedicamento';
 import Paciente from './src/Paciente';
 import Scan from './src/Scan';
-import Local from './src/Local';
 import Scan2 from './src/Scan2';
+import ScanSearch from './src/ScanSearch';
+import Local from './src/Local';
 import Receita from './src/Receita';
 import BuscaPaciente from './src/BuscaPaciente';
 import Agendamento from './src/Agendamento';
@@ -26,6 +27,7 @@ import Dicas from './src/Dicas';
 import Voucher from './src/Voucher';
 import Vouchers from './src/Vouchers';
 import Documento from './src/Documento';
+import ListaMedicamentos from './src/ListaMedicamentos';
 
 const MainNavigator = createStackNavigator({
     Home: {screen: Home},
@@ -37,15 +39,17 @@ const MainNavigator = createStackNavigator({
     Paciente: {screen: Paciente},
     BuscaPaciente: {screen: BuscaPaciente},
     Scan: {screen: Scan},
-    Local: {screen: Local},
     Scan2: {screen: Scan2},
+    ScanSearch: {screen: ScanSearch},
+    Local: {screen: Local},
     Receita: {screen: Receita},
     Agendamento: {screen: Agendamento},
     Descontos: {screen: Descontos},
     Dicas: {screen: Dicas},
     Voucher: {screen: Voucher},
     Vouchers: {screen: Vouchers},
-    Documento: {screen: Documento}
+    Documento: {screen: Documento},
+    ListaMedicamentos: {screen: ListaMedicamentos}
 
   });
 

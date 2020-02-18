@@ -91,54 +91,57 @@ class Home extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
 
-        return ( <View style = {
-                { flex: 1, backgroundColor: colors.SCREEN_BACKGROUND_COLOR }
-            } >
-            <View style = { styles.searchBox } >
-            <TextInput style = { styles.inputStyle }
-            onChangeText = {
-                (text) => this.setState({ termo: text })
-            }
-            value = { this.state.termo }
-            placeholder = "Pesquisar medicamento" >
-            </TextInput> 
-            <Icon name = "search"
-            style = { styles.icon }
-            onPress = {
-                () => navigate('BuscaMedicamento', { termo: this.state.termo })
-            }
-            />                        
-            </View >
+        return ( 
+            <View style = {{ flex: 1, backgroundColor: colors.SCREEN_BACKGROUND_COLOR }}>
+                <View style = { styles.searchBox }>
+                    <TextInput  style = { styles.inputStyle }
+                                onChangeText = {
+                                    (text) => this.setState({ termo: text })
+                                }
+                                value = { this.state.termo }
+                                placeholder = "Pesquisar medicamento" >
+                    </TextInput> 
+                    <Icon   name = "search"
+                            style = { styles.icon }
+                            onPress = {
+                                () => navigate('BuscaMedicamento', { termo: this.state.termo })
+                            }
+                            />   
+                    <Icon   name = "camera"
+                            style = { styles.icon }
+                            onPress = {
+                                () => navigate('ScanSearch')
+                            }
+                            />                            
+                </View >
 
-            { this.saudacao() } 
-            <View style = {
-                { alignItems: 'stretch' }
-            } >
+                { this.saudacao() } 
+                <View style = {{ alignItems: 'stretch' }}>
 
-            <HomeButton rotulo = "Descontos e Promoções"
-            navigation = { this.props.navigation }
-            color = "#FFA500"
-            telaDestino = "Descontos" />
-            <HomeButton rotulo = "Dicas de saúde"
-            navigation = { this.props.navigation }
-            color = "#B0E0E6"
-            telaDestino = "Dicas" />
-            <HomeButton rotulo = "Farmácias"
-            navigation = { this.props.navigation }
-            color = "#CD5555"
-            telaDestino = "Locais" />
-            <HomeButton rotulo = "Scanear receita"
-            navigation = { this.props.navigation }
-            color = "#9370DB"
-            telaDestino = "Scan" />
-            <HomeButton rotulo = "Scanear Código de barras"
-            navigation = { this.props.navigation }
-            color = "#FFD700"
-            telaDestino = "Scan2" />
+                    <HomeButton rotulo = "Descontos e Promoções"
+                        navigation = { this.props.navigation }
+                        color = "#FFA500"
+                        telaDestino = "Descontos" />
+                    <HomeButton rotulo = "Dicas de saúde"
+                        navigation = { this.props.navigation }
+                        color = "#B0E0E6"
+                        telaDestino = "Dicas" />
+                    <HomeButton rotulo = "Farmácias"
+                        navigation = { this.props.navigation }
+                        color = "#CD5555"
+                        telaDestino = "Locais" />
+                    <HomeButton rotulo = "Scanear receita"
+                        navigation = { this.props.navigation }
+                        color = "#9370DB"
+                        telaDestino = "Scan" />
+                    <HomeButton rotulo = "Scanear Código de barras"
+                        navigation = { this.props.navigation }
+                        color = "#FFD700"
+                        telaDestino = "Scan2" />
 
-            { this.funcionalidadesRestritas() }
+                    { this.funcionalidadesRestritas() }
 
-            </View> 
+                </View> 
             
             </View >
         );
@@ -152,15 +155,19 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         marginBottom: 35,
-        backgroundColor: 'lightgray'
+        backgroundColor: 'lightgray',
+        marginTop: 25
     },
     inputStyle: {
         flex: 9,
         height: 40,
         borderColor: '#fff',
+        fontSize: 25
     },
     icon: {
-        flex: 1
+        flex: 1,
+        width: 30,
+        height: 30
     }
 });
 

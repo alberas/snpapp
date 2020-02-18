@@ -23,3 +23,22 @@ export const upload = async (idUsuario, bytArquivo) => {
         console.error(error);
     }
 }
+
+
+export const imageSearch = async (bytArquivo) => {
+    const url = API_URL + "/imageSearch";
+    const frmData = new FormData();
+    frmData.append("byt_arquivo", bytArquivo);
+    
+    try {
+        const response = await fetch(url,{
+            method: "POST",
+            body:  frmData
+        });
+        const responseJson = await response.json();
+        return responseJson;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}

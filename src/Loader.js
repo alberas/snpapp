@@ -7,20 +7,13 @@ class Loader extends React.Component{
 
     render(){
         return(
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image
                     source={img}
-                    style={styles.img}
                     />
             </View>
             );
     }
 }
 
-const styles = {
-    img:{
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-}
 export default Loader;
