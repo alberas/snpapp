@@ -67,13 +67,13 @@ class Home extends React.Component {
             return ( 
                 <View>
                 <HomeButton rotulo="Arquivo"
-                navigation={ this.props.navigation }
-                color = "#FFC125"
-                telaDestino = "Arquivo" />
+                    navigation={ this.props.navigation }
+                    color = "#FFC125"
+                    telaDestino = "Arquivo" />
                 <HomeButton rotulo = "Pacientes"
-                navigation = { this.props.navigation }
-                color = "#8A2BE2"
-                telaDestino = "BuscaPaciente" />
+                    navigation = { this.props.navigation }
+                    color = "#8A2BE2"
+                    telaDestino = "BuscaPaciente" />
                 </View>
             );
         }

@@ -10,3 +10,6 @@ export const COMPONENT_FONT_COLOR = '#FFF';
 export const COMPONENT_BORDER_COLOR = '#FFF';
 
 export const LIST_ITEM_BACKGROUND_COLOR = '#B0C4DE';
+
+export const TITLE_BACKGROUND_COLOR = '#B0C4DE';
+export const TITLE_FONT_COLOR = '#FFF';

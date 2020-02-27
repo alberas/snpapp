@@ -1,16 +1,17 @@
 import React from 'react';
 import {ScrollView, Text, View, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon, Picker, DatePicker } from 'native-base';
+import { Icon, Picker } from 'native-base';
 import SectionTitle from './components/SectionTitle/SectionTitle';
 import AppLogo from './components/AppLogo/AppLogo';
 import  * as COLORS from './constants/colors'
 import * as Calendar from 'expo-calendar';
+import DatePicker from 'react-native-datepicker';
 
 const retornaDataAtual = () => {
     const dt = new Date();
-    const strDt =  dt.getDate() + "/" +  ("0" + (dt.getUTCMonth() + 1)).substring(-2)  + "/" +  dt.getFullYear();
-    return dt;
+    const strDt =   dt.getFullYear()+ "-" +  ("0" + (dt.getUTCMonth() + 1)).substring(-2)  + "-" +  dt.getDate();
+    return strDt;
 }
 
 const INITIAL_STATE = {
@@ -28,9 +29,11 @@ const INITIAL_STATE = {
     horario: "",
     intervalo: 1,
     results: [],
-    isDatePickerVisible: false
+    isDatePickerVisible: false,
+    date: "", 
+    h1: "" 
 }
-class Agendamento extends React.Component{
+class Agendar extends React.Component{
 
     static navigationOptions  = ({navigation}) => {
             return {
@@ -51,7 +54,7 @@ class Agendamento extends React.Component{
     };
     constructor(props){
         super(props);
-        this.state = INITIAL_STATE;
+        this.state = {...INITIAL_STATE};
         //console.log(INITIAL_STATE);
     }
 
@@ -159,8 +162,51 @@ class Agendamento extends React.Component{
                     
                     <SectionTitle texto="Dia/Horário inicial"/>
                     <View style={{flex: 1, alignItems: "center"}}>
-                        <Text onPress={() => this.setState({...this.state, isDatePickerVisible:true})}>------</Text>
-                    
+                        <DatePicker
+                            style={{width: 200}}
+                            date={this.state.date}
+                            mode="date"
+                            placeholder="SELECIONE A DATA"
+                            format="YYYY-MM-DD"
+                            minDate={retornaDataAtual()}
+                            maxDate="2016-05-01"
+                            confirmBtnText="Confirma"
+                            cancelBtnText="Cancela"
+                            customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                            // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(d) => {this.setState({date: d})}}
+                        />
+                        <DatePicker
+                            style={{width: 200}}
+                            date={this.state.h1}
+                            mode="time"
+                            placeholder="SELECIONE A DATA"
+                            confirmBtnText="Confirma"
+                            cancelBtnText="Cancela"
+                            customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36
+                            }
+                            // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(d) => {this.setState({h1: d})}}
+                        />
                     </View>
                     <SectionTitle texto="Intervalo"/>
                     <View style={{flex: 1}}>
@@ -271,4 +317,4 @@ const style = {
    
 }
 
-export default Agendamento;
+export default Agendar;

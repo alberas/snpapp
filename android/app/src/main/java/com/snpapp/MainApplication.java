@@ -3,6 +3,8 @@ package com.snpapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.henninghall.date_picker.DatePickerPackage;
 import com.calendarevents.CalendarEventsPackage;
 import com.reactlibrary.CreateThumbnailPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
@@ -49,6 +51,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNDateTimePickerPackage(),
+            new DatePickerPackage(),
             new CalendarEventsPackage(),
             new CreateThumbnailPackage(),
             new ReactNativeYouTube(),

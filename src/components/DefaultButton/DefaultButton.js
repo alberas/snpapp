@@ -15,8 +15,15 @@ class DefaultButton extends Component {
     render(){
         return(
             <TouchableOpacity
-                style={{borderWidth: 1, borderRadius: 5, backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR,  alignItems: "center", justifyContent: "center", padding: 10}}
-                >
+                style={{
+                        borderWidth: 1, 
+                        borderRadius: 5, 
+                        backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR,  
+                        alignItems: "center", 
+                        justifyContent: "center", 
+                        padding: 10
+                    }}
+                    >
                 {this.showIcon}
                 <Text style={{color: COLORS.COMPONENT_FONT_COLOR}}>{this.props.text}</Text>
             </TouchableOpacity>

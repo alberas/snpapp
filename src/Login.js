@@ -1,16 +1,20 @@
 import React from 'react';
-import {View, Text, Image, TextInput, StyleSheet } from 'react-native';
+import {View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import * as actions from './store/actions';
 import {connect} from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import  * as COLORS from './constants/colors'
 import AppLogo from './components/AppLogo/AppLogo';
-
+import Loader from './Loader';
+import SectionTitle from './components/SectionTitle/SectionTitle';
 
 class Login extends React.Component{
     static navigationOptions = {
         title: 'Login',
         headerTitle: () => <AppLogo />,
+        headerLeft: () => {
+            return (<Icon name="arrow-back" onPress={() => navigation.goBack()}/>)
+        },
         headerStyle: {
             backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
         },
@@ -24,7 +28,13 @@ class Login extends React.Component{
     state = {
         msg: "",
         txtLogin: "",
-        txtSenha: ""
+        txtSenha: "",
+        txtNome: "",
+        txtEmail: "",
+        txtCpf: "",
+        txtSenha1: "",
+        txtSenha2: "",
+        loading: false
     }
 
     efetuarLogin = () => {
@@ -59,30 +69,69 @@ class Login extends React.Component{
     }
 
     render(){
-        
+        if(this.state.loading){
+            return (<Loader/>);
+        }
         return(
-            <View style={style.screen}>
-                <View style={style.box}>
-                    <Text style={{fontSize: 20, fontWeight:"bold"}}>Digite seus dados para acessar</Text>
-                    <Text>{this.state.msg}</Text>
+            <ScrollView style={style.screen}>
+                <SectionTitle texto="Login"/>
+                    <View style={style.box}>
+                    <Text style={{alignSelf:"center"}}>Digite seus dados para acessar</Text>
+                    <Text  style={{alignSelf:"center"}}>{this.state.msg}</Text>
                     <TextInput 
                         onChangeText={(text) => this.setState({txtLogin: text})} 
                         style={style.input} 
                         placeholder="Digite seu CPF"
                         />
-                        <TextInput 
-                            secureTextEntry={true}
-                            onChangeText={(text) => this.setState({txtSenha: text})} 
-                            style={style.input} 
-                            placeholder="Digite sua senha"
-                            />
-                        <TouchableOpacity
+                    <TextInput 
+                        secureTextEntry={true}
+                        onChangeText={(text) => this.setState({txtSenha: text})} 
+                        style={style.input} 
+                        placeholder="Digite sua senha"
+                        />
+                    <TouchableOpacity
                         style={style.button}
                         onPress={() => this.efetuarLogin()}>
                         <Text>ACESSAR</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+                <SectionTitle texto="Cadastro"/>
+                <View style={style.box}>
+                    <Text  style={{alignSelf:"center"}}>{this.state.msg}</Text>
+                    <TextInput 
+                        onChangeText={(text) => this.setState({txtNome: text})} 
+                        style={style.input} 
+                        placeholder="Digite seu Nome"
+                        />
+                    <TextInput 
+                        onChangeText={(text) => this.setState({txtEmail: text})} 
+                        style={style.input} 
+                        placeholder="Digite seu e-mail"
+                        />
+                    <TextInput 
+                        onChangeText={(text) => this.setState({txtCpf: text})} 
+                        style={style.input} 
+                        placeholder="Digite seu CPF"
+                        />
+                    <TextInput 
+                        secureTextEntry={true}
+                        onChangeText={(text) => this.setState({txtSenha1: text})} 
+                        style={style.input} 
+                        placeholder="Digite sua senha"
+                        />
+                    <TextInput 
+                        secureTextEntry={true}
+                        onChangeText={(text) => this.setState({txtSenha2: text})} 
+                        style={style.input} 
+                        placeholder="Confirme sua senha"
+                        />
+                    <TouchableOpacity
+                        style={style.button}
+                        onPress={() => this.efetuarLogin()}>
+                        <Text>CADASTRAR</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         );
     };
 }
@@ -93,14 +142,10 @@ style = StyleSheet.create({
         backgroundColor: COLORS.SCREEN_BACKGROUND_COLOR
     },
     box:{
-        padding: 20,
-        borderRadius: 15,
-        borderWidth: 1,
-        margin: 10
+        padding: 5,
+        margin: 5
     },
     button: {
-        borderWidth: 1, 
-        borderRadius: 5, 
         backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR,  
         alignItems: "center", 
         justifyContent: "center", 
@@ -112,7 +157,8 @@ style = StyleSheet.create({
         borderColor: COLORS.COMPONENT_BORDER_COLOR, 
         borderWidth:1, 
         marginBottom: 5, 
-        marginTop: 5
+        marginTop: 5,
+        borderBottomWidth: 1
     }
 });
 

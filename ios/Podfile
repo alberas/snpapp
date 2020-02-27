@@ -50,4 +50,8 @@ target 'snpapp' do
 
   pod 'react-native-calendar-events', :path => '../node_modules/react-native-calendar-events'
 
+  pod 'react-native-date-picker', :path => '../node_modules/react-native-date-picker'
+
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
 end

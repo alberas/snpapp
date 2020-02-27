@@ -1,26 +1,28 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, Text} from 'react-native';
-import axios from 'axios';
+import { StyleSheet, ScrollView, TouchableOpacity, Text} from 'react-native';
 import Loader from './Loader';
-import Medicamento from './Medicamento';
 import  * as colors from './constants/colors'
 import AppLogo from './components/AppLogo/AppLogo';
+import Medicamento from './components/Medicamento/Medicamento';
 import { Icon } from 'native-base';
-
 
 class BuscaMedicamento extends React.Component{
 
-    static navigationOptions = {
-        title: 'Buscar medicamentos',
-        headerTitle: () => <AppLogo />,
-        headerStyle: {
-            backgroundColor: colors.HEADER_BACKGROUND_COLOR,
-        },
-        headerTintColor: colors.HEADER_FONT_COLOR,
-        headerTitleStyle: {
-            fontWeight: 'bold',
-            color: colors.HEADER_FONT_COLOR
-        },
+    static navigationOptions = ({navigation}) => {
+        return {
+            headerTitle: () => <AppLogo />,
+            headerLeft: () => {
+                return (<Icon name="arrow-back" onPress={() => navigation.goBack()} style={{margin: 5}}/>)
+            },
+            headerStyle: {
+                backgroundColor: colors.HEADER_BACKGROUND_COLOR,
+            },
+            headerTintColor: colors.HEADER_FONT_COLOR,
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color: colors.HEADER_FONT_COLOR
+            }
+        }
     };
 
     constructor(props){
@@ -61,19 +63,13 @@ class BuscaMedicamento extends React.Component{
         return(
             <ScrollView>
                 {
+                (this.state.dataSource.length > 0) ?
                 this.state.dataSource.map(t=>(
-                    <TouchableOpacity key={t.id}
-                        style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}
-                        onPress={() => this.props.navigation.navigate('Agendamento',{idMedicamento: t.id, nomeMedicamento: t.nome})}
-                        >
-                        <Text>{t.nome}</Text> 
-                        <Text>{t.principio_ativo}</Text>
-                        <Text>{t.apresentacao}</Text>
-                        <Text>Faixa de preço R${Math.ceil(t.preco_pmvg * (1.2))} - R${Math.ceil(t.preco_pf * (1.2))}</Text>
-                        <Icon name="keypad" style={{position: "absolute", right: 5, bottom: 5}}/>
-                    </TouchableOpacity>
+                    <Medicamento key={t.id} object={t} navigation={this.props.navigation}/>
                     )
                 )
+                :
+                (<Text style={{alignSelf: "center", fontSize: 20, padding: 10}}>Não foram encontrados medicamentos para o termo informado.</Text>)
                 }
             </ScrollView>
         );

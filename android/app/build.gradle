@@ -139,6 +139,8 @@ android {
 }
 
 dependencies {
+    implementation project(':@react-native-community_datetimepicker')
+    implementation project(':react-native-date-picker')
     implementation project(':react-native-calendar-events')
     implementation project(':react-native-create-thumbnail')
     implementation project(':react-native-youtube')

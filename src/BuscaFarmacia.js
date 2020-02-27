@@ -1,23 +1,30 @@
 import React from 'react';
-import {ScrollView, View, Text, TouchableOpacity, Image, Alert, StyleSheet, ActivityIndicator} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity, Alert, StyleSheet} from 'react-native';
 import { Icon } from 'native-base';
+import Loader from './Loader';
+import AppLogo from './components/AppLogo/AppLogo';
 import  * as colors from './constants/colors'
 
 var logo = require('../assets/icons/logo_small.png');
 
 class BuscaFarmacia extends React.Component{
 
-    static navigationOptions = {
-        title: 'Buscar farmácias',
-        headerTitle: () => <Image source={logo}/>,
-        headerStyle: {
-            backgroundColor: colors.HEADER_BACKGROUND_COLOR,
-        },
-        headerTintColor: colors.HEADER_FONT_COLOR,
-        headerTitleStyle: {
-            fontWeight: 'bold',
-            color: colors.HEADER_FONT_COLOR
-        },
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: 'Buscar farmácias',
+            headerTitle: () => <AppLogo/>,
+            headerLeft: () => {
+                return (<Icon name="arrow-back" onPress={() => navigation.goBack()} style={{margin: 5}}/>)
+            },
+            headerStyle: {
+                backgroundColor: colors.HEADER_BACKGROUND_COLOR,
+            },
+            headerTintColor: colors.HEADER_FONT_COLOR,
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color: colors.HEADER_FONT_COLOR
+            },
+        }
     };
 
     constructor(props){
@@ -76,9 +83,7 @@ class BuscaFarmacia extends React.Component{
     render(){
         if(this.state.isLoading){
             return(
-                <View style={{flex: 1, padding: 20}}>
-                    <ActivityIndicator/>
-                </View>
+                <Loader />
             )
         }
 

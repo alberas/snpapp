@@ -5,7 +5,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { Asset } from 'expo-asset';
 import { AppLoading } from 'expo';
 
-import * as actions from './src/store/actions';
 import store from './src/store/reducer';
 
 import Home from './src/Home';
@@ -22,6 +21,7 @@ import Local from './src/Local';
 import Receita from './src/Receita';
 import BuscaPaciente from './src/BuscaPaciente';
 import Agendamento from './src/Agendamento';
+import Agendar from './src/Agendar';
 import Descontos from './src/Descontos';
 import Dicas from './src/Dicas';
 import Voucher from './src/Voucher';
@@ -43,6 +43,7 @@ const MainNavigator = createStackNavigator({
     ScanSearch: {screen: ScanSearch},
     Local: {screen: Local},
     Receita: {screen: Receita},
+    Agendar: {screen: Agendar},
     Agendamento: {screen: Agendamento},
     Descontos: {screen: Descontos},
     Dicas: {screen: Dicas},
