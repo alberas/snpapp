@@ -1,13 +1,24 @@
 import React from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
+import { View, Text, Image, TextInput, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
 import * as colors from './constants/colors'
 import HomeButton from './components/HomeButton/HomeButton';
 import AppLogo from './components/AppLogo/AppLogo';
-import { Icon } from 'native-base';
+import SearchBox from './components/SearchBox/SearchBox';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 
 //import {createThumbnail} from 'react-native-create-thumbnail';
+
+
+const iconBarras = require("../assets/icons/ico2.png");
+const iconScan = require("../assets/icons/ico1.png");
+
+const imgDescontos = require("../assets/icons/bt1.png");
+const imgDicas = require("../assets/icons/bt2.png");
+const imgFarmacias = require("../assets/icons/bt3.png");
+const imgScan = require("../assets/icons/bt4.png");
 
 class Home extends React.Component {
 
@@ -15,7 +26,9 @@ class Home extends React.Component {
         title: 'Home',
         headerTitle: () => < AppLogo /> ,
         headerStyle: {
-            backgroundColor: colors.HEADER_BACKGROUND_COLOR,
+            backgroundColor: 'transparent',
+            shadowColor: 'transparent',
+            borderBottomWidth: 0
         },
         headerTintColor: colors.HEADER_FONT_COLOR,
         headerTitleStyle: {
@@ -31,143 +44,55 @@ class Home extends React.Component {
         promocoes: []
     }
 
-    componentDidMount = () => {
-        /*
-        createThumbnail({
-            url: "https://www.youtube.com/watch?v=XBibflTALDs",
-            type: "remote",
-            timeStamp: 5
-        })
-        .then(response => {
-            console.log({ response });
-            this.setState({
-                status: "Thumbnail received",
-                thumbnail: response.path
-            });
-        })
-        .catch(err => console.log({ err }));
-        */
-
-        
-    }
-
-    saudacao = () => {
-        if (this.props.usuario.id > 0) {
-            return ( 
-                <Text style = {
-                    { color: colors.SCREEN_FONT_COLOR, margin: 30, textAlign: "center", fontSize: 20, fontWeight: "bold" }
-                    }>
-                Olá, { this.props.usuario.nome } </Text>
-            );
-        }
-    }
-
-    funcionalidadesRestritas = () => {
-        if (this.props.usuario.id > 0) {
-            return ( 
-                <View>
-                <HomeButton rotulo="Arquivo"
-                    navigation={ this.props.navigation }
-                    color = "#FFC125"
-                    telaDestino = "Arquivo" />
-                <HomeButton rotulo = "Pacientes"
-                    navigation = { this.props.navigation }
-                    color = "#8A2BE2"
-                    telaDestino = "BuscaPaciente" />
-                </View>
-            );
-        }
-    }
-
-    renderVideoThumb = () => {
-        if (this.state.thumbnail) {
-            return ( < Image source = {
-                    { uri: this.state.thumbnail }
-                }
-                />);
-        }
-    }
-
     render() {
         const { navigate } = this.props.navigation;
 
         return ( 
-            <View style = {{ flex: 1, backgroundColor: colors.SCREEN_BACKGROUND_COLOR }}>
-                <View style = { styles.searchBox }>
-                    <TextInput  style = { styles.inputStyle }
-                                onChangeText = {
-                                    (text) => this.setState({ termo: text })
-                                }
-                                value = { this.state.termo }
-                                placeholder = "Pesquisar medicamento" >
-                    </TextInput> 
-                    <Icon   name = "search"
-                            style = { styles.icon }
-                            onPress = {
-                                () => navigate('BuscaMedicamento', { termo: this.state.termo })
-                            }
-                            />   
-                    <Icon   name = "camera"
-                            style = { styles.icon }
-                            onPress = {
-                                () => navigate('ScanSearch')
-                            }
-                            />                            
-                </View >
+            <BackgroundImage>
+                <View style={{display: "flex", flex: 2, flexWrap: "nowrap",flexDirection: "row", alignItems:"center", margin:5}}>
+                    <SearchBox navigation = { this.props.navigation }/>
+                    <TouchableOpacity onPress = { () => navigate('ScanSearch') }>
+                        <Image  source={iconBarras}
+                                style = { styles.icon }
+                                /> 
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress = { () => navigate('ScanSearch') }>
+                        <Image   source={iconScan}
+                                style = { styles.icon }
+                                />    
+                    </TouchableOpacity>
+                </View>   
+                <View style={{display: "flex", flex: 8, flexWrap: "wrap", flexDirection:"row", justifyContent: "center", alignItems: "center"}}>
+                    <HomeButton rotulo = {`Descontos e\r\n Promoções`}
+                        navigation = { this.props.navigation }
+                        telaDestino = "Descontos" 
+                        image={imgDescontos}/>
+                        <HomeButton rotulo = {`Dicas de saúde`}
+                        navigation = { this.props.navigation }
+                        telaDestino = "Dicas" 
+                        image={imgDicas}/>
+                    <HomeButton rotulo = {`Farmácias\n`}
+                        navigation = { this.props.navigation }
+                        telaDestino = "Locais" 
+                        image={imgFarmacias}/>
 
-                { this.saudacao() } 
-                <View style = {{ alignItems: 'stretch' }}>
-
-                    <HomeButton rotulo = "Descontos e Promoções"
+                    <HomeButton rotulo = {`Scanear receita`}
                         navigation = { this.props.navigation }
-                        color = "#FFA500"
-                        telaDestino = "Descontos" />
-                    <HomeButton rotulo = "Dicas de saúde"
-                        navigation = { this.props.navigation }
-                        color = "#B0E0E6"
-                        telaDestino = "Dicas" />
-                    <HomeButton rotulo = "Farmácias"
-                        navigation = { this.props.navigation }
-                        color = "#CD5555"
-                        telaDestino = "Locais" />
-                    <HomeButton rotulo = "Scanear receita"
-                        navigation = { this.props.navigation }
-                        color = "#9370DB"
-                        telaDestino = "Scan" />
-                    <HomeButton rotulo = "Scanear Código de barras"
-                        navigation = { this.props.navigation }
-                        color = "#FFD700"
-                        telaDestino = "Scan2" />
-
-                    { this.funcionalidadesRestritas() }
-
+                        telaDestino = "Scan" 
+                        image={imgScan}/>
+                    
                 </View> 
-            
-            </View >
+            </BackgroundImage>
         );
     };
 }
 
 const styles = StyleSheet.create({
-    searchBox: {
-        flexDirection: 'row',
-        margin: 10,
-        borderRadius: 20,
-        padding: 10,
-        marginBottom: 35,
-        backgroundColor: 'lightgray',
-        marginTop: 25
-    },
-    inputStyle: {
-        flex: 9,
-        height: 40,
-        borderColor: '#fff',
-        fontSize: 25
-    },
+    
     icon: {
-        flex: 1,
-        width: 30,
-        height: 30
+        margin:1,
+        width: 50,
+        height: 50,
     }
 });
 

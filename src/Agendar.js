@@ -15,21 +15,11 @@ const retornaDataAtual = () => {
 }
 
 const INITIAL_STATE = {
-    dias: [
-        {id: 0, nome: "Domingo", abreviacao: "D", checked: false},
-        {id: 1, nome: "Segunda", abreviacao: "S", checked: false},
-        {id: 2, nome: "Terça", abreviacao: "T", checked: false},
-        {id: 3, nome: "Quarta", abreviacao: "Q", checked: false},
-        {id: 4, nome: "Quinta", abreviacao: "Q", checked: false},
-        {id: 5, nome: "Sexta", abreviacao: "S", checked: false},
-        {id: 6, nome: "Sábado", abreviacao: "S", checked: false},
-    ],
     horarioInicial: retornaDataAtual(),
     horarioFinal: retornaDataAtual(),
     horario: "",
     intervalo: 1,
     results: [],
-    isDatePickerVisible: false,
     date: "", 
     h1: "" 
 }
@@ -55,7 +45,6 @@ class Agendar extends React.Component{
     constructor(props){
         super(props);
         this.state = {...INITIAL_STATE};
-        //console.log(INITIAL_STATE);
     }
 
     
@@ -134,24 +123,13 @@ class Agendar extends React.Component{
         }
     }
     
-    showDatePicker = () => {
-        this.setState({isDatePickerVisible: true});
-    };
-    
-    hideDatePicker = () => {
-        this.setState({isDatePickerVisible: false});
-    };
-
-    handleConfirm = date => {
-        console.warn("A date has been picked: ", date);
-        this.hideDatePicker();
-    };
     
     incrementDate = (dt, intHours) => {
         const dtNew = new Date();
         dtNew.setTime(dt.getTime() + (intHours * 60 * 60 * 1000));
         return dtNew;
     }
+    
     render(){
         var idMedicamento = this.props.navigation.getParam('idMedicamento');
         var nomeMedicamento = this.props.navigation.getParam('nomeMedicamento');

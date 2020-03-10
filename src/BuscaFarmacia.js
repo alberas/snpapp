@@ -1,11 +1,12 @@
 import React from 'react';
-import {ScrollView, View, Text, TouchableOpacity, Alert, StyleSheet} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity, Alert, StyleSheet, Image, Linking} from 'react-native';
 import { Icon } from 'native-base';
 import Loader from './Loader';
 import AppLogo from './components/AppLogo/AppLogo';
 import  * as colors from './constants/colors'
+import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 
-var logo = require('../assets/icons/logo_small.png');
+var zapIcon = require('../assets/icons/i_whatsapp.png');
 
 class BuscaFarmacia extends React.Component{
 
@@ -88,7 +89,7 @@ class BuscaFarmacia extends React.Component{
         }
 
         return (
-            <View style={{flex:1}}>
+            <BackgroundImage>
                 <ScrollView>
                     {
                     this.state.dataSource.map(t=>(
@@ -101,7 +102,7 @@ class BuscaFarmacia extends React.Component{
                                 <Text>Dist.: {this.calculaDistancia(this.state.lat, this.state.lng,t.geometry.location.lat, t.geometry.location.lng)} m</Text>
                             </View>
                             <View style={{flex: 2, flexDirection: 'row'}}>
-                                <TouchableOpacity style={{width: 50, height: 50, backgroundColor: 'powderblue', alignItems: 'center', justifyContent: 'center'}} 
+                                <TouchableOpacity style={{width: 50, height: 50, alignItems: 'center', justifyContent: 'center'}} 
                                         onPress={() => {
                                             this.props.navigation.navigate('Local',{
                                                 lat1: this.state.lat,
@@ -112,11 +113,8 @@ class BuscaFarmacia extends React.Component{
                                         }}>
                                     <Icon name="navigate"/>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{width: 50, height: 50, backgroundColor: 'skyblue', alignItems: 'center', justifyContent: 'center'}}>
-                                    <Icon name="person"/>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{width: 50, height: 50, backgroundColor: 'steelblue', alignItems: 'center', justifyContent: 'center'}} >
-                                    <Icon name="star-half"/>
+                                <TouchableOpacity style={{width: 50, height: 50, alignItems: 'center', justifyContent: 'center'}} onPress={() => Linking.openURL('http://api.whatsapp.com/send?phone=5561')}>
+                                    <Image source={zapIcon} style={{width: 20, height:  20}}/>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -124,7 +122,7 @@ class BuscaFarmacia extends React.Component{
                     )
                     }
                 </ScrollView>
-            </View>
+            </BackgroundImage>
         );
     }
 }

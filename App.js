@@ -28,6 +28,7 @@ import Voucher from './src/Voucher';
 import Vouchers from './src/Vouchers';
 import Documento from './src/Documento';
 import ListaMedicamentos from './src/ListaMedicamentos';
+import MyDatePicker from './src/MyDatePicker';
 
 const MainNavigator = createStackNavigator({
     Home: {screen: Home},
@@ -50,7 +51,8 @@ const MainNavigator = createStackNavigator({
     Voucher: {screen: Voucher},
     Vouchers: {screen: Vouchers},
     Documento: {screen: Documento},
-    ListaMedicamentos: {screen: ListaMedicamentos}
+    ListaMedicamentos: {screen: ListaMedicamentos},
+    MyDatePicker: {screen: MyDatePicker}
 
   });
 

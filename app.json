@@ -12,6 +12,14 @@
       "ios",
       "android",
       "web"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "br.com.sinapse.sinapsemed",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "br.com.sinapse.sinapsemed",
+      "versionCode": 1
+    }
   }
 }
