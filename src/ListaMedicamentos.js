@@ -6,6 +6,7 @@ import { Icon } from 'native-base';
 import { medicamentosBuscar } from './api/medicamento';
 import Loader from './Loader';
 import Medicamento from './components/Medicamento/Medicamento';
+import { EmptyResult } from './components/EmptyResult/EmptyResult';
 
 
 export default class ListaMedicamentos extends React.Component{
@@ -71,7 +72,7 @@ export default class ListaMedicamentos extends React.Component{
                         )
                     )
                 :
-                (<Text style={{alignSelf: "center", fontSize: 20, padding: 10}}>Não foram encontrados medicamentos para o termo informado.</Text>)
+                (<EmptyResult/>)
                 }
             </ScrollView>
         );

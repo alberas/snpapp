@@ -5,14 +5,18 @@ import Loader from './Loader';
 import AppLogo from './components/AppLogo/AppLogo';
 import  * as colors from './constants/colors'
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
+import {buscaFarmaciasProximas} from './api/google';
+import { Farmacia } from './components/Farmacia/Farmacia';
+import { EmptyResult } from './components/EmptyResult/EmptyResult';
 
-var zapIcon = require('../assets/icons/i_whatsapp.png');
+
 
 class BuscaFarmacia extends React.Component{
 
     static navigationOptions = ({navigation}) => {
         return {
             title: 'Buscar farmácias',
+            headerTransparent: true,
             headerTitle: () => <AppLogo/>,
             headerLeft: () => {
                 return (<Icon name="arrow-back" onPress={() => navigation.goBack()} style={{margin: 5}}/>)
@@ -46,12 +50,13 @@ class BuscaFarmacia extends React.Component{
                 var lng = position.coords.longitude;
 
                 this.setState({...this.state, lat: lat, lng: lng});
-                fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lng+"&radius=500&type=drugstore&key=AIzaSyBVYmeDU_ygKnSUse2B0BKpnws_MdlW34w")
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    self.setState({dataSource: responseJson.results});
-                    self.setState({isLoading: false});
-                })
+
+                buscaFarmaciasProximas(lat, lng).then(
+                    responseJson => {
+                        self.setState({dataSource: responseJson.results});
+                        self.setState({isLoading: false});
+                    }
+                )
                 .catch(function(error){
                     console.log(error);
                 });
@@ -90,38 +95,18 @@ class BuscaFarmacia extends React.Component{
 
         return (
             <BackgroundImage>
+                {this.state.dataSource.length > 0 ? 
                 <ScrollView>
                     {
-                    this.state.dataSource.map(t=>(
-                        <View key={t.id}
-                            style={{backgroundColor: "#DDDDDD", marginBottom: 10, padding: 5}}
-                            >
-                            <View style={{flex: 2}}>
-                                <Text>{t.name}</Text>
-                                <Text>{t.vicinity}</Text>
-                                <Text>Dist.: {this.calculaDistancia(this.state.lat, this.state.lng,t.geometry.location.lat, t.geometry.location.lng)} m</Text>
-                            </View>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                <TouchableOpacity style={{width: 50, height: 50, alignItems: 'center', justifyContent: 'center'}} 
-                                        onPress={() => {
-                                            this.props.navigation.navigate('Local',{
-                                                lat1: this.state.lat,
-                                                lng1: this.state.lng,
-                                                lat2: t.geometry.location.lat,
-                                                lng2: t.geometry.location.lng,
-                                            });
-                                        }}>
-                                    <Icon name="navigate"/>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{width: 50, height: 50, alignItems: 'center', justifyContent: 'center'}} onPress={() => Linking.openURL('http://api.whatsapp.com/send?phone=5561')}>
-                                    <Image source={zapIcon} style={{width: 20, height:  20}}/>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+                        this.state.dataSource.map(t=>(
+                            <Farmacia obj={t}/>
+                            )
                         )
-                    )
                     }
                 </ScrollView>
+                    :
+                    <EmptyResult/>
+                }
             </BackgroundImage>
         );
     }

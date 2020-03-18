@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, SafeAreaView, StyleSheet, ImageBackground } from "react-native";
+import { SafeAreaView, StyleSheet, ImageBackground } from "react-native";
 
 const img = require("../../../assets/icons/bg.jpg");
 

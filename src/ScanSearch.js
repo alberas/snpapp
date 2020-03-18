@@ -17,7 +17,8 @@ export default function ScanSearch({ navigation }) {
 
   takePicture = async () => {
     if (this.camera) {
-      
+      setIsLoading(true);
+
       const options = { quality: 0.3, base64: true, exif: false, skipProcessing: true };
       const data = await this.camera.takePictureAsync(options);
       
@@ -48,9 +49,6 @@ export default function ScanSearch({ navigation }) {
     })();
   }, []);
   
-  if(isLoading){
-    return (<Loader/>);
-  }
   
 
   if (hasPermission === null) {
@@ -61,7 +59,7 @@ export default function ScanSearch({ navigation }) {
   }
   return (
     <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={type} ref={ref => (this.camera = ref)}>
+      <Camera style={{ flex: 8 }} type={type} ref={ref => (this.camera = ref)}>
         <View
           style={{
             flex: 1,
@@ -92,10 +90,14 @@ export default function ScanSearch({ navigation }) {
           </TouchableOpacity>
         </View>
       </Camera>
-      <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+      <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'center'}}>
+        { !isLoading ? 
         <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
             <Icon name='paper' />
         </TouchableOpacity>
+        :
+        <ActivityIndicator/>
+        }
       </View>
     </View>
   );

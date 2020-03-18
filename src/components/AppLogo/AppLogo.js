@@ -18,7 +18,7 @@ const randomInt = (min, max) => {
 
 class AppLogo extends Component {
 
-    
+    /*
     render(){
         const index = randomInt(0,5);
         switch(index){
@@ -36,6 +36,10 @@ class AppLogo extends Component {
                 return(<Image source={require("../../../assets/logos/1E90FF.png")}/>);
         }
     };
+    */
+   render(){
+        return(<Image source={require("../../../assets/logos/7FFF00.png")}/>);
+   }
 }
 
 export default AppLogo;

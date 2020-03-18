@@ -3,6 +3,7 @@ import {ScrollView, ActivityIndicator, View, TouchableOpacity, Image} from 'reac
 import { retornaPromocoes } from './api/evento';
 import { Card, CardItem, Left, Thumbnail, Body, Text} from 'native-base';
 import * as COLORS from './constants/colors';
+import Loader from './Loader';
 
 var thumb = require('../assets/icons/default-avatar.jpg');
 var logo = require('../assets/icons/logo_small.png');
@@ -28,7 +29,7 @@ class Descontos extends React.Component{
 
     renderData = () => {
         if(this.state.isLoading){
-            return (<ActivityIndicator/>);
+            return (<Loader />);
         }
 
         if(this.state.promocoes!==null){

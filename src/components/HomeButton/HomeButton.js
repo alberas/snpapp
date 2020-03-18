@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Text } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import {Icon } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -31,7 +31,9 @@ class HomeButton extends Component {
                 style={{margin: 0, height: 220, justifyContent:"center", alignItems: "center"}}
                 >
                 {this.configure(this.props.image)}
-                <Text style={{fontSize: 25, width: 150, textAlign: "center"}}>{this.props.rotulo}</Text>
+                <View style={{height:70}}>
+                    <Text style={{fontSize: 20, width: 150, textAlign: "center", color: "#52658c"}}>{this.props.rotulo}</Text>
+                </View>
             </TouchableOpacity>
         );
     };

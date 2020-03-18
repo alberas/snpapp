@@ -42,7 +42,9 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 1,
         flexDirection: "row",
-        alignItems:"center"
+        alignItems:"center",
+        borderWidth: 1,
+        borderColor: COLORS.BUTTON_BORDER_COLOR
     },
     input: {
         fontSize: 20,
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
         margin:1,
         width: 30,
         height: 30,
+        
     }
 });
 

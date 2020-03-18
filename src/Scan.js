@@ -91,9 +91,13 @@ export default function Scan({ navigation }) {
         </View>
       </Camera>
       <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+        { isLoading ? 
         <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
             <Icon name='paper' />
         </TouchableOpacity>
+        :
+        <ActivityIndicator/>
+      }
       </View>
     </View>
   );

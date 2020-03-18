@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import * as COLORS from '../../constants/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Card, CardItem, Body, Right, Icon } from 'native-base';
 
 class Medicamento extends Component {
 
@@ -9,14 +9,23 @@ class Medicamento extends Component {
     render(){
         const obj = this.props.object;
         return(
-        <TouchableOpacity key={obj.id}
-                style={style.componente}
-                onPress={() => this.props.navigation.navigate('Agendar', {idMedicamento: obj.id, nomeMedicamento: obj.nome})}
-                >
-                <Text style={style.descricao}>{obj.nome}</Text> 
-                <Text style={{...style.descricao, color: COLORS.LIST_ITEM_BACKGROUND_COLOR}}>{obj.principio_ativo}</Text>
-                <Text style={{...style.descricao, color: COLORS.LIST_ITEM_BACKGROUND_COLOR}}>{obj.apresentacao}</Text>
-            </TouchableOpacity>
+            <Card key={obj.id}>
+                <CardItem header button bordered
+                    onPress={() => this.props.navigation.navigate('Agendar', {idMedicamento: obj.id, nomeMedicamento: obj.nome})}
+                    >
+                    <Text>{obj.nome}</Text> 
+                    
+                </CardItem>
+                <CardItem button onPress={() => this.props.navigation.navigate('Agendar', {idMedicamento: obj.id, nomeMedicamento: obj.nome})}>
+                    <Body>
+                        <Text>{obj.principio_ativo}</Text>
+                        <Text>{obj.apresentacao}</Text>
+                    </Body>
+                    <Right>
+                        <Icon name="arrow-forward" />
+                    </Right>
+                </CardItem>
+            </Card>
         );
     };
 }

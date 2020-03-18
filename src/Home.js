@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Image, TextInput, SafeAreaView } from 'react-native';
+import { View, Text, Image, TextInput, SafeAreaView, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
-import * as colors from './constants/colors'
+import * as COLORS from './constants/colors'
 import HomeButton from './components/HomeButton/HomeButton';
 import AppLogo from './components/AppLogo/AppLogo';
 import SearchBox from './components/SearchBox/SearchBox';
@@ -18,38 +18,38 @@ const iconScan = require("../assets/icons/ico1.png");
 const imgDescontos = require("../assets/icons/bt1.png");
 const imgDicas = require("../assets/icons/bt2.png");
 const imgFarmacias = require("../assets/icons/bt3.png");
-const imgScan = require("../assets/icons/bt4.png");
+const imgAgendamento = require("../assets/icons/bt5.png");
 
 class Home extends React.Component {
 
     static navigationOptions = {
         title: 'Home',
+        headerTransparent: true,
         headerTitle: () => < AppLogo /> ,
         headerStyle: {
-            backgroundColor: 'transparent',
+
             shadowColor: 'transparent',
             borderBottomWidth: 0
         },
-        headerTintColor: colors.HEADER_FONT_COLOR,
+        headerTintColor: COLORS.HEADER_FONT_COLOR,
         headerTitleStyle: {
             fontWeight: 'bold',
-            color: colors.HEADER_FONT_COLOR
+            color: COLORS.HEADER_FONT_COLOR
         },
     };
 
     state = {
-        termo: "",
         status: "",
         thumbnail: "",
-        promocoes: []
     }
 
     render() {
         const { navigate } = this.props.navigation;
 
+        var dt = new Date();
         return ( 
             <BackgroundImage>
-                <View style={{display: "flex", flex: 2, flexWrap: "nowrap",flexDirection: "row", alignItems:"center", margin:5}}>
+                <View style={{display: "flex", flex: 2, flexWrap: "nowrap",flexDirection: "row", alignItems:"center", margin:5, marginTop: 30}}>
                     <SearchBox navigation = { this.props.navigation }/>
                     <TouchableOpacity onPress = { () => navigate('ScanSearch') }>
                         <Image  source={iconBarras}
@@ -62,7 +62,7 @@ class Home extends React.Component {
                                 />    
                     </TouchableOpacity>
                 </View>   
-                <View style={{display: "flex", flex: 8, flexWrap: "wrap", flexDirection:"row", justifyContent: "center", alignItems: "center"}}>
+                <View style={{display: "flex", flex: 8, flexWrap: "wrap", flexDirection:"row", justifyContent: "center"}}>
                     <HomeButton rotulo = {`Descontos e\r\n Promoções`}
                         navigation = { this.props.navigation }
                         telaDestino = "Descontos" 
@@ -76,10 +76,10 @@ class Home extends React.Component {
                         telaDestino = "Locais" 
                         image={imgFarmacias}/>
 
-                    <HomeButton rotulo = {`Scanear receita`}
+                    <HomeButton rotulo = {`Agendamentos`}
                         navigation = { this.props.navigation }
-                        telaDestino = "Scan" 
-                        image={imgScan}/>
+                        telaDestino = "Agendamento" 
+                        image={imgAgendamento}/>
                     
                 </View> 
             </BackgroundImage>
@@ -93,6 +93,8 @@ const styles = StyleSheet.create({
         margin:1,
         width: 50,
         height: 50,
+        borderWidth: 1,
+        borderColor: COLORS.BUTTON_BORDER_COLOR
     }
 });
 
