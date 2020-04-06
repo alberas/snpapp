@@ -12,6 +12,7 @@ import Login from './src/Login';
 import Arquivo from './src/Arquivo';
 import Arquivos from './src/Arquivos';
 import BuscaFarmacia from './src/BuscaFarmacia';
+import Farmacia from './src/Farmacia';
 import BuscaMedicamento from './src/BuscaMedicamento';
 import Paciente from './src/Paciente';
 import Scan from './src/Scan';
@@ -28,6 +29,10 @@ import Voucher from './src/Voucher';
 import Vouchers from './src/Vouchers';
 import Documento from './src/Documento';
 import ListaMedicamentos from './src/ListaMedicamentos';
+import CadastroFarmacia from './src/CadastroFarmacia';
+
+import * as COLORS from './src/constants/colors';
+
 
 const MainNavigator = createStackNavigator({
     Home: {screen: Home},
@@ -35,7 +40,9 @@ const MainNavigator = createStackNavigator({
     Arquivos: {screen: Arquivos},
     Arquivo: {screen: Arquivo},
     Locais: {screen: BuscaFarmacia},
+    Farmacia: {screen: Farmacia},
     BuscaMedicamento: {screen: BuscaMedicamento},
+    ListaMedicamentos: {screen: ListaMedicamentos},
     Paciente: {screen: Paciente},
     BuscaPaciente: {screen: BuscaPaciente},
     Scan: {screen: Scan},
@@ -48,10 +55,22 @@ const MainNavigator = createStackNavigator({
     Descontos: {screen: Descontos},
     Dicas: {screen: Dicas},
     Voucher: {screen: Voucher},
-    Vouchers: {screen: Vouchers},
     Documento: {screen: Documento},
-    ListaMedicamentos: {screen: ListaMedicamentos},
-
+    CadastroFarmacia: {screen: CadastroFarmacia}
+  },
+  {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      headerStyle: {
+          backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
+          height: 100
+      },
+      headerTintColor: COLORS.HEADER_FONT_COLOR,
+      headerTitleStyle: {
+          fontWeight: 'bold',
+          color: COLORS.HEADER_FONT_COLOR
+      }
+    }
   });
 
 const Navigation = createAppContainer(MainNavigator);

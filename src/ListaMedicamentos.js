@@ -7,6 +7,7 @@ import { medicamentosBuscar } from './api/medicamento';
 import Loader from './Loader';
 import Medicamento from './components/Medicamento/Medicamento';
 import { EmptyResult } from './components/EmptyResult/EmptyResult';
+import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 
 
 export default class ListaMedicamentos extends React.Component{
@@ -14,17 +15,8 @@ export default class ListaMedicamentos extends React.Component{
     static navigationOptions = ({navigation}) => {
         return {
             title: 'Medicamentos',
-            headerTitle: () => <AppLogo />,
             headerLeft: () => {
-                return (<Icon name="arrow-back" onPress={() => navigation.goBack()} style={{margin: 5}}/>)
-            },
-            headerStyle: {
-                backgroundColor: colors.HEADER_BACKGROUND_COLOR,
-            },
-            headerTintColor: colors.HEADER_FONT_COLOR,
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                color: colors.HEADER_FONT_COLOR
+                return (<Icon name="arrow-back" onPress={() => navigation.navigate("Home")} style={{margin: 5}}/>)
             }
         }
     };
@@ -64,7 +56,7 @@ export default class ListaMedicamentos extends React.Component{
             );
         }
         return(
-            <ScrollView>
+            <BackgroundImage>
                 {
                 (this.state.dataSource.length>0) ? 
                     this.state.dataSource.map(t=>(
@@ -74,7 +66,7 @@ export default class ListaMedicamentos extends React.Component{
                 :
                 (<EmptyResult/>)
                 }
-            </ScrollView>
+            </BackgroundImage>
         );
     }
 }

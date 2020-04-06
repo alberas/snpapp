@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Image, TextInput, SafeAreaView, Button } from 'react-native';
+import { View, Image, ScrollView, Text} from 'react-native';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
-import * as COLORS from './constants/colors'
+import * as COLORS from './constants/colors';
 import HomeButton from './components/HomeButton/HomeButton';
 import AppLogo from './components/AppLogo/AppLogo';
 import SearchBox from './components/SearchBox/SearchBox';
@@ -12,8 +12,7 @@ import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 //import {createThumbnail} from 'react-native-create-thumbnail';
 
 
-const iconBarras = require("../assets/icons/ico2.png");
-const iconScan = require("../assets/icons/ico1.png");
+
 
 const imgDescontos = require("../assets/icons/bt1.png");
 const imgDicas = require("../assets/icons/bt2.png");
@@ -23,18 +22,12 @@ const imgAgendamento = require("../assets/icons/bt5.png");
 class Home extends React.Component {
 
     static navigationOptions = {
-        title: 'Home',
-        headerTransparent: true,
-        headerTitle: () => < AppLogo /> ,
+        headerTitle: () => <AppLogo />,
         headerStyle: {
-
+            backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
+            height: 100,
             shadowColor: 'transparent',
             borderBottomWidth: 0
-        },
-        headerTintColor: COLORS.HEADER_FONT_COLOR,
-        headerTitleStyle: {
-            fontWeight: 'bold',
-            color: COLORS.HEADER_FONT_COLOR
         },
     };
 
@@ -46,57 +39,48 @@ class Home extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
 
-        var dt = new Date();
         return ( 
             <BackgroundImage>
-                <View style={{display: "flex", flex: 2, flexWrap: "nowrap",flexDirection: "row", alignItems:"center", margin:5, marginTop: 30}}>
+                <View style={{display: "flex", flex: 2, padding: 2, backgroundColor: COLORS.HEADER_BACKGROUND_COLOR}}>
                     <SearchBox navigation = { this.props.navigation }/>
-                    <TouchableOpacity onPress = { () => navigate('ScanSearch') }>
-                        <Image  source={iconBarras}
-                                style = { styles.icon }
-                                /> 
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress = { () => navigate('ScanSearch') }>
-                        <Image   source={iconScan}
-                                style = { styles.icon }
-                                />    
-                    </TouchableOpacity>
+                    <Text style={{textAlign: "center", padding: 5}}>
+                        Digite o nome do medicamento e faça a programação dos horários de administração ou faça um pesquisa por reconhecimento clicando na icone da camêra.
+                    </Text>
                 </View>   
-                <View style={{display: "flex", flex: 8, flexWrap: "wrap", flexDirection:"row", justifyContent: "center"}}>
-                    <HomeButton rotulo = {`Descontos e\r\n Promoções`}
-                        navigation = { this.props.navigation }
-                        telaDestino = "Descontos" 
-                        image={imgDescontos}/>
-                        <HomeButton rotulo = {`Dicas de saúde`}
-                        navigation = { this.props.navigation }
-                        telaDestino = "Dicas" 
-                        image={imgDicas}/>
-                    <HomeButton rotulo = {`Farmácias\n`}
-                        navigation = { this.props.navigation }
-                        telaDestino = "Locais" 
-                        image={imgFarmacias}/>
+                <View  style={{display: "flex", flex: 7, paddingTop: 7}}>
+                    <ScrollView>
+                        <HomeButton rotulo = {`Descontos e Promoções`}
+                            descricao="Encontre as melhores ofertas disponíveis na cidade"
+                            navigation = { this.props.navigation }
+                            telaDestino = "Descontos" 
+                            image={imgDescontos}/>
 
-                    <HomeButton rotulo = {`Agendamentos`}
-                        navigation = { this.props.navigation }
-                        telaDestino = "Agendamento" 
-                        image={imgAgendamento}/>
-                    
-                </View> 
+                        <HomeButton rotulo = {`Dicas de saúde`}
+                            descricao="Leia dicas de saúde praparadas por profissionais renomados"
+                            navigation = { this.props.navigation }
+                            telaDestino = "Dicas" 
+                            image={imgDicas}/>
+
+                        <HomeButton rotulo = {`Farmácias próximas`}
+                            descricao="Encontre as farmácias mais próximas"
+                            navigation = { this.props.navigation }
+                            telaDestino = "Locais" 
+                            image={imgFarmacias}/>
+
+                        <HomeButton rotulo = {`Lembretes de medicamentos`}
+                            descricao="Monitore os horários de administração de medicações"
+                            navigation = { this.props.navigation }
+                            telaDestino = "Agendamento" 
+                            image={imgAgendamento}/>
+                        
+                        <Text style={{textAlign: "center"}}>SINAPSE® 2020</Text>
+                    </ScrollView> 
+                </View>
             </BackgroundImage>
         );
     };
 }
 
-const styles = StyleSheet.create({
-    
-    icon: {
-        margin:1,
-        width: 50,
-        height: 50,
-        borderWidth: 1,
-        borderColor: COLORS.BUTTON_BORDER_COLOR
-    }
-});
 
 const mapStateToProps = state => {
     return {

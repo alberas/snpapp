@@ -7,32 +7,19 @@ import * as Calendar from 'expo-calendar';
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 import {EmptyResult} from './components/EmptyResult/EmptyResult';
 import * as DataUtil from './util/DataUtil'
+import Loader from './Loader';
 
 
 class Agendamento extends React.Component{
 
-    static navigationOptions  = ({navigation}) => {
-            return {
-            title: 'Agendamento',
-            headerTitle: () => <AppLogo />,
-            headerLeft: () => {
-                return (<Icon name="arrow-back" onPress={() => navigation.navigate("Home")} style={{margin: 5}}/>)
-            },
-            headerStyle: {
-
-                shadowColor: 'transparent',
-                borderBottomWidth: 0
-            },
-            headerTintColor: COLORS.HEADER_FONT_COLOR,
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                color: COLORS.HEADER_FONT_COLOR
-            },
-        }
+    static navigationOptions  = {
+        title: 'Agendamento'
     };
+    
     constructor(props){
         super(props);
         this.state = {
+            isLoading: true,
             lista: [],
         };
     }
@@ -42,13 +29,14 @@ class Agendamento extends React.Component{
     }
 
     renderList = () => {
+        this.setState({isLoading: true});
         var arr = [];
         Calendar.getDefaultCalendarAsync().then(
             fn = async(t) => {
                 await Calendar.getEventsAsync([t.id], new Date("2020-01-01"), new Date("2020-12-31")).then(
                     fn2 = async(t2) => {
                         arr = t2.filter(obj =>  obj.title.indexOf("[sinapse]") >= 0 );
-                        this.setState({lista: arr});
+                        this.setState({lista: arr, isLoading: false});
                     }
                 )
             }
@@ -73,6 +61,12 @@ class Agendamento extends React.Component{
     }
     
     render(){
+        if(this.state.isLoading){
+            return(
+                <Loader/>
+            );
+        }
+
         return (
             <BackgroundImage>
                 {

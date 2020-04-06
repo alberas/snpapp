@@ -13,23 +13,8 @@ import { EmptyResult } from './components/EmptyResult/EmptyResult';
 
 class BuscaFarmacia extends React.Component{
 
-    static navigationOptions = ({navigation}) => {
-        return {
-            title: 'Buscar farmácias',
-            headerTransparent: true,
-            headerTitle: () => <AppLogo/>,
-            headerLeft: () => {
-                return (<Icon name="arrow-back" onPress={() => navigation.goBack()} style={{margin: 5}}/>)
-            },
-            headerStyle: {
-                backgroundColor: colors.HEADER_BACKGROUND_COLOR,
-            },
-            headerTintColor: colors.HEADER_FONT_COLOR,
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                color: colors.HEADER_FONT_COLOR
-            },
-        }
+    static navigationOptions = {
+        title: 'Buscar farmácias',
     };
 
     constructor(props){
@@ -46,12 +31,13 @@ class BuscaFarmacia extends React.Component{
         var self = this;
         navigator.geolocation.getCurrentPosition(
             position => {
+                
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
 
                 this.setState({...this.state, lat: lat, lng: lng});
-
-                buscaFarmaciasProximas(lat, lng).then(
+                
+                buscaFarmaciasProximas(this.state.lat, this.state.lng).then(
                     responseJson => {
                         self.setState({dataSource: responseJson.results});
                         self.setState({isLoading: false});
@@ -70,20 +56,7 @@ class BuscaFarmacia extends React.Component{
 
    
     
-    calculaDistancia = (lat1, lng1, lat2, lng2) => {
-        "use strict";
-        var deg2rad = function (deg) { return deg * (Math.PI / 180); },
-            R = 6371,
-            dLat = deg2rad(lat2 - lat1),
-            dLng = deg2rad(lng1 - lng2),
-            a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(deg2rad(lat1))
-                * Math.cos(deg2rad(lat1))
-                * Math.sin(dLng / 2) * Math.sin(dLng / 2),
-            c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return ((R * c *1000).toFixed());
-
-    }
+    
     
     
     render(){
@@ -96,14 +69,14 @@ class BuscaFarmacia extends React.Component{
         return (
             <BackgroundImage>
                 {this.state.dataSource.length > 0 ? 
-                <ScrollView>
-                    {
-                        this.state.dataSource.map(t=>(
-                            <Farmacia obj={t}/>
+                    <ScrollView>
+                        {
+                            this.state.dataSource.map(t=>(
+                                <Farmacia key={t.place_id} obj={t} initialLat={this.state.lat} initialLng={this.state.lng} navigation={this.props.navigation}/>
+                                )
                             )
-                        )
-                    }
-                </ScrollView>
+                        }
+                    </ScrollView>
                     :
                     <EmptyResult/>
                 }

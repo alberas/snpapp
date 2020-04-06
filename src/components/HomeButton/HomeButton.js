@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
 import {Icon } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as COLORS from '../../constants/colors';
 
 
 class HomeButton extends Component {
 
     renderImage = (image) => {
-        return(<Image source={image} style={{width: 130, height: 130 }}/>);
+        return(<Image source={image} style={{width: 70, height: 70, flex: 2 }}/>);
     }
 
     renderIcon = () => {
-        return(<Icon name="list" style={{position: "absolute", left:5}}/>);
+        return(<Icon name="list" style={{position: "absolute", left:5, flex: 2 }}/>);
     }
 
     configure = (image) => {
@@ -28,11 +29,12 @@ class HomeButton extends Component {
         return(
             <TouchableOpacity
                 onPress={() => navigate(this.props.telaDestino)}
-                style={{margin: 0, height: 220, justifyContent:"center", alignItems: "center"}}
+                style={{marginBottom: 10, flexDirection: "row", backgroundColor: "rgba(0,0,0,0.3)", padding: 7}}
                 >
                 {this.configure(this.props.image)}
-                <View style={{height:70}}>
-                    <Text style={{fontSize: 20, width: 150, textAlign: "center", color: "#52658c"}}>{this.props.rotulo}</Text>
+                <View style={{flex: 8}}>
+                    <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>{this.props.rotulo}</Text>
+                    <Text style={{fontSize: 15, color: "#000"}}>{this.props.descricao}</Text>
                 </View>
             </TouchableOpacity>
         );

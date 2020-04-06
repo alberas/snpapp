@@ -5,52 +5,38 @@ import  * as colors from './constants/colors'
 import AppLogo from './components/AppLogo/AppLogo';
 import Medicamento from './components/Medicamento/Medicamento';
 import { Icon } from 'native-base';
+import { EmptyResult } from './components/EmptyResult/EmptyResult';
+import { medicamentoPesquisarTermo } from './api/medicamento';
 
 class BuscaMedicamento extends React.Component{
 
-    static navigationOptions = ({navigation}) => {
-        return {
-            headerTitle: () => <AppLogo />,
-            headerLeft: () => {
-                return (<Icon name="arrow-back" onPress={() => navigation.goBack()} style={{margin: 5}}/>)
-            },
-            headerStyle: {
-                backgroundColor: colors.HEADER_BACKGROUND_COLOR,
-            },
-            headerTintColor: colors.HEADER_FONT_COLOR,
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                color: colors.HEADER_FONT_COLOR
-            }
-        }
+    static navigationOptions = {
+        title: "Medicamento"
     };
 
     constructor(props){
         super(props);
-        this.state = { isLoading: true}
+        this.state = { isLoading: true, dataSource: []}
     }
 
    
    
     componentDidMount(){
+        var self = this;
+        self.setState({dataSource: [], isLoading: true});
         
-        return fetch("http://www.snpmed.com.br/api/medicamento?q=" + this.props.navigation.getParam('termo'))
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState(
-                    {
-                        isLoading: false,
-                        dataSource: responseJson.Data,
-                    }, 
-                    function(){
-                        
-                    }
-                );
+        const termo = this.props.navigation.getParam("termo");
 
-            })
-            .catch((error) =>{
-                console.error(error);
-            });
+        if(termo!=""){
+            medicamentoPesquisarTermo(termo).then(
+                t => {
+                    if(t!==undefined){
+                        self.setState({dataSource: t.Data});
+                    }
+                    self.setState({...this.state, isLoading: false});
+                }
+            )
+        }
     }
 
    
@@ -61,17 +47,18 @@ class BuscaMedicamento extends React.Component{
             );
         }
         return(
+            
+            (this.state.dataSource.length > 0) ?
             <ScrollView>
                 {
-                (this.state.dataSource.length > 0) ?
                 this.state.dataSource.map(t=>(
                     <Medicamento key={t.id} object={t} navigation={this.props.navigation}/>
                     )
                 )
-                :
-                (<Text style={{alignSelf: "center", fontSize: 20, padding: 10}}>Não foram encontrados medicamentos para o termo informado.</Text>)
                 }
             </ScrollView>
+            :
+            <EmptyResult/>
         );
     }
 }

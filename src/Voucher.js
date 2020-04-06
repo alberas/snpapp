@@ -1,14 +1,14 @@
 import React from 'react';
-import {ScrollView, ActivityIndicator, View, TouchableOpacity, Image, Text} from 'react-native';
+import {View, Alert} from 'react-native';
 import { retornaDadosPromocao  } from './api/evento';
 import { gerarVoucher  } from './api/evento';
 import { connect } from 'react-redux';
-import * as COLORS from './constants/colors';
 import Login from './Login';
-import { Card, CardItem, Left, Thumbnail, Body } from 'native-base';
+import DescontoCard from './components/DescontoCard/DescontoCard';
+import DefaultButton from './components/DefaultButton/DefaultButton';
+import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 
 var thumb = require('../assets/icons/default-avatar.jpg');
-var logo = require('../assets/icons/logo_small.png');
 
 class Voucher extends React.Component{
 
@@ -39,59 +39,30 @@ class Voucher extends React.Component{
         .then(
             x => {
                 if(x.ErrorCode > 0){
-                    alert(x.ErrorMsg);
+                    Alert.alert("Sinapse", x.ErrorMsg);
                 }else{
-                    alert("Voucher gerado com sucesso:" + x.Data.Voucher);
-                    this.props.navigation.navigate('Vouchers');
+                    Alert.alert("Sinapse", "Seu voucher foi gerado com sucesso: " + x.Data.Voucher);
+                    this.props.navigation.navigate('Descontos', {activeScreen: 2});
                 }
             }
         );
-        
-           
-    }
-
-    teste = () => {
-        
     }
 
     render(){
+        const navigate = this.props.navigation;
+        const obj = this.state.dataSource;
         if(this.props.usuario.id<=0){
-            return (<Login navigation={this.props.navigation} previousScreen="Voucher"/>);
+            return (<Login navigation={navigate} previousScreen="Descontos"/>);
         }
         return (
-            <View style={{flex:1}}>
-                <Card style={{flex:0}}>
-                        <CardItem>
-                            <Left>
-                                <Thumbnail source={thumb}/>
-                                <Body>
-                                    <Text>{this.state.dataSource.titulo}</Text>
-                                    <Text note>Valido até {this.state.dataSource.dt_validade}</Text>
-                                </Body>
-                            </Left>
-                        </CardItem>
-                        <CardItem cardBody>
-                            <Image source={logo} style={{height: 200, flex: 1}}/>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
-                                <Text>
-                                    {this.state.dataSource.descricao}
-                                </Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem>
-                            <Left style={{justifyContent: "center"}}>
-                                <TouchableOpacity 
-                                    style={{borderRadius: 15, backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10}}
-                                    onPress={() => this.gerarVoucher()}
-                                    >
-                                    <Text style={{color: COLORS.BUTTON_FONT_COLOR}}>Confirmar</Text>
-                                </TouchableOpacity>
-                            </Left>
-                        </CardItem>
-                    </Card>
-            </View>
+            <BackgroundImage>
+                <View style={{flex:1, marginBottom: 85}}>
+                    <DescontoCard obj={obj} navigation={navigate} showButton={false}/>
+                </View>
+                <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 5}}>
+                    <DefaultButton onPress={() => this.gerarVoucher()} label="Confirmar" fontSize="2"/>
+                </View>
+            </BackgroundImage>
         );
     }
 }

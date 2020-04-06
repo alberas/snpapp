@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Alert } from "react-native";
 import { Camera } from "expo-camera";
 import { useSelector } from 'react-redux';
 import * as Permissions from "expo-permissions";
-import { Icon } from "native-base";
+import { Icon, Title } from "native-base";
 import { imageSearch } from "./api/arquivo";
 
 import Loader from "./Loader";
@@ -25,6 +25,9 @@ export default function ScanSearch({ navigation }) {
       imageSearch(data.base64)
       .then(
         resp => {
+          if(resp==undefined || resp.Data==undefined){
+            throw "Erro";
+          }
           let param = "";
           resp.Data.map(t=>{
               if(param!=""){ 
@@ -36,6 +39,15 @@ export default function ScanSearch({ navigation }) {
           );
           
           navigation.navigate('ListaMedicamentos',{ids: param});
+        }
+      ).catch(
+        error => {
+          Alert.alert("SINAPSE", "Falha ao carregegar resultado.",
+            [
+              {text: "OK"}
+            ]
+          );
+          console.log(error);
         }
       );
     }
@@ -102,6 +114,10 @@ export default function ScanSearch({ navigation }) {
     </View>
   );
 }
+
+ScanSearch.navigationOptions = () => ({
+    title: "Reconhecimento de texto"
+});
 
 const styles = StyleSheet.create({
   container: {

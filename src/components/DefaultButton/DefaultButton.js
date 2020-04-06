@@ -1,34 +1,33 @@
-import React, { Component } from 'react';
-import { Text } from 'react-native';
-import {connect} from 'react-redux';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import * as COLORS from '../../constants/colors';
 import { Icon } from 'native-base';
 
-class DefaultButton extends Component {
-
-    showIcon = () => {
-        if(this.props.icon){
-            return <Icon name={this.props.icon}/>
-        }
+const showIcon = (iconName) => {
+    if(iconName!=""){
+        return <Icon name={iconName}/>
+    }else{
+        return null;
     }
-    render(){
-        return(
-            <TouchableOpacity
-                style={{
-                        borderWidth: 1, 
-                        borderRadius: 5, 
-                        backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR,  
-                        alignItems: "center", 
-                        justifyContent: "center", 
-                        padding: 10
-                    }}
-                    >
-                {this.showIcon}
-                <Text style={{color: COLORS.COMPONENT_FONT_COLOR}}>{this.props.text}</Text>
-            </TouchableOpacity>
-        );
-    };
 }
 
-export default connect()(DefaultButton);
+const showLabel = (label, fontSize) => {
+    var fs = 20;
+    if(fontSize==="2"){ 
+        fs = 25;
+    }
+    if(label!=""){
+        return <Text style={{color: COLORS.BUTTON_FONT_COLOR, textAlign: "center", fontSize: fs}}>{label}</Text>
+    }
+}
+export default function DefaultButton({label, icon, onPress, fontSize}){
+    return(
+        <TouchableOpacity
+                    style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, borderWidth:1, borderColor: COLORS.BUTTON_BORDER_COLOR, flexDirection: "row", padding: 5, alignSelf: "stretch", justifyContent: "center"}}
+                    onPress={()=>{ onPress() }}
+            >{showIcon(icon)}{showLabel(label, fontSize)}
+        </TouchableOpacity>
+    );
+}
+
+

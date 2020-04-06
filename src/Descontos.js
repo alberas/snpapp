@@ -1,105 +1,97 @@
 import React from 'react';
-import {ScrollView, ActivityIndicator, View, TouchableOpacity, Image} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import { retornaPromocoes } from './api/evento';
-import { Card, CardItem, Left, Thumbnail, Body, Text} from 'native-base';
+import { Icon} from 'native-base';
 import * as COLORS from './constants/colors';
 import Loader from './Loader';
+import { EmptyResult } from './components/EmptyResult/EmptyResult';
+import BackgroundImage from './components/BackgroundImage/BackgroundImage';
+import DescontoCard from './components/DescontoCard/DescontoCard';
+import Vouchers from './Vouchers';
+import Login from './Login';
+import { connect } from 'react-redux';
+import Promocoes from './Promocoes';
 
-var thumb = require('../assets/icons/default-avatar.jpg');
-var logo = require('../assets/icons/logo_small.png');
 
 class Descontos extends React.Component{
 
-    state = {
-        isLoading: true,
-        promocoes: []
-    }
-    componentDidMount = () => {
-        this.loadData();
-    }
-
-    loadData = () => {
-        this.setState({isLoading: true});
-        retornaPromocoes().then(
-            x => {
-                this.setState({ promocoes: x.Data, isLoading: false });
-            }
-        )
-    }
-
-    renderData = () => {
-        if(this.state.isLoading){
-            return (<Loader />);
+    constructor(props){
+        super(props);
+        this.state = { 
+            activeScreen: 1
         }
+    }
 
-        if(this.state.promocoes!==null){
-            
-            return (
-                this.state.promocoes.map(t=>(
-                    <Card style={{flex:0}} key={t.id}>
-                        <CardItem>
-                            <Left>
-                                <Thumbnail source={thumb}/>
-                                <Body>
-                                    <Text>{t.titulo}</Text>
-                                    <Text note>Valido até {t.dt_validade}</Text>
-                                </Body>
-                            </Left>
-                        </CardItem>
-                        <CardItem cardBody>
-                            <Image source={logo} style={{height: 200, flex: 1}}/>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
-                                <Text>
-                                    {t.descricao}
-                                </Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem>
-                            <Left style={{justifyContent: "center"}}>
-                                <TouchableOpacity 
-                                    style={{borderRadius: 15, backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10}}
-                                    onPress={() => this.props.navigation.navigate('Voucher', {idEvento: t.id})}
-                                    >
-                                    <Text style={{color: COLORS.BUTTON_FONT_COLOR}}>Gerar Voucher</Text>
-                                </TouchableOpacity>
-                            </Left>
-                        </CardItem>
-                    </Card>
-                    )
-                )
-                
-            )
-
+    componentDidMount = () => {
+        if(this.props.navigation.getParam("activeScreen")!=undefined){
+            this.setState({activeScreen: this.props.navigation.getParam("activeScreen")})
+        }
+    }
+    
+    renderActiveScreen = (navigate) => {
+        
+        if(this.state.activeScreen==1){
+            return (<Promocoes navigation={navigate}/>);
         }else{
-            return (
-                <Text>Nenhuma promoção encontrada</Text>);
+            if(this.props.usuario!=undefined){
+                return (<Vouchers navigation={navigate} usuario={this.props.usuario}/>)
+            }else{
+                navigate("Login", {previousScreen: "Descontos"});
+            }
         }
     }
 
     render(){
+        const {navigate} = this.props.navigation;
+        
+        if(this.state.isLoading){
+            return(<Loader/>);
+        }
         return (
-            <View style={{flex:1}}>
-                <View style={{flexDirection:"row", justifyContent: "space-between"}}>
+            <BackgroundImage>
+                <View style={{flexDirection:"row"}}>
                     <TouchableOpacity 
-                        style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10, width: 190, alignItems: "center"}} 
-                        onPress={() => this.loadData()}>
-                        <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>Atualizar</Text>
+                        style={style.topButton}
+                        onPress={() => this.setState({activeScreen: 1})}>
+                            <Icon name="refresh" style={{color: "#fff", marginRight: 2}}/>
+                        <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>Descontos</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
-                        style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, padding: 10, width: 190, alignItems: "center"}} 
-                        onPress={() => this.props.navigation.navigate('Vouchers')}>
+                        style={style.topButton} 
+                        onPress={() => this.setState({activeScreen: 2})}>
+                        <Icon name="grid" style={{color: "#fff", marginRight: 2 }}/>
                         <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>Meus Vouchers</Text>
                     </TouchableOpacity>
                 </View>
-                <ScrollView style={{flex:1}}>
-                {this.renderData()}
-                </ScrollView>
-            </View>
+                { this.renderActiveScreen(navigate) }
+            </BackgroundImage>
         );
     }
 }
 
+const style = StyleSheet.create({
+    topButton: {
+        backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, 
+        borderColor: COLORS.BUTTON_BORDER_COLOR,
+        borderWidth: 1,
+        margin: 1,
+        padding: 10,  
+        flex: 1,
+        flexDirection: "row",
+        justifyContent:"center", 
+        alignItems: "center"
+        
+    }
+});
 
-export default Descontos;
+const mapStateToProps = state => {
+    return {
+        usuario: state.usuario
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Descontos);

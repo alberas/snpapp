@@ -1,5 +1,3 @@
-import { Form } from "native-base";
-
 const API_URL = "http://snpmed.com.br/api";
 
 export const medicamentosBuscar = async (ids) => {
@@ -15,5 +13,21 @@ export const medicamentosBuscar = async (ids) => {
     }
 }
 
+export const medicamentoPesquisarTermo = async(termo) => {
+    const url = API_URL + "/medicamento";
+    const formData = new FormData();
+    formData.append("q", termo);
+    try{
+        const response = await fetch(url,{
+                method: "POST",
+                body:  formData
+        });
+        const responseJson = await response.json();
+        return responseJson;
+    }catch(error){
+        console.log(error);
+    }
+
+}
 
 

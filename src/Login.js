@@ -1,28 +1,22 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import * as actions from './store/actions';
 import {connect} from 'react-redux';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import { Text, TextInput, StyleSheet, Alert } from 'react-native';
+import { KeyboardAwareScrollView }  from 'react-native-keyboard-aware-scrollview';
+import * as actions from './store/actions';
 import  * as COLORS from './constants/colors'
-import AppLogo from './components/AppLogo/AppLogo';
 import Loader from './Loader';
-import SectionTitle from './components/SectionTitle/SectionTitle';
+import { efetuarLogin } from './api/login';
+import { cadastrar } from './api/usuario';
+import { CardItem, Card, Body } from 'native-base';
+import BackgroundImage from './components/BackgroundImage/BackgroundImage';
+import DefaultButton from './components/DefaultButton/DefaultButton';
 
 class Login extends React.Component{
+
     static navigationOptions = {
-        title: 'Login',
-        headerTitle: () => <AppLogo />,
-        headerLeft: () => {
-            return (<Icon name="arrow-back" onPress={() => navigation.goBack()}/>)
-        },
-        headerStyle: {
-            backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
-        },
-        headerTintColor: COLORS.HEADER_FONT_COLOR,
-        headerTitleStyle: {
-            fontWeight: 'bold',
-            color: COLORS.HEADER_FONT_COLOR
-        },
+        title: 'Login'
+        
     };
 
     state = {
@@ -37,109 +31,148 @@ class Login extends React.Component{
         loading: false
     }
 
-    efetuarLogin = () => {
-        const {navigate} = this.props.navigation;
-
-        this.setState({...this.state,msg:""});
+    
+    
+    efetuarLogin = (navigate) => {
 
         const txtLogin = this.state.txtLogin;
         const txtSenha = this.state.txtSenha;
 
-
-        fetch('http://snpmed.com.br/api/login?txtLogin='+ txtLogin +'&txtSenha=' + txtSenha)
-        .then((response) => response.json())
-        .then((responseJson) => {
-
-            if(parseInt(responseJson.Data.id) > 0){
-                this.props.loginUser(responseJson.Data); 
-                if(this.props.previousScreen)   {
-                    navigate(this.props.previousScreen);    
+        efetuarLogin(txtLogin, txtSenha).then(
+            (resp) => {
+                if(parseInt(resp.Data.id) > 0){
+                    this.props.loginUser(resp.Data); 
+                    if(this.props.previousScreen)   {
+                        navigate(this.props.previousScreen);    
+                    }else{
+                        navigate('Home');
+                    }
                 }else{
-                    navigate('Home');
+                    Alert.alert("SINAPSE", error, [
+                        {"text": "Dados incorretos"}
+                    ]);
                 }
-            }else{
-                this.setState({...this.state, msg: "Dados incorretos" });
             }
+        );
 
-        })
-        .catch((error) =>{
-            console.error(error);
+        
+        
+    }
+
+    cadastrar = () => {
+        const {navigation} = this.props.navigation;
+
+        const txtNome = this.state.txtNome;
+        const txtEmail = this.state.txtEmail;
+        const txtCpf = this.state.txttxtCpfNome;
+        const txtSenha1 = this.state.txtSenha1;
+        const txtSenha2 = this.state.txtSenha2;
+
+        cadastrar(txtNome, txtEmail, txtCpf, txtSenha1, txtSenha2).then(
+            (resp) => {
+                console.log(`\r\n\r\n` + resp.Data.id + `\r\n\r\n`);
+                if(parseInt(resp.Data.id) > 0){
+                    this.props.loginUser(resp.Data); 
+                    if(this.props.previousScreen)   {
+                        navigation.navigate(this.props.previousScreen);    
+                    }else{
+                        navigation.navigate('Home');
+                    }
+                }else{
+                    Alert.alert("SINAPSE", error, [
+                        {"text": "Dados incorretos"}
+                    ]);
+                }
+            }
+        ).catch((error) =>{
+            Alert.alert("SINAPSE", "Favor informar CPF e senha.", [
+                {"text": "OK"}
+            ]);
         });
+
+        
         
     }
 
     render(){
+        const {navigate} = this.props.navigation;
+
         if(this.state.loading){
             return (<Loader/>);
         }
         return(
-            <ScrollView style={style.screen}>
-                <SectionTitle texto="Login"/>
-                    <View style={style.box}>
-                    <Text style={{alignSelf:"center"}}>Digite seus dados para acessar</Text>
-                    <Text  style={{alignSelf:"center"}}>{this.state.msg}</Text>
-                    <TextInput 
-                        onChangeText={(text) => this.setState({txtLogin: text})} 
-                        style={style.input} 
-                        placeholder="Digite seu CPF"
-                        />
-                    <TextInput 
-                        secureTextEntry={true}
-                        onChangeText={(text) => this.setState({txtSenha: text})} 
-                        style={style.input} 
-                        placeholder="Digite sua senha"
-                        />
-                    <TouchableOpacity
-                        style={style.button}
-                        onPress={() => this.efetuarLogin()}>
-                        <Text>ACESSAR</Text>
-                    </TouchableOpacity>
-                </View>
-                <SectionTitle texto="Cadastro"/>
-                <View style={style.box}>
-                    <Text  style={{alignSelf:"center"}}>{this.state.msg}</Text>
-                    <TextInput 
-                        onChangeText={(text) => this.setState({txtNome: text})} 
-                        style={style.input} 
-                        placeholder="Digite seu Nome"
-                        />
-                    <TextInput 
-                        onChangeText={(text) => this.setState({txtEmail: text})} 
-                        style={style.input} 
-                        placeholder="Digite seu e-mail"
-                        />
-                    <TextInput 
-                        onChangeText={(text) => this.setState({txtCpf: text})} 
-                        style={style.input} 
-                        placeholder="Digite seu CPF"
-                        />
-                    <TextInput 
-                        secureTextEntry={true}
-                        onChangeText={(text) => this.setState({txtSenha1: text})} 
-                        style={style.input} 
-                        placeholder="Digite sua senha"
-                        />
-                    <TextInput 
-                        secureTextEntry={true}
-                        onChangeText={(text) => this.setState({txtSenha2: text})} 
-                        style={style.input} 
-                        placeholder="Confirme sua senha"
-                        />
-                    <TouchableOpacity
-                        style={style.button}
-                        onPress={() => this.efetuarLogin()}>
-                        <Text>CADASTRAR</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+            <BackgroundImage>
+                <KeyboardAwareScrollView style={style.screen}>
+                    <Card>
+                        <CardItem header bordered>
+                            <Text>Login</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <TextInput 
+                                    onChangeText={(text) => this.setState({txtLogin: text})} 
+                                    style={style.input} 
+                                    placeholder="Digite seu CPF"
+                                    />
+                                <TextInput 
+                                    secureTextEntry={true}
+                                    onChangeText={(text) => this.setState({txtSenha: text})} 
+                                    style={style.input} 
+                                    placeholder="Digite sua senha"
+                                    />
+                                <DefaultButton label="Acessar" onPress={() => this.efetuarLogin(navigate)}/>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                    <Card>
+                        <CardItem header bordered>
+                            <Text>Cadastro</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <TextInput 
+                                    onChangeText={(text) => this.setState({txtNome: text})} 
+                                    style={style.input} 
+                                    placeholder="Digite seu Nome"
+                                    />
+                                <TextInput 
+                                    onChangeText={(text) => this.setState({txtEmail: text})} 
+                                    style={style.input} 
+                                    placeholder="Digite seu e-mail"
+                                    />
+                                <TextInput 
+                                    onChangeText={(text) => this.setState({txtCpf: text})} 
+                                    style={style.input} 
+                                    placeholder="Digite seu CPF"
+                                    />
+                                <TextInput 
+                                    secureTextEntry={true}
+                                    onChangeText={(text) => this.setState({txtSenha1: text})} 
+                                    style={style.input} 
+                                    placeholder="Digite sua senha"
+                                    />
+                                <TextInput 
+                                    secureTextEntry={true}
+                                    onChangeText={(text) => this.setState({txtSenha2: text})} 
+                                    style={style.input} 
+                                    placeholder="Confirme sua senha"
+                                    />
+                                
+                                <DefaultButton label="Enviar" onPress={() => this.cadastrar()}/>
+
+                            </Body>
+                        </CardItem>
+                    </Card>
+                </KeyboardAwareScrollView>
+            </BackgroundImage>
         );
     };
 }
 
-style = StyleSheet.create({
+const style = StyleSheet.create({
     screen: {
         flex:1, 
-        backgroundColor: COLORS.SCREEN_BACKGROUND_COLOR
+        backgroundColor: COLORS.SCREEN_BACKGROUND_COLOR,
     },
     box:{
         padding: 5,

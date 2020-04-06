@@ -1,13 +1,11 @@
 import React from 'react';
 import {ScrollView, Text, View, Platform, TextInput, StyleSheet, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon, Picker, Card, CardItem, Body } from 'native-base';
-import AppLogo from './components/AppLogo/AppLogo';
 import  * as COLORS from './constants/colors'
 import * as Calendar from 'expo-calendar';
 import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
 import * as DataUtil from './util/DataUtil';
+import DefaultButton from './components/DefaultButton/DefaultButton';
 
 const retornaDataAtual = () => {
     const dt = new Date();
@@ -45,23 +43,10 @@ const calendarPrefix = "[sinapse]";
 
 class Agendar extends React.Component{
 
-    static navigationOptions  = ({navigation}) => {
-        return {
-            title: 'Agendamento',
-            headerTitle: () => <AppLogo />,
-            headerLeft: () => {
-                return (<Icon name="arrow-back" onPress={() => navigation.goBack()} style={{margin: 5}}/>)
-            },
-            headerStyle: {
-                backgroundColor: COLORS.HEADER_BACKGROUND_COLOR
-            },
-            headerTintColor: COLORS.HEADER_FONT_COLOR,
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                color: COLORS.HEADER_FONT_COLOR
-            }
-        }
+    static navigationOptions =  {
+        title: 'Agendamento'
     };
+    
     constructor(props){
         super(props);
         this.state = {...INITIAL_STATE};
@@ -233,11 +218,11 @@ class Agendar extends React.Component{
                                         date={this.state.dataInicial}
                                         mode="datetime"
                                         placeholder="Dia/Horário inicial"
-                                        format="DD/MM/YYYY h:mm"
+                                        format="DD/MM/YYYY HH:mm"
                                         minDate={dataAtual}
                                         maxDate={dataFinal}
-                                        confirmBtnText="Confirma"
-                                        cancelBtnText="Cancela"
+                                        confirmBtnText="Confirmar"
+                                        cancelBtnText="Cancelar"
                                         showIcon={false}
                                         is24Hour={true}
                                         customStyles={{
@@ -286,12 +271,8 @@ class Agendar extends React.Component{
                     </Card>
                     { this.confirmar() }
                 </ScrollView>
-                <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
-                    <TouchableOpacity 
-                        style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, borderWidth:1, borderColor: COLORS.BUTTON_BORDER_COLOR, padding: 10, margin: 5, flex: 1, alignItems: "center"}}
-                        onPress={() => this.gravar()}>
-                        <Text style={{fontSize: 25}}>Agendar</Text>
-                    </TouchableOpacity>
+                <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 5}}>
+                    <DefaultButton onPress={() => this.gravar()} label="Agendar" fontSize="2"/>
                 </View>
             </View>
         );
