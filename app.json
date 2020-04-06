@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "br.com.sinapse.sinapsemed",
-      "versionCode": 1
+      "versionCode": 3
     }
   }
 }
