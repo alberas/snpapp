@@ -11,6 +11,7 @@ import { cadastrar } from './api/usuario';
 import { CardItem, Card, Body } from 'native-base';
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 import DefaultButton from './components/DefaultButton/DefaultButton';
+import * as pj from "./api/pj";
 
 class CadastroFarmacia extends React.Component{
 
@@ -22,30 +23,54 @@ class CadastroFarmacia extends React.Component{
     state = {
         msg: "",
         loading: true,
+        placeId: "",
         txtNome: "",
         txtEndereco: "",
-        txtFone: ""
+        txtFone: "",
+        placeExists: false,
     }
 
     
     
     componentDidMount(){
         const navigation = this.props.navigation;
-        this.setState({txtNome: navigation.getParam("txt_nome"), txtEndereco: navigation.getParam("txt_endereco"), loading: false});
+        const placeId = navigation.getParam("place_id");
+        const txtNome = navigation.getParam("txt_nome");
+        const txtEndereco = navigation.getParam("txt_endereco");
+        pj.buscaDados(placeId).then(
+            resp => {
+                if(resp.Data != null){
+                    var obj = resp.Data;
+                    this.setState({placeId: placeId, txtNome: obj.nome, txtEndereco: obj.endereco, txtFone: obj.fone, placeExists: true, loading: false});
+                }else{
+                    this.setState({placeId: placeId, txtNome: txtNome, txtEndereco: txtEndereco, loading: false});
+                }
+            }
+        )
         return {};
-        
     }
 
     cadastrar = () => {
-        const {navigation} = this.props.navigation;
 
+        const placeId = this.state.placeId;
         const txtNome = this.state.txtNome;
         const txtEndereco = this.state.txtEndereco;
         const txtFone = this.state.txtFone;
-
-
         
-        
+        var method = "inserir";
+        if(this.state.placeExists){
+            method = "atualizar";
+        }
+        pj.inserirAtualizar(placeId, method, txtNome, txtEndereco, txtFone).then(
+            resp => {
+                if(resp.ErrorCode != 0){
+                    Alert.alert("SINAPSE", resp.ErrorMsg);
+                }else{
+                    Alert.alert("SINAPSE", "Dados gravados com sucesso");
+                }
+            }
+        );
+
     }
 
     render(){

@@ -5,7 +5,7 @@ import { Icon } from 'native-base';
 
 const showIcon = (iconName) => {
     if(iconName!=""){
-        return <Icon name={iconName}/>
+        return <Icon name={iconName} style={{position: "absolute", left: 5}}/>
     }else{
         return null;
     }
@@ -23,7 +23,7 @@ const showLabel = (label, fontSize) => {
 export default function DefaultButton({label, icon, onPress, fontSize}){
     return(
         <TouchableOpacity
-                    style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, borderWidth:1, borderColor: COLORS.BUTTON_BORDER_COLOR, flexDirection: "row", padding: 5, alignSelf: "stretch", justifyContent: "center"}}
+                    style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, borderWidth:1, borderColor: COLORS.BUTTON_BORDER_COLOR, flexDirection: "row", padding: 5, alignSelf: "stretch", justifyContent: "center", margin: 1}}
                     onPress={()=>{ onPress() }}
             >{showIcon(icon)}{showLabel(label, fontSize)}
         </TouchableOpacity>

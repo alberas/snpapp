@@ -22,6 +22,7 @@
         "react-dom": "16.8.3",
         "react-native": "0.59.10",
         "react-native-camera": "^3.16.0",
+        "react-native-communications": "^2.2.1",
         "react-native-create-thumbnail": "^1.0.5",
         "react-native-datepicker": "^1.7.2",
         "react-native-file": "^1.0.0",
@@ -52,5 +53,5 @@
         "preset": "react-native"
     },
     "private": true,
-    "version": "0.0.0"
+    "version": "1.0.0"
 }
