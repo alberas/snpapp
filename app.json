@@ -9,7 +9,7 @@
     "version": "1.0.0",
     "entryPoint": "node_modules/expo/AppEntry.js",
     "splash": {
-        "image": "./assets/logos/7FFF00.png"
+        "image": "./assets/logos/logo_small.png"
     },
     "platforms": [
       "ios",
@@ -23,6 +23,22 @@
     "android": {
       "package": "br.com.sinapse.sinapsemed",
       "versionCode": 3
+    },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": [
+        "expo.ts",
+        "expo.tsx",
+        "expo.js",
+        "expo.jsx",
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "wasm",
+        "svg"
+      ]
     }
   }
 }
