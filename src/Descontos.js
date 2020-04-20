@@ -11,10 +11,28 @@ import Vouchers from './Vouchers';
 import Login from './Login';
 import { connect } from 'react-redux';
 import Promocoes from './Promocoes';
+import HeaderLeftButton from './components/HeaderLeftButton/HeaderLeftButton';
 
 
 class Descontos extends React.Component{
 
+    static navigationOptions = {
+        headerStyle: {
+            backgroundColor: "#FFF",
+            height: 80,
+            shadowColor: 'transparent',
+            borderBottomWidth: 0
+        },
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: "#F25C5C",
+            fontSize: 25
+        },
+        headerTitle: "Descontos & Promoções",
+        headerLeft: (navigation) => (
+            <HeaderLeftButton  navigation={navigation}/>
+        )
+    }
     constructor(props){
         super(props);
         this.state = { 
@@ -41,6 +59,42 @@ class Descontos extends React.Component{
         }
     }
 
+
+    retornaSelecaoAba = (valor) => {
+        var topButton = {
+            borderRadius:5,
+            margin: 1,
+            padding: 10,  
+            flex: 1,
+            justifyContent:"center", 
+            alignItems: "center"
+            
+        }
+        if(valor==this.state.activeScreen){
+            return {
+                ...topButton,
+                backgroundColor: "#FFF",
+                borderWidth: 1,
+                borderColor: "#F25C5C",
+            }
+        }else{
+            return {
+                ...topButton,
+                borderWidth: 0,
+                backgroundColor: "#F25C5C",
+            }
+            
+        }
+    }
+    
+    retornaCorTextoAbaSelecionada = (valor) => {
+        if(valor==this.state.activeScreen){
+            return { color: "#F25C5C", fontSize: 20 }
+        }else{
+            return { color:  "#fff", fontSize: 20 }
+        }
+    }
+
     render(){
         const {navigate} = this.props.navigation;
         
@@ -49,18 +103,16 @@ class Descontos extends React.Component{
         }
         return (
             <BackgroundImage>
-                <View style={{flexDirection:"row"}}>
+                <View style={{flexDirection:"row", margin: 10, justifyContent: "space-around"}}>
                     <TouchableOpacity 
-                        style={style.topButton}
+                        style={this.retornaSelecaoAba(1)}
                         onPress={() => this.setState({activeScreen: 1})}>
-                            <Icon name="refresh" style={{color: "#fff", marginRight: 2}}/>
-                        <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>Descontos</Text>
+                        <Text style={this.retornaCorTextoAbaSelecionada(1)}>Promoções disponíveis</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
-                        style={style.topButton} 
+                        style={this.retornaSelecaoAba(2)} 
                         onPress={() => this.setState({activeScreen: 2})}>
-                        <Icon name="grid" style={{color: "#fff", marginRight: 2 }}/>
-                        <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>Meus Vouchers</Text>
+                        <Text style={this.retornaCorTextoAbaSelecionada(2)}>Meus Vouchers</Text>
                     </TouchableOpacity>
                 </View>
                 { this.renderActiveScreen(navigate) }
@@ -69,20 +121,7 @@ class Descontos extends React.Component{
     }
 }
 
-const style = StyleSheet.create({
-    topButton: {
-        backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, 
-        borderColor: COLORS.BUTTON_BORDER_COLOR,
-        borderWidth: 1,
-        margin: 1,
-        padding: 10,  
-        flex: 1,
-        flexDirection: "row",
-        justifyContent:"center", 
-        alignItems: "center"
-        
-    }
-});
+
 
 const mapStateToProps = state => {
     return {

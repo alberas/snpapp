@@ -15,7 +15,7 @@ class Farmacia extends React.Component{
         this.state = { 
             dataSource: [],
             isLoading: true,
-            mensagem: `Olá,\r\nEncontrei esse número através do SINAPSE MED. Gostaria de fazer uma contação.`,
+            mensagem: `Olá,\r\nEncontrei esse número através do SINAPSE MED. Gostaria de fazer uma cotação.`,
             placeId: 0,
             lat: 0,
             long: 0

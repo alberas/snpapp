@@ -8,14 +8,29 @@ import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 import {buscaFarmaciasProximas} from './api/google';
 import { Farmacia } from './components/Farmacia/Farmacia';
 import { EmptyResult } from './components/EmptyResult/EmptyResult';
+import HeaderLeftButton from './components/HeaderLeftButton/HeaderLeftButton';
 
 
 
 class BuscaFarmacia extends React.Component{
 
     static navigationOptions = {
-        title: 'Buscar farmácias',
-    };
+        headerStyle: {
+            backgroundColor: "#FFF",
+            height: 80,
+            shadowColor: 'transparent',
+            borderBottomWidth: 0
+        },
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: "#F25C5C",
+            fontSize: 25
+        },
+        headerTitle: "Farmácias proximas",
+        headerLeft: (navigation) => (
+            <HeaderLeftButton  navigation={navigation}/>
+        )
+    }
 
     constructor(props){
         super(props);
@@ -69,14 +84,21 @@ class BuscaFarmacia extends React.Component{
         return (
             <BackgroundImage>
                 {this.state.dataSource.length > 0 ? 
-                    <ScrollView>
-                        {
-                            this.state.dataSource.map(t=>(
-                                <Farmacia key={t.place_id} obj={t} initialLat={this.state.lat} initialLng={this.state.lng} navigation={this.props.navigation}/>
+                    <View>
+                        <View style={{padding: 10, borderRadius: 5, borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#F3F3F3"}}>
+                            <View style={{backgroundColor: "#FFEEEE", width: 30, height: 30, alignItems: "center", justifyContent: "center"}}>
+                                <Image source={require('../assets/icons/ic_location_on.png')} style={{width: 20, height: 20}}/>
+                            </View>
+                        </View>
+                        <ScrollView>
+                            {
+                                this.state.dataSource.map(t=>(
+                                    <Farmacia key={t.place_id} obj={t} initialLat={this.state.lat} initialLng={this.state.lng} navigation={this.props.navigation}/>
+                                    )
                                 )
-                            )
-                        }
-                    </ScrollView>
+                            }
+                        </ScrollView>
+                    </View>
                     :
                     <EmptyResult/>
                 }

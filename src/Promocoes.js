@@ -8,7 +8,6 @@ import { EmptyResult } from './components/EmptyResult/EmptyResult';
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 import DescontoCard from './components/DescontoCard/DescontoCard';
 import Vouchers from './Vouchers';
-import Login from './Login';
 import { connect } from 'react-redux';
 
 
@@ -39,7 +38,7 @@ class Promocoes extends React.Component{
         return(
 
             this.state.promocoes.length > 0 ?
-                <ScrollView style={{flex:1}}>
+                <ScrollView style={{flex:1, backgroundColor: "#fff"}}>
                     { this.state.promocoes.map(
                         t=>
                             (<DescontoCard  key={t.id} navigation={navigation} obj={t}/>)

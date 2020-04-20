@@ -3,7 +3,7 @@ import {Image} from 'react-native';
 import MapView from 'react-native-maps';
 import  * as COLORS from './constants/colors'
 
-var logo = require('../assets/icons/logo_small.png');
+var logo = require('../assets/logos/logo_small.png');
 
 class Local extends React.Component{
 

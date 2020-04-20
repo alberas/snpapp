@@ -14,18 +14,18 @@ import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 
 
 
-const imgDescontos = require("../assets/icons/bt1.png");
-const imgDicas = require("../assets/icons/bt2.png");
-const imgFarmacias = require("../assets/icons/bt3.png");
-const imgAgendamento = require("../assets/icons/bt5.png");
+const imgDescontos = require("../assets/icons/coupon/coupon.png");
+const imgDicas = require("../assets/icons/care/care.png");
+const imgFarmacias = require("../assets/icons/location/location.png");
+const imgAgendamento = require("../assets/icons/drug/drug.png");
 
 class Home extends React.Component {
 
     static navigationOptions = {
-        headerTitle: () => <AppLogo />,
+        title: '',
         headerStyle: {
             backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
-            height: 100,
+            height: 40,
             shadowColor: 'transparent',
             borderBottomWidth: 0
         },
@@ -41,15 +41,12 @@ class Home extends React.Component {
 
         return ( 
             <BackgroundImage>
-                <View style={{display: "flex", flex: 2, padding: 2, backgroundColor: COLORS.HEADER_BACKGROUND_COLOR}}>
+                <ScrollView>
+                    
                     <SearchBox navigation = { this.props.navigation }/>
-                    <Text style={{textAlign: "center", padding: 5}}>
-                        Digite o nome do medicamento e faça a programação dos horários de administração ou faça um pesquisa por reconhecimento clicando na icone da camêra.
-                    </Text>
-                </View>   
-                <View  style={{display: "flex", flex: 7, paddingTop: 7}}>
-                    <ScrollView>
-                        <HomeButton rotulo = {`Descontos e Promoções`}
+                          
+                    <View  style={{display: "flex", flex: 6, paddingTop: 7, backgroundColor: "#fff"}}>
+                        <HomeButton rotulo = {`Descontos & Promoções`}
                             descricao="Encontre as melhores ofertas disponíveis na cidade"
                             navigation = { this.props.navigation }
                             telaDestino = "Descontos" 
@@ -67,15 +64,15 @@ class Home extends React.Component {
                             telaDestino = "Locais" 
                             image={imgFarmacias}/>
 
-                        <HomeButton rotulo = {`Lembretes de medicamentos`}
+                        <HomeButton rotulo = {`Lembretes`}
                             descricao="Monitore os horários de administração de medicações"
                             navigation = { this.props.navigation }
                             telaDestino = "Agendamento" 
                             image={imgAgendamento}/>
                         
                         <Text style={{textAlign: "center"}}>SINAPSE® 2020</Text>
-                    </ScrollView> 
-                </View>
+                    </View>
+                </ScrollView> 
             </BackgroundImage>
         );
     };

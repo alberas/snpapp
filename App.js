@@ -30,6 +30,7 @@ import Vouchers from './src/Vouchers';
 import Documento from './src/Documento';
 import ListaMedicamentos from './src/ListaMedicamentos';
 import CadastroFarmacia from './src/CadastroFarmacia';
+import Cadastro from './src/Cadastro';
 
 import * as COLORS from './src/constants/colors';
 
@@ -56,7 +57,8 @@ const MainNavigator = createStackNavigator({
     Dicas: {screen: Dicas},
     Voucher: {screen: Voucher},
     Documento: {screen: Documento},
-    CadastroFarmacia: {screen: CadastroFarmacia}
+    CadastroFarmacia: {screen: CadastroFarmacia},
+    Cadastro: {screen: Cadastro}
   },
   {
     initialRouteName: 'Home',
@@ -98,7 +100,7 @@ export default class App extends React.Component {
     }
 
     async _cacheResourcesAsync() {
-      const images = [require('./assets/icons/logo_small.png')];
+      const images = [require('./assets/logos/logo_small.png')];
   
       const cacheImages = images.map(image => {
         return Asset.fromModule(image).downloadAsync();

@@ -3,23 +3,25 @@ import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { Icon } from 'native-base';
 import  * as COLORS from './constants/colors'
 
-var logo = require('../assets/icons/logo_small.png');
+var logo = require('../assets/logos/logo_small.png');
 
 class Arquivos extends React.Component{
 
     
     static navigationOptions = {
-        title: 'Login',
-        headerTitle: () => <Image source={logo}/>,
         headerStyle: {
-            backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
+            backgroundColor: "#FFF",
+            height: 100,
         },
-        headerTintColor: COLORS.HEADER_FONT_COLOR,
         headerTitleStyle: {
             fontWeight: 'bold',
-            color: COLORS.HEADER_FONT_COLOR
+            color: "#F25C5C"
         },
-    };
+        headerTitle: "Arquivos",
+        headerLeft: () => (
+            <HeaderLeftButton onPress={()=>this.props.navigation.navigate('Home')}/>
+        )
+    }
     
     render(){
 

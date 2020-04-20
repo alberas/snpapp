@@ -1,18 +1,17 @@
 
-export const HEADER_BACKGROUND_COLOR = '#52658c';
+export const HEADER_BACKGROUND_COLOR = '#F25C5C';
 export const HEADER_FONT_COLOR = '#BFD2EE';
 
 export const SCREEN_BACKGROUND_COLOR = '#FFF';
 export const SCREEN_FONT_COLOR = '#000';
 
 export const BUTTON_BORDER_COLOR = '#52658c';
-export const BUTTON_BACKGROUND_COLOR = '#BFD2EE';
+export const BUTTON_BACKGROUND_COLOR = '#F25C5C';
 export const BUTTON_FONT_COLOR = '#FFF';
-//export const COMPONENT_BACKGROUND_COLOR = '#2D2D2D';
 
-export const COMPONENT_BACKGROUND_COLOR = '#BFD2EE';
+export const COMPONENT_BACKGROUND_COLOR = '#F2A0A061';
 export const COMPONENT_FONT_COLOR = '#FFF';
-export const COMPONENT_BORDER_COLOR = '#FFF';
+export const COMPONENT_BORDER_COLOR = '#F2A0A0';
 
 export const LIST_ITEM_BACKGROUND_COLOR = '#B0C4DE';
 

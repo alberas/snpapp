@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 
 
@@ -18,6 +18,10 @@ const randomInt = (min, max) => {
 
 class AppLogo extends Component {
 
+    render(){
+        return <View/>
+    }
+    
     /*
     render(){
         const index = randomInt(0,5);
@@ -36,10 +40,10 @@ class AppLogo extends Component {
                 return(<Image source={require("../../../assets/logos/1E90FF.png")}/>);
         }
     };
-    */
-   render(){
+    render(){
         return(<Image source={require("../../../assets/logos/7FFF00.png")}/>);
-   }
+    }
+    */
 }
 
 export default AppLogo;

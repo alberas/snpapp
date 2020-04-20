@@ -1,40 +1,32 @@
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
-import {Icon } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import * as COLORS from '../../constants/colors';
+
+
 
 
 class HomeButton extends Component {
 
     renderImage = (image) => {
-        return(<Image source={image} style={{width: 70, height: 70, flex: 2 }}/>);
+        return(<Image source={image} width="70" height="70"/>);
     }
-
-    renderIcon = () => {
-        return(<Icon name="list" style={{position: "absolute", left:5, flex: 2 }}/>);
-    }
-
-    configure = (image) => {
-        if(image != ""){
-            return this.renderImage(image);
-        }else{
-            return this.renderIcon()  
-        }
-    }
+    
 
     render(){
         const {navigate} = this.props.navigation;
 
+
         return(
             <TouchableOpacity
                 onPress={() => navigate(this.props.telaDestino)}
-                style={{marginBottom: 10, flexDirection: "row", backgroundColor: "rgba(0,0,0,0.3)", padding: 7}}
+                style={{margin: 10, flexDirection: "row", borderColor:"#F3F3F3", borderWidth:1, borderRadius: 10}}
                 >
-                {this.configure(this.props.image)}
-                <View style={{flex: 8}}>
-                    <Text style={{fontSize: 20, color: COLORS.BUTTON_FONT_COLOR}}>{this.props.rotulo}</Text>
-                    <Text style={{fontSize: 15, color: "#000"}}>{this.props.descricao}</Text>
+                <View style={{height: 100, width: 100, borderColor:"#F3F3F3", borderRightWidth:1, borderBottomRightRadius: 10, justifyContent: "center", alignItems: "center"}}>
+                    {this.renderImage(this.props.image)}
+                </View>
+                <View style={{flex: 8, borderColor:"#F3F3F3", padding: 15 }}>
+                    <Text style={{fontSize: 15, fontWeight: "bold"}}>{this.props.rotulo}</Text>
+                    <Text style={{fontSize: 12, lineHeight: 20, marginTop: 8}}>{this.props.descricao}</Text>
                 </View>
             </TouchableOpacity>
         );

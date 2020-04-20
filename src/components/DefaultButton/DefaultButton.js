@@ -12,9 +12,9 @@ const showIcon = (iconName) => {
 }
 
 const showLabel = (label, fontSize) => {
-    var fs = 20;
+    var fs = 25;
     if(fontSize==="2"){ 
-        fs = 25;
+        fs = 35;
     }
     if(label!=""){
         return <Text style={{color: COLORS.BUTTON_FONT_COLOR, textAlign: "center", fontSize: fs}}>{label}</Text>
@@ -23,7 +23,7 @@ const showLabel = (label, fontSize) => {
 export default function DefaultButton({label, icon, onPress, fontSize}){
     return(
         <TouchableOpacity
-                    style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, borderWidth:1, borderColor: COLORS.BUTTON_BORDER_COLOR, flexDirection: "row", padding: 5, alignSelf: "stretch", justifyContent: "center", margin: 1}}
+                    style={{backgroundColor: COLORS.BUTTON_BACKGROUND_COLOR, borderColor: COLORS.BUTTON_BORDER_COLOR, flexDirection: "row", padding: 15, alignSelf: "stretch", justifyContent: "center", margin: 1, borderRadius: 10}}
                     onPress={()=>{ onPress() }}
             >{showIcon(icon)}{showLabel(label, fontSize)}
         </TouchableOpacity>

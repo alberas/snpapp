@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, ImageBackground } from "react-native";
-import { COLORS } from "./../../constants/colors";
+import * as  COLORS  from "./../../constants/colors";
 
 const img = require("../../../assets/icons/bg.jpg");
 
 const BackgroundImage = (props) => {
+    return (
+        <SafeAreaView style={{flex: 1, backgroundColor: "#fff"}}>
+            {props.children}
+        </SafeAreaView>
+    );
+    
     return (
         <SafeAreaView style={{flex: 1}}>
             <ImageBackground source={img} style={styles.backgroundImage}>
@@ -12,15 +18,9 @@ const BackgroundImage = (props) => {
             </ImageBackground>
         </SafeAreaView>
 
-    )
+    );
     
-    /*
-   return (
-        <SafeAreaView style={{flex: 1}}>
-            {props.children}
-        </SafeAreaView>
-    )
-    */
+    
 }
 
 
