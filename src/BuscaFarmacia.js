@@ -9,7 +9,8 @@ import {buscaFarmaciasProximas} from './api/google';
 import { Farmacia } from './components/Farmacia/Farmacia';
 import { EmptyResult } from './components/EmptyResult/EmptyResult';
 import HeaderLeftButton from './components/HeaderLeftButton/HeaderLeftButton';
-
+import Pin from '../assets/icons/ic_location_on_red.svg';
+import { connect } from 'react-redux';
 
 
 class BuscaFarmacia extends React.Component{
@@ -27,7 +28,7 @@ class BuscaFarmacia extends React.Component{
             fontSize: 25
         },
         headerTitle: "Farmácias proximas",
-        headerLeft: (navigation) => (
+        headerLeft: ({navigation}) => (
             <HeaderLeftButton  navigation={navigation}/>
         )
     }
@@ -51,6 +52,7 @@ class BuscaFarmacia extends React.Component{
                 var lng = position.coords.longitude;
 
                 this.setState({...this.state, lat: lat, lng: lng});
+                this.props.setCoordenadas({lat: lat, lng: lng});
                 
                 buscaFarmaciasProximas(this.state.lat, this.state.lng).then(
                     responseJson => {
@@ -86,8 +88,8 @@ class BuscaFarmacia extends React.Component{
                 {this.state.dataSource.length > 0 ? 
                     <View>
                         <View style={{padding: 10, borderRadius: 5, borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#F3F3F3"}}>
-                            <View style={{backgroundColor: "#FFEEEE", width: 30, height: 30, alignItems: "center", justifyContent: "center"}}>
-                                <Image source={require('../assets/icons/ic_location_on.png')} style={{width: 20, height: 20}}/>
+                            <View style={{backgroundColor: "#FFEEEE", width: 20, height: 20, alignItems: "center", justifyContent: "center"}}>
+                                <Pin width={15}  height={15} style={{color: "red"}}/>
                             </View>
                         </View>
                         <ScrollView>
@@ -127,4 +129,16 @@ const style = StyleSheet.create({
 });
 
 
-export default BuscaFarmacia;
+const mapStateToProps = state => {
+    return {
+        coordenadas: state.coordenadas
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setCoordenadas:  (coordenadas) => dispatch({type: "setCoordenadas", coordenadas: coordenadas})
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuscaFarmacia);

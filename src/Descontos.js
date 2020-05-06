@@ -29,8 +29,8 @@ class Descontos extends React.Component{
             fontSize: 25
         },
         headerTitle: "Descontos & Promoções",
-        headerLeft: (navigation) => (
-            <HeaderLeftButton  navigation={navigation}/>
+        headerLeft: ({navigation}) => (
+            <HeaderLeftButton  press={() => navigation.navigate('Home')}/>
         )
     }
     constructor(props){

@@ -7,7 +7,7 @@ const STATIC_MAPS_API = "https://maps.googleapis.com/maps/api/staticmap";
 
 export const buscaFarmaciasProximas = async (lat, lng) => {
 
-    var url = PLACES_API + "/nearbysearch/json?location="+lat+","+lng+"&radius=5000&type=drugstore&key=" + API_KEY;
+    var url = PLACES_API + "/nearbysearch/json?location="+lat+","+lng+"&radius=1500&type=drugstore&key=" + API_KEY;
     
     try {
         const response = await fetch(url);
@@ -21,7 +21,7 @@ export const buscaFarmaciasProximas = async (lat, lng) => {
 }
 
 export const detalhaFarmacia = async (place_id) => {
-    var url = PLACES_API + "/details/json?place_id="+ place_id +"&fields=name,rating,formatted_phone_number,international_phone_number,formatted_address,photo,vicinity,place_id&key=" + API_KEY
+    var url = PLACES_API + "/details/json?place_id="+ place_id +"&fields=geometry,icon,name,rating,formatted_phone_number,international_phone_number,formatted_address,photo,vicinity,place_id&key=" + API_KEY
     try {
         const response = await fetch(url);
         const responseJson = await response.json();
