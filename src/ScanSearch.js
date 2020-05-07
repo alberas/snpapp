@@ -7,6 +7,7 @@ import { Icon, Title } from "native-base";
 import { imageSearch } from "./api/arquivo";
 
 import Loader from "./Loader";
+import Close from '../assets/icons/ic_close.svg';
 
 export default function ScanSearch({ navigation }) {
   
@@ -71,52 +72,58 @@ export default function ScanSearch({ navigation }) {
   }
   return (
     <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 8 }} type={type} ref={ref => (this.camera = ref)}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "transparent",
-            flexDirection: "row",
-            borderWidth: 1, 
-            borderColor: '#fff' 
-          }}
-        >
-          <TouchableOpacity
+      <Camera style={{ flex: 1 }} type={type} ref={ref => (this.camera = ref)}>
+          <View style={{flex:1,justifyContent: "flex-end", flexDirection: "row", margin: 10, marginTop: 30}}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Close width={20} height={20}/>
+              </TouchableOpacity>
+          </View>
+          <View style={{flex:1, borderRadius: 5, borderColor:"#FFFFFF", borderWidth: 1, backgroundColor: "#0000001A", margin:10, padding: 10}}>
+            <Text style={{fontSize: 15, color: "#FFFFFF"}}>Aponte a camera para o nome do medicamento e pressione pesquisar</Text>
+          </View>
+          <View
             style={{
-              flex: 0.1,
-              alignSelf: "flex-end",
-              alignItems: "center"
-            }}
-            onPress={() => {
-              (async () => {
-                const { base64, ...image } = await this.camera.takePictureAsync(
-                  {
-                    quality: 1,
-                    base64: true,
-                    exif: true
-                  }
-                );
-              })();
+              flex: 1,
+              backgroundColor: "transparent",
+              flexDirection: "row",
+              borderWidth: 1, 
+              borderColor: '#fff',
+              borderStyle: "dashed",
+              margin: 20,
+              flex: 5
             }}
           >
-          </TouchableOpacity>
+         
+        </View>
+        <View style={{ flex: 3 }}>
+          { !isLoading ? 
+            <View style={{padding: 10 }}>
+              <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                <TouchableOpacity style={{...styles.capture, backgroundColor: "#F25C5C"}} onPress={this.takePicture.bind(this)} >
+                  <Text>PESQUISAR</Text>
+                </TouchableOpacity>
+                <TouchableOpacity  style={{...styles.capture, backgroundColor: "#0AA9FB"}}>
+                  <Text>SALVAR</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{...styles.capture, backgroundColor: "#616161"}}>
+                  <Text>COMPARTILHAR</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{borderRadius: 5, borderColor:"#FFFFFF", borderWidth: 1, backgroundColor: "#0000001A", marginTop:20, padding: 10}}>
+                <Text style={{fontSize: 15, color: "#FFFFFF"}}>Aponte a camera para o nome do medicamento e pressione pesquisar</Text>
+              </View>
+            </View>
+          :
+          <ActivityIndicator/>
+          }
         </View>
       </Camera>
-      <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'center'}}>
-        { !isLoading ? 
-        <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
-            <Icon name='paper' />
-        </TouchableOpacity>
-        :
-        <ActivityIndicator/>
-        }
-      </View>
     </View>
   );
 }
 
-ScanSearch.navigationOptions = () => ({
-    title: "Reconhecimento de texto"
+ScanSearch.navigationOptions = ({navigation}) => ({
+    headerShown: false
 });
 
 const styles = StyleSheet.create({
@@ -131,13 +138,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   capture: {
-    flex: 0,
-    backgroundColor: "#fff",
     borderRadius: 5,
-    padding: 15,
-    paddingHorizontal: 20,
-    alignSelf: "center",
-    margin: 20
+    padding: 15
   }
 });
 

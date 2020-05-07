@@ -19,15 +19,10 @@ const w = Math.round(Dimensions.get('window').width) - 10;
 
 class Farmacia extends React.Component{
 
-    static navigationOptions = {
-        headerStyle: {
-            backgroundColor: "#FFF",
-            height: 80,
-            shadowColor: 'transparent',
-            borderBottomWidth: 0
-        },
-        headerTitle: "",
-        headerLeft: ()=>{ return null; }
+    static navigationOptions = ({navigation}) => {
+        return {
+            headerShown: false
+        }
     }
 
     constructor(props){

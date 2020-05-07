@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, Text, View, Alert } from 'react-native';
+import {ScrollView, Text, View, Alert, TouchableOpacity, Image } from 'react-native';
 import { Icon, Button } from 'native-base';
 import AppLogo from './components/AppLogo/AppLogo';
 import  * as COLORS from './constants/colors'
@@ -8,13 +8,32 @@ import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 import {EmptyResult} from './components/EmptyResult/EmptyResult';
 import * as DataUtil from './util/DataUtil'
 import Loader from './Loader';
+import * as SQLite from 'expo-sqlite';
 
+
+const DBNAME = "ItemAgenda";
 
 class Agendamento extends React.Component{
 
-    static navigationOptions  = {
-        title: 'Agendamento'
-    };
+    static navigationOptions = ({navigation}) => {
+        return{
+            headerStyle: {
+                backgroundColor: "#FFF",
+                height: 80,
+                shadowColor: 'transparent',
+                borderBottomWidth: 0
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color: "#F25C5C",
+                fontSize: 25
+            },
+            headerTitle: "Calendário",
+            headerLeft: () => <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, margin: 5}} onPress={()=>navigation.navigate('Home')}>
+                                <Image source={require('../assets/icons/ic_keyboard_arrow_left/ic_keyboard_arrow_left_48px.png')}/>
+                            </TouchableOpacity>
+        }
+    }
     
     constructor(props){
         super(props);
@@ -31,16 +50,7 @@ class Agendamento extends React.Component{
     renderList = () => {
         this.setState({isLoading: true});
         var arr = [];
-        Calendar.getDefaultCalendarAsync().then(
-            fn = async(t) => {
-                await Calendar.getEventsAsync([t.id], new Date("2020-01-01"), new Date("2020-12-31")).then(
-                    fn2 = async(t2) => {
-                        arr = t2.filter(obj =>  obj.title.indexOf("[sinapse]") >= 0 );
-                        this.setState({lista: arr, isLoading: false});
-                    }
-                )
-            }
-        )
+        SQLite.openDatabase(DBNAME,1);
     }
 
     deleteEvent = async (eventId) => {

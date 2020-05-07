@@ -1,37 +1,41 @@
 import React from 'react';
-import {ScrollView, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import { retornaPromocoes } from './api/evento';
 import { Icon} from 'native-base';
 import * as COLORS from './constants/colors';
 import Loader from './Loader';
 import { EmptyResult } from './components/EmptyResult/EmptyResult';
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
-import DescontoCard from './components/DescontoCard/DescontoCard';
+
 import Vouchers from './Vouchers';
-import Login from './Login';
+
 import { connect } from 'react-redux';
 import Promocoes from './Promocoes';
-import HeaderLeftButton from './components/HeaderLeftButton/HeaderLeftButton';
+
 
 
 class Descontos extends React.Component{
 
-    static navigationOptions = {
-        headerStyle: {
-            backgroundColor: "#FFF",
-            height: 80,
-            shadowColor: 'transparent',
-            borderBottomWidth: 0
-        },
-        headerTitleStyle: {
-            fontWeight: 'bold',
-            color: "#F25C5C",
-            fontSize: 25
-        },
-        headerTitle: "Descontos & Promoções",
-        headerLeft: ({navigation}) => (
-            <HeaderLeftButton  press={() => navigation.navigate('Home')}/>
-        )
+    static navigationOptions =({navigation}) => {
+        return {
+            headerStyle: {
+                backgroundColor: "#FFF",
+                height: 80,
+                shadowColor: 'transparent',
+                borderBottomWidth: 0
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color: "#F25C5C",
+                fontSize: 25
+            },
+            headerTitle: "Descontos & Promoções",
+            headerLeft: ({navigation}) => (
+                <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, margin: 5}} onPress={()=>navigation.navigate('Home')}>
+                    <Image source={require('../assets/icons/ic_keyboard_arrow_left/ic_keyboard_arrow_left_48px.png')}/>
+                </TouchableOpacity>
+            )
+        }
     }
     constructor(props){
         super(props);

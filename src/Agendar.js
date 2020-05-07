@@ -1,11 +1,16 @@
 import React from 'react';
-import {ScrollView, Text, View, Platform, TextInput, StyleSheet, Alert } from 'react-native';
+import {ScrollView, Text, View, Platform, TextInput, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
 import { Icon, Picker, Card, CardItem, Body } from 'native-base';
 import  * as COLORS from './constants/colors'
 import * as Calendar from 'expo-calendar';
 import DatePicker from 'react-native-datepicker';
 import * as DataUtil from './util/DataUtil';
 import DefaultButton from './components/DefaultButton/DefaultButton';
+import BackgroundImage from './components/BackgroundImage/BackgroundImage';
+import NumericInput from './components/NumericInput/NumericInput';
+
+import Pill from '../assets/icons/pills.svg';
+import WeatherButton from './components/WeatherButton/WeatherButton';
 
 const retornaDataAtual = () => {
     const dt = new Date();
@@ -31,81 +36,65 @@ const convToEn = (dtIn) => {
 
 }
 
-
-const INITIAL_STATE = {
-    dataInicial: "",
-    duracao: "",
-    intervalo: "",
-    lista: []
-}
-
-const calendarPrefix = "[sinapse]";
-
 class Agendar extends React.Component{
 
-    static navigationOptions =  {
-        title: 'Agendamento'
-    };
+    static navigationOptions =({navigation}) => {
+        return {
+            headerStyle: {
+                backgroundColor: "#FFF",
+                height: 80,
+                shadowColor: 'transparent',
+                borderBottomWidth: 0
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color: "#F25C5C",
+                fontSize: 25
+            },
+            headerTitle: "Agendar medicação",
+            headerLeft: () => (
+                <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, margin: 5}} onPress={()=>navigation.navigate('Home')}>
+                    <Image source={require('../assets/icons/ic_keyboard_arrow_left/ic_keyboard_arrow_left_48px.png')}/>
+                </TouchableOpacity>
+            )
+        }
+    }
     
     constructor(props){
         super(props);
-        this.state = {...INITIAL_STATE};
+        this.state = {
+            qtdDose: "1",
+            tipoDose: "",
+            qtdIntervalo: "1",
+            tipoIntervalo: "",
+            lista: []
+        }
     }
 
     
-    /*
-    gravar = async () =>{
-        let details = {
-            title: calendarPrefix + 'Lembrete ' + this.props.navigation.getParam('nomeMedicamento'),
-            color: 'blue',
-            entityType: Calendar.EntityTypes.ALARM,
-            sourceId: calendarPrefix + this.props.navigation.getParam('idMedicamento')
-        };
-
-        const { status } = await Calendar.requestRemindersPermissionsAsync();
-        if (status === 'granted') {
-            const evento = null;
-            const calendars = await Calendar.getReminderAsync(details.sourceId)
-              .then( event => {
-                    evento = event;
-                    console.log("[1]" + event);
-                })
-                .catch( error => {
-                    console.log("[2]" + error);
-                });
-                
-            console.log(evento);
-            if(evento==null){
-                const newReminder = await Calendar.createReminderAsync(null, details)
-                    .then( event => {
-                        console.log("[3]" + event);
-                        this.setState({...this.state, results: event });
-                    })
-                    .catch( error => {
-                        console.log("[4]" + error);
-                        this.setState({...this.state, results: error });
-                    });
-            }
-             
-        }
-    }
-    */
+ 
    
     gravar = async () =>{
         if(this.state.dataInicial!="" && this.state.duracao!="" && this.state.intervalo!=""){
-            var arr = this.createList();
-
-            this.createCalendar(arr).then(
-                x => {
-                    Alert.alert("Sinapse",
-                    "Calendário atualizado com sucesso.",
-                    [
-                        {text: "OK", onPress: () => this.props.navigation.navigate('Agendamento') }
-                    ]
-                    )
-                }
-            );
+            Alert.alert("SINAPSE","Preencha todos os campos");
+            return;
         }
+
+
+        SQLite.openDatabase("", version, description, size)
+
+        var arr = this.createList();
+
+        this.createCalendar(arr).then(
+            x => {
+                Alert.alert("Sinapse",
+                "Calendário atualizado com sucesso.",
+                [
+                    {text: "OK", onPress: () => this.props.navigation.navigate('Agendamento') }
+                ]
+                )
+            }
+        );
     }
 
     getDefaultCalendar = async () => {
@@ -155,9 +144,9 @@ class Agendar extends React.Component{
 
     createList = () => {
         var arr = [];
-        const d = Date.parse(convToEn(this.state.dataInicial));
+        const d = Date.now();
         const df = incrementDate(d, this.state.duracao * 24);
-        for(i=d; i < df.getTime(); i = i + (this.state.intervalo * 60 * 60 * 1000)){
+        for(var i=d; i < df.getTime(); i = i + (this.state.intervalo * 60 * 60 * 1000)){
             const aux = new Date(i);
             arr.push(aux);
         }
@@ -198,83 +187,64 @@ class Agendar extends React.Component{
         }
     }
 
+    setQtdDose = (qtd) => {
+        this.setState({qtdDose: qtd});
+    }
+    setQtdIntervalo = (qtd) => {
+        this.setState({qtdIntervalo: qtd});
+    }
+
     render(){
         var idMedicamento = this.props.navigation.getParam('idMedicamento');
         var nomeMedicamento = this.props.navigation.getParam('nomeMedicamento');
         const dataAtual = retornaDataAtual() +  " 00:00";
         const dataFinal = incrementDate(Date.now(), 60 * 24);
         return (
-            <View style={{flex:1}}>
+            <BackgroundImage>
                 <ScrollView style={{marginBottom: 85}}>
-                    <Card>
-                        <CardItem header bordered>
-                            <Text style={{textAlign: "center"}}>{nomeMedicamento}</Text>
-                        </CardItem>
-                        <CardItem bordered>
-                            <Body>
-                                <View style={styles.box}>
-                                    <DatePicker
-                                        style={{width: 200, margin: 5, padding:0, borderWidth: 0}}
-                                        date={this.state.dataInicial}
-                                        mode="datetime"
-                                        placeholder="Dia/Horário inicial"
-                                        format="DD/MM/YYYY HH:mm"
-                                        minDate={dataAtual}
-                                        maxDate={dataFinal}
-                                        confirmBtnText="Confirmar"
-                                        cancelBtnText="Cancelar"
-                                        showIcon={false}
-                                        is24Hour={true}
-                                        customStyles={{
-                                            dateInput: {
-                                                borderWidth: 0,
-                                                marginLeft:0,
-                                                paddingLeft:0,
-                                                alignItems: 'flex-start'
-                                            }
-                                        }}
-                                        onDateChange={(d) => {this.setState({dataInicial: d})}}
-                                    />
-                                    <Icon name="alarm"  style={{position: "absolute", right: 15, top: 10}}/>
+                    <View>
+                        <View style={{padding: 10}}>
+                            <Text style={{color:"#616161B3", fontSize:15, marginBottom:10}}>Medicamento</Text>
+                            <View style={{flexDirection: "row"}}>
+                                <View style={{borderRadius: 5, backgroundColor: "#FFEEEE", justifyContent: "center", alignItems: "center", padding: 5}}>
+                                    <Pill width={20} height={20}/>
                                 </View>
-                                <View style={styles.box}>
-                                    <TextInput
-                                        placeholder="Durção (em dias)"
-                                        keyboardType="numeric"
-                                        style={{width: 200, padding: 10}}
-                                        value={this.state.duracao}
-                                        onChangeText={(p) => this.setState({duracao: p})}/>
-                                    <Icon type="FontAwesome" name="fast-forward"  style={{position: "absolute", right: 10, top: 10}}/>
-                                </View>
-                                <View style={styles.box}>
-                                    <Picker
-                                        placeholder="Intervalo"
-                                        headerBackButtonText="Intervalo"
-                                        iosHeader="Selecione o intervalo"
-                                        iosIcon={<Icon name="arrow-down" />}
-                                        style={{margin: 0, padding: 0 }}
-                                        selectedValue={this.state.intervalo}
-                                        onValueChange={(itemValue, itemIndex) =>
-                                            this.setState({intervalo: itemValue})
-                                        }>
-                                        <Picker.Item label="1 hora" value="1" />
-                                        <Picker.Item label="2 horas" value="2" />
-                                        <Picker.Item label="4 horas" value="4" />
-                                        <Picker.Item label="6 horas" value="6" />
-                                        <Picker.Item label="8 horas" value="8" />
-                                        <Picker.Item label="12 horas" value="12" />
-                                        <Picker.Item label="24 horas" value="24" />
-                                    </Picker>
-                                </View>
-                            </Body>
-                        </CardItem>
-                    </Card>
+                                <Text style={{color: "#242424", fontSize:25, fontWeight: "bold", marginLeft: 10}}>{nomeMedicamento}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: "row"}}>
+                            <View style={{margin: 10, flex: 5}}>
+                                <Text style={{color:"#616161B3", fontSize:15, marginBottom:10}}>Dose</Text>
+                                <NumericInput setValor={this.setQtdDose} valor={this.state.qtdDose}/>
+                            </View>
+                            <View style={{margin: 10, flex: 5}}>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: "row"}}>
+                            <View style={{margin: 10, flex: 5}}>
+                                <Text style={{color:"#616161B3", fontSize:15, marginBottom:10}}>Intervalo</Text>
+                                <NumericInput setValor={this.setQtdIntervalo} valor={this.state.qtdIntervalo}/> 
+                            </View>
+                            <View style={{margin: 10, flex: 5}}>
+                                <Picker>
+
+                                </Picker>
+                            </View>
+                        </View>
+                        <View style={{padding: 10, flexDirection: "row", justifyContent: "space-between"}}>
+                            <WeatherButton label="Manhã"/>
+                            <WeatherButton label="Tarde"/>
+                            <WeatherButton label="Noite"/>
+                            <WeatherButton label="Madrugada"/>
+                        </View>
+
+                    </View>
                     { this.confirmar() }
                 </ScrollView>
                 <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 5}}>
-                    <DefaultButton onPress={() => this.gravar()} label="Agendar" fontSize="2"/>
+                    <DefaultButton onPress={() => this.gravar()} label="Agendar"/>
                 </View>
-            </View>
+                </BackgroundImage>
         );
     }
 
