@@ -17,11 +17,11 @@
     ],
     "ios": {
       "bundleIdentifier": "br.com.sinapse.sinapsemed",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.1"
     },
     "android": {
       "package": "br.com.sinapse.sinapsemed",
-      "versionCode": 3
+      "versionCode": 4
     },
     "packagerOpts": {
       "config": "metro.config.js",
