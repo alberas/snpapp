@@ -25,6 +25,3 @@ export const efetuarLogin = async (txtLogin, txtSenha) => {
         console.error(error);
     }
 }
-
-
-

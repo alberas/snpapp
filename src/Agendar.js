@@ -1,9 +1,8 @@
 import React from 'react';
 import {ScrollView, Text, View, Platform, TextInput, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
-import { Icon, Picker, Card, CardItem, Body } from 'native-base';
+import { Icon, Picker, Card, CardItem } from 'native-base';
 import  * as COLORS from './constants/colors'
 import * as Calendar from 'expo-calendar';
-import DatePicker from 'react-native-datepicker';
 import * as DataUtil from './util/DataUtil';
 import DefaultButton from './components/DefaultButton/DefaultButton';
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
@@ -11,6 +10,10 @@ import NumericInput from './components/NumericInput/NumericInput';
 
 import Pill from '../assets/icons/pills.svg';
 import WeatherButton from './components/WeatherButton/WeatherButton';
+
+import * as SQLite from 'expo-sqlite';
+
+const db = SQLite.openDatabase("Agendamento.db", 1);
 
 const retornaDataAtual = () => {
     const dt = new Date();
@@ -63,129 +66,66 @@ class Agendar extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            idMedicamento: 0,
+            nomeMedicamento: "",
             qtdDose: "1",
-            tipoDose: "",
+            tipoDose: "Capsula",
             qtdIntervalo: "1",
-            tipoIntervalo: "",
+            tipoIntervalo: "Dia",
             lista: []
         }
+
+        db.transaction(tx => {
+            tx.executeSql("CREATE TABLE IF NOT EXISTS agendamento(id integer primary key not null, id_medicamento, nome_medicamento, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo)");
+        });
     }
 
-    
+    componentDidMount = () => {
+        this.setState({
+            idMedicamento: this.props.navigation.getParam('idMedicamento'),
+            nomeMedicamento: this.props.navigation.getParam('nomeMedicamento'),
+        });
+    }
  
    
     gravar = async () =>{
-        if(this.state.dataInicial!="" && this.state.duracao!="" && this.state.intervalo!=""){
+        if(this.state.qtdDose=="" || this.state.tipoDose=="" || this.state.qtdIntervalo=="" || this.state.tipoIntervalo==""){
             Alert.alert("SINAPSE","Preencha todos os campos");
             return;
         }
 
+        var id = 0;
 
-        SQLite.openDatabase("", version, description, size)
-
-        var arr = this.createList();
-
-        this.createCalendar(arr).then(
-            x => {
-                Alert.alert("Sinapse",
-                "Calendário atualizado com sucesso.",
-                [
-                    {text: "OK", onPress: () => this.props.navigation.navigate('Agendamento') }
-                ]
-                )
+        db.transaction(
+            tx => {
+            tx.executeSql(
+                "SELECT IFNULL(MAX(id),0) + 1 as qtd FROM agendamento",
+                [],
+                (_, { rows }) => id = rows._array[0]["qtd"]);
             }
         );
-    }
 
-    getDefaultCalendar = async () => {
-        //const calendars = await Calendar.getCalendarsAsync();
-        //const defaultCalendars = calendars.filter(each => each.source.type === 'caldav');
-        //return defaultCalendars[0];
-        const cal = await Calendar.getDefaultCalendarAsync();
-        return cal;
-    }
-
-    createCalendar = async (arr) => {
-        const { status } = await Calendar.requestPermissionsAsync();
-        var newEvent = null;
-        if (status === 'granted') {
-            var c = 1;
-            const defaultCalendar = await Calendar.getDefaultCalendarAsync().then(
-                fn = async(t) => {
-                    arr = Array.from(arr);
-                    arr.map(async(obj) => {
-                        newEvent = await Calendar.createEventAsync(t.id, {
-                            title: calendarPrefix + ' ' + c++ + '. ' + this.props.navigation.getParam("nomeMedicamento"),
-                            startDate : obj,
-                            endDate: obj,
-                            alarms:  [
-                                { relativeOffset: -1 }
-                            ]
-                        });
-                    });
-                }
-            );
-            return newEvent;
-        }
-    }
-    
-    
-    
-
-    confirmar = () => {
-        
-        if(this.state.dataInicial!="" && this.state.duracao!="" && this.state.intervalo!=""){
-            var list = this.createList();
-            return this.renderList(list);
-        }else{
-            return null;
-        }
-    }
-
-    createList = () => {
-        var arr = [];
-        const d = Date.now();
-        const df = incrementDate(d, this.state.duracao * 24);
-        for(var i=d; i < df.getTime(); i = i + (this.state.intervalo * 60 * 60 * 1000)){
-            const aux = new Date(i);
-            arr.push(aux);
-        }
-        return arr;
-    }
-
-    createAlarmList = (arr) => {
-        var ret = [];
-        arr = Array.from(arr);
-        arr.map(t => {
-            const aux = {
-                absoluteDate: t
+        db.transaction(tx => {
+            tx.executeSql("INSERT INTO agendamento(id, id_medicamento, nome_medicamento, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo) VALUES(?, ?, ?, ?, ?, ?, ?)",
+            [
+                id,
+                this.state.idMedicamento,
+                this.state.nomeMedicamento,
+                this.state.qtdDose,
+                this.state.tipoDose,
+                this.state.qtdIntervalo,
+                this.state.tipoIntervalo
+            ],
+            (tx, result) => {
+                this.props.navigation.navigate('Agendamento');
+            },
+            (tx, result) => {
+                Alert.alert("SINAPSE",result);
             }
-            ret.push(aux);
-        })
-        return ret;
+            );
+        });
     }
 
-    renderList = (arr) => {
-        if(arr.length > 0){
-            var c = 0;
-            return(
-                <View>
-                    <Card>
-                        {
-                        arr.map(t => 
-                            <CardItem  key={c++} style={{borderBottomColor: COLORS.BUTTON_BACKGROUND_COLOR, borderBottomWidth: 1, borderRadius: 0}}>
-                                <Text>{c}. {convToPt(t)}</Text>
-                            </CardItem>
-                            
-                            )
-                        }
-                    </Card>
-                </View>
-            );
-        }else{
-            return null;
-        }
-    }
 
     setQtdDose = (qtd) => {
         this.setState({qtdDose: qtd});
@@ -194,11 +134,25 @@ class Agendar extends React.Component{
         this.setState({qtdIntervalo: qtd});
     }
 
+    onTipoDoseChange = (value) => {
+        this.setState({
+          tipoDose: value
+        });
+    }
+    onTipoIntervaloChange = (value) => {
+        this.setState({
+          tipoIntervalo: value
+        });
+    }
+
     render(){
-        var idMedicamento = this.props.navigation.getParam('idMedicamento');
-        var nomeMedicamento = this.props.navigation.getParam('nomeMedicamento');
+        var idMedicamento = this.state.idMedicamento;
+        var nomeMedicamento = this.state.nomeMedicamento;
         const dataAtual = retornaDataAtual() +  " 00:00";
         const dataFinal = incrementDate(Date.now(), 60 * 24);
+
+        
+
         return (
             <BackgroundImage>
                 <ScrollView style={{marginBottom: 85}}>
@@ -218,6 +172,16 @@ class Agendar extends React.Component{
                                 <NumericInput setValor={this.setQtdDose} valor={this.state.qtdDose}/>
                             </View>
                             <View style={{margin: 10, flex: 5}}>
+                                <Picker
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined,  borderColor: "#F3F3F3", borderWidth: 1, borderRadius: 5, marginTop: 25, padding: 0 }}
+                                    selectedValue={this.state.tipoDose}
+                                    onValueChange={this.onTipoDoseChange.bind(this)}
+                                    >
+                                    <Picker.Item label="Capsula" value="Capsula" />
+                                    <Picker.Item label="Gota" value="Gota" />
+                                </Picker>
                             </View>
                         </View>
                         <View style={{flexDirection: "row"}}>
@@ -226,8 +190,18 @@ class Agendar extends React.Component{
                                 <NumericInput setValor={this.setQtdIntervalo} valor={this.state.qtdIntervalo}/> 
                             </View>
                             <View style={{margin: 10, flex: 5}}>
-                                <Picker>
-
+                                <Picker
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined,  borderColor: "#F3F3F3", borderWidth: 1, borderRadius: 5, marginTop: 25, padding: 0 }}
+                                    selectedValue={this.state.tipoIntervalo}
+                                    onValueChange={this.onTipoIntervaloChange.bind(this)}
+                                    >
+                                    
+                                    <Picker.Item label="Hora" value="Hora" />
+                                    <Picker.Item label="Dia" value="Dia" />
+                                    <Picker.Item label="Semana" value="Semana" />
+                                    <Picker.Item label="Mês" value="Mês" />
                                 </Picker>
                             </View>
                         </View>
@@ -239,7 +213,6 @@ class Agendar extends React.Component{
                         </View>
 
                     </View>
-                    { this.confirmar() }
                 </ScrollView>
                 <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 5}}>
                     <DefaultButton onPress={() => this.gravar()} label="Agendar"/>

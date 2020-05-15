@@ -9,9 +9,12 @@ import {EmptyResult} from './components/EmptyResult/EmptyResult';
 import * as DataUtil from './util/DataUtil'
 import Loader from './Loader';
 import * as SQLite from 'expo-sqlite';
+import DefaultButton from './components/DefaultButton/DefaultButton';
 
+import DeleteIcon from '../assets/icons/ic_delete.svg';
 
-const DBNAME = "ItemAgenda";
+const db = SQLite.openDatabase("Agendamento.db", 1);
+
 
 class Agendamento extends React.Component{
 
@@ -41,6 +44,10 @@ class Agendamento extends React.Component{
             isLoading: true,
             lista: [],
         };
+
+        db.transaction(tx => {
+            tx.executeSql("CREATE TABLE IF NOT EXISTS agendamento(id integer primary key not null, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo)");
+        });
     }
 
     componentDidMount = () => {
@@ -50,18 +57,29 @@ class Agendamento extends React.Component{
     renderList = () => {
         this.setState({isLoading: true});
         var arr = [];
-        SQLite.openDatabase(DBNAME,1);
+        db.transaction(
+            tx => {
+                tx.executeSql("SELECT * FROM agendamento",
+                [], 
+                (_, {rows}) => {
+                  this.setState({lista: rows._array, isLoading: false})
+                }
+                ,
+                (tx, erro) =>  {
+                    console.log(erro) 
+            });
+        });
     }
 
     deleteEvent = async (eventId) => {
-        const ret = await Calendar.deleteEventAsync(eventId).then(
-            Alert.alert("SINAPSE", "Lembre excluído", [
-                {
-                    text: "OK",
-                    onPress: () => this.renderList()
+        db.transaction(
+            tx => {
+                tx.executeSql("DELETE FROM agendamento WHERE id = ?", [eventId],
+                (tx, result) => {
+                    this.renderList()
                 }
-            ])
-            
+            )
+            }
         )
     }
     
@@ -82,23 +100,35 @@ class Agendamento extends React.Component{
                 {
                 this.state.lista.length > 0 
                 ? 
-                <ScrollView style={{flex: 1}}>
-                    {
-                        this.state.lista.map(obj => (
-                            <View key={obj.id} style={{flexDirection: "row", borderBottomWidth:1, padding: 10}}>
-                                <View style={{flex:7}}>
-                                    <Text style={{fontWeight: "bold"}}>{obj.title}</Text>
-                                    <Text>{this.formatDate(obj.startDate)}</Text>
+                <View style={{flex: 1}}>
+                    <ScrollView style={{marginBottom: 85}}>
+                        {
+                            this.state.lista.map(obj => (
+                                <View key={obj.id} style={{margin: 10}}>
+                                    <View style={{flexDirection: "row"}}>
+                                        <Text style={{fontWeight: "bold", flex: 9}}>{obj.nome_medicamento}</Text>
+                                        <TouchableOpacity 
+                                            onPress={() => this.deleteEvent(obj.id)}
+                                            style={{flex: 1, borderRadius: 5, backgroundColor: "#FFEEEE", justifyContent: "center", alignItems: "center", padding: 5, alignSelf: "flex-end"}}>
+                                            <DeleteIcon width={15} height={15}/>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{flexDirection: "row"}}>
+                                    <Text style={{color: "#616161"}}>Dose: </Text>
+                                        <Text style={{color: "#616161CC"}}>{obj.qtd_dose +` `+ obj.tipo_dose}</Text>
+                                    </View>
+                                    <View style={{flexDirection: "row"}}>
+                                        <Text style={{color: "#616161"}}>Intervalo: </Text>
+                                        <Text style={{color: "#616161CC"}}>{obj.qtd_intervalo +` / `+ obj.tipo_intervalo}</Text>
+                                    </View>
                                 </View>
-                                <View style={{flex:3}}>
-                                    <Button danger style={{justifyContent:"center"}} onPress={() => this.deleteEvent(obj.id)}>
-                                        <Text style={{color:"#fff"}}>Excluir</Text>
-                                    </Button>
-                                </View>
-                            </View>
-                        ))   
-                    }
-                </ScrollView>
+                            ))   
+                        }
+                    </ScrollView>
+                    <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 5}}>
+                        <DefaultButton onPress={() => this.props.navigation.navigate('Home') } label="Agendar"/>
+                    </View>
+                </View>
                 :
                 <EmptyResult/>
                 }

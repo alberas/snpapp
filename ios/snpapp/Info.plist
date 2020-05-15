@@ -57,17 +57,17 @@
 		</dict>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Allow SINAPSE to access your calendar</string>
+	<string>SINAPSE requer acesso ao caledário para organização da administação de medicamentos</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow SINAPSE to use the camera</string>
+	<string>SINAPSE requer acesso à camera para que você possa identificar os medicamentos existentes em sua receita</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Allow SINAPSE experiences to access your contacts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow SINAPSE to use your location</string>
+	<string>SINAPSE requer acesso à sua localização para mostrar as farmácias próximas</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow SINAPSE to use your location</string>
+	<string>SINAPSE requer acesso à sua localização para mostrar as farmácias próximas</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow SINAPSE to use your location</string>
+	<string>SINAPSE requer acesso à sua localização para mostrar as farmácias próximas</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow SINAPSE to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
@@ -77,6 +77,6 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Give SINAPSE periences permission to access your photos</string>
 	<key>NSRemindersUsageDescription</key>
-	<string>Allow SINAPSE to access your reminders</string>
+	<string>SINAPSE requer acesso aos lembretes para te avisar sobre os horarios de administração de medicamentos</string>
 </dict>
 </plist>

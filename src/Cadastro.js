@@ -34,37 +34,25 @@ class Cadastro extends React.Component{
     }
 
     
-    
-
-    cadastrar = () => {
-        const {navigation} = this.props.navigation;
+    executar = (navigate) => {
 
         const txtNome = this.state.txtNome;
         const txtEmail = this.state.txtEmail;
-        const txtCpf = this.state.txttxtCpfNome;
+        const dtNascimento = this.state.dtNascimento;
         const txtSenha1 = this.state.txtSenha1;
         const txtSenha2 = this.state.txtSenha2;
 
-        cadastrar(txtNome, txtEmail, txtCpf, txtSenha1, txtSenha2).then(
+        cadastrar(txtNome, txtEmail, dtNascimento, txtSenha1, txtSenha2).then(
             (resp) => {
-                console.log(`\r\n\r\n` + resp.Data.id + `\r\n\r\n`);
-                if(parseInt(resp.Data.id) > 0){
-                    this.props.loginUser(resp.Data); 
-                    if(this.props.previousScreen)   {
-                        navigation.navigate(this.props.previousScreen);    
-                    }else{
-                        navigation.navigate('Home');
-                    }
+                if(parseInt(resp.ErrorCode) == 0){
+                    navigate('Login');
                 }else{
-                    Alert.alert("SINAPSE", error, [
-                        {"text": "Dados incorretos"}
-                    ]);
+                    this.setState({msg:resp.ErrorMsg});
                 }
             }
-        ).catch((error) =>{
-            Alert.alert("SINAPSE", "Favor informar CPF e senha.", [
-                {"text": "OK"}
-            ]);
+        ).catch(
+            (err) =>{
+                this.setState({msg: err});
         });
 
         
@@ -88,6 +76,13 @@ class Cadastro extends React.Component{
                             <Text style={{fontSize: 30, color: '#FFABAB'}}> para inciar</Text>
                         </View>
                     </View>
+                    {
+                    this.state.msg!="" 
+                    ? 
+                    <Text style={{padding: 10, color: "red", textAlign: "center"}}>{this.state.msg}</Text>
+                    : 
+                    <View/>
+                    }
                     <View style={{marginTop: 30, margin: 10}}>
                         <TextInput 
                             onChangeText={(text) => this.setState({txtNome: text})} 
@@ -100,15 +95,17 @@ class Cadastro extends React.Component{
                             placeholder="E-mail"
                             />
                         <View style={{flexDirection: "row", height: 70}}>
+                            <View style={{ flex: 5}}>
                             <TextInput 
-                                onChangeText={(text) => this.setState({txtEmail: text})} 
-                                style={{...style.input, flex: 5}} 
+                                onChangeText={(text) => this.setState({dtNascimento: text})} 
+                                style={{...style.input}} 
                                 placeholder="Data de nascimento"
                                 />
-                                <View style={{flex: 5, borderWidth: 1, borderColor: "#F3F3F3", borderRadius: 5}}>
+                            </View>
+                                <View style={{flex: 5}}>
                                     <Picker 
                                         placeholder="Sexo"
-                                        style={{height: 30}}
+                                        style={{ width: undefined,  borderColor: "#F3F3F3", borderWidth: 1, borderRadius: 5, padding: 0, height: 55 }}
                                         mode="dropdown"
                                         selectedValue={this.state.txtSexo}
                                         onValueChange={(val)=>this.setState({txtSexo: val})}>
@@ -130,7 +127,7 @@ class Cadastro extends React.Component{
                             placeholder="Confirme sua senha"
                             />
                         
-                        <DefaultButton label="Enviar" onPress={() => this.cadastrar()}/>
+                        <DefaultButton label="Enviar" onPress={() => this.executar(navigate)}/>
 
                     </View>
                     <View style={{flexDirection: "row", margin: 15, justifyContent: "center"}}>

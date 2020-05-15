@@ -31,34 +31,24 @@ class Login extends React.Component{
         loading: false
     }
     
-    
-    efetuarLogin = (navigate) => {
+    efetuarLogin = async (navigate)  => {
 
         const txtLogin = this.state.txtLogin;
         const txtSenha = this.state.txtSenha;
 
-        efetuarLogin(txtLogin, txtSenha).then(
-            (resp) => {
-                if(parseInt(resp.Data.id) > 0){
-                    this.props.loginUser(resp.Data); 
-                    if(this.props.previousScreen)   {
-                        navigate(this.props.previousScreen);    
+        if(txtLogin!="" && txtSenha!=""){
+            await efetuarLogin(txtLogin, txtSenha).then(
+                (resp) => {
+                    if(resp.Data!= null && parseInt(resp.Data.id) > 0){
+                        this.props.loginUser(resp.Data);
+                        navigate("Home");
                     }else{
-                        navigate('Home');
+                        this.setState({msg: "E-mail ou senha incorretos."});
                     }
-                }else{
-                    Alert.alert("SINAPSE", error, [
-                        {"text": "Dados incorretos"}
-                    ]);
                 }
-            }
-        );
-
-        
-        
+            );
+        }
     }
-
-    
 
     render(){
         const {navigate} = this.props.navigation;
@@ -79,14 +69,23 @@ class Login extends React.Component{
                             </View>
                         </View>
                     </View>
+                    {
+                    this.state.msg!="" 
+                    ? 
+                    <Text style={{padding: 10, color: "red", textAlign: "center"}}>{this.state.msg}</Text>
+                    : 
+                    <View/>
+                    }
                     <View style={{marginTop: 30, margin: 10}}>
                         <TextInput 
+                            onFocus={() => this.setState({msg: ""})}
                             onChangeText={(text) => this.setState({txtLogin: text})} 
                             style={style.input} 
-                            placeholder="Digite seu CPF"
+                            placeholder="Digite seu e-mail"
                             placeholderTextColor="#616161B3"
                             />
                         <TextInput 
+                            onFocus={() => this.setState({msg: ""})}
                             secureTextEntry={true}
                             onChangeText={(text) => this.setState({txtSenha: text})} 
                             style={style.input} 
