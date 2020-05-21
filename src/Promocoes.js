@@ -1,14 +1,10 @@
 import React from 'react';
-import {ScrollView, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import { retornaPromocoes } from './api/evento';
-import { Icon} from 'native-base';
 import * as COLORS from './constants/colors';
 import Loader from './Loader';
 import { EmptyResult } from './components/EmptyResult/EmptyResult';
-import BackgroundImage from './components/BackgroundImage/BackgroundImage';
 import DescontoCard from './components/DescontoCard/DescontoCard';
-import Vouchers from './Vouchers';
-import { connect } from 'react-redux';
 
 
 class Promocoes extends React.Component{
@@ -34,14 +30,14 @@ class Promocoes extends React.Component{
         )
     }
 
-    renderLista = (navigation) => {
+    renderLista = (navigate) => {
         return(
 
             this.state.promocoes.length > 0 ?
                 <ScrollView style={{flex:1, backgroundColor: "#fff"}}>
                     { this.state.promocoes.map(
                         t=>
-                            (<DescontoCard  key={t.id} navigation={navigation} obj={t}/>)
+                            (<DescontoCard  key={t.id} navigate={navigate} obj={t}/>)
                         )
                     }
                 </ScrollView>
@@ -49,10 +45,9 @@ class Promocoes extends React.Component{
                 <EmptyResult/>
         );
     }
-
     render(){
-        const navigate = this.props.navigation;
-        
+        const navigate = this.props.navigate;
+
         if(this.state.isLoading){
             return(
                 <Loader/>

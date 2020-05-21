@@ -31,6 +31,7 @@ import Documento from './src/Documento';
 import ListaMedicamentos from './src/ListaMedicamentos';
 import CadastroFarmacia from './src/CadastroFarmacia';
 import Cadastro from './src/Cadastro';
+import DescontoDetalhe from './src/DescontoDetalhe';
 
 import * as COLORS from './src/constants/colors';
 
@@ -58,7 +59,8 @@ const MainNavigator = createStackNavigator({
     Voucher: {screen: Voucher},
     Documento: {screen: Documento},
     CadastroFarmacia: {screen: CadastroFarmacia},
-    Cadastro: {screen: Cadastro}
+    Cadastro: {screen: Cadastro},
+    DescontoDetalhe: {screen: DescontoDetalhe}
   },
   {
     initialRouteName: 'Home',

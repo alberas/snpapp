@@ -12,10 +12,11 @@ class Vouchers extends React.Component{
         dataSource: []
     }
     componentDidMount = () => {
-        this.loadData();
+        const navigate = this.props.navigate;
+        this.loadData(navigate);
     }
 
-    loadData = () => {
+    loadData = (navigate) => {
         if(this.props.usuario!=undefined && this.props.usuario.id>0){
             this.setState({isLoading: true});
             retornaVouchers(this.props.usuario.id)
@@ -25,7 +26,7 @@ class Vouchers extends React.Component{
                 }
             )
         }else{
-            this.props.navigation("Login", {previousScreen: "Descontos", activeScreen: 2});
+            navigate("Login", {previousScreen: "Descontos", activeScreen: 2});
         }
     }
 
@@ -33,14 +34,14 @@ class Vouchers extends React.Component{
         return ( 
             this.state.dataSource.map(t=>
                 (
-                    <DescontoCard key={t.id} navigation={navigate} obj={t} showButton={false}/>
+                    <DescontoCard key={t.id} navigate={navigate} obj={t} showButton={false}/>
                 )
             )
         )
     }
 
     render(){
-        const {navigate} = this.props.navigation;
+        const navigate = this.props.navigate;
 
         if(this.state.isLoading){
             return (<Loader/>);
@@ -57,6 +58,5 @@ class Vouchers extends React.Component{
         );
     }
 }
-
 
 export default Vouchers;

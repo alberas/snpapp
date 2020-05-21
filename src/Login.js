@@ -31,7 +31,7 @@ class Login extends React.Component{
         loading: false
     }
     
-    efetuarLogin = async (navigate)  => {
+    efetuarLogin = async (goBack)  => {
 
         const txtLogin = this.state.txtLogin;
         const txtSenha = this.state.txtSenha;
@@ -41,7 +41,7 @@ class Login extends React.Component{
                 (resp) => {
                     if(resp.Data!= null && parseInt(resp.Data.id) > 0){
                         this.props.loginUser(resp.Data);
-                        navigate("Home");
+                        goBack();
                     }else{
                         this.setState({msg: "E-mail ou senha incorretos."});
                     }
@@ -51,7 +51,7 @@ class Login extends React.Component{
     }
 
     render(){
-        const {navigate} = this.props.navigation;
+        const {navigate, goBack} = this.props.navigation;
 
         if(this.state.loading){
             return (<Loader/>);
@@ -93,7 +93,7 @@ class Login extends React.Component{
                             placeholderTextColor="#616161B3"
                             />
                         <Text style={{textAlign: "right", color: "#616161", marginBottom: 30}}>Lembrar senha</Text>
-                        <DefaultButton label="Acessar" onPress={() => this.efetuarLogin(navigate)}/>
+                        <DefaultButton label="Acessar" onPress={() => this.efetuarLogin(goBack)}/>
                     </View>
                     <View style={{flexDirection: "row", margin: 15, justifyContent: "center"}}>
                         <Text style={{color:"#616161"}}>Ainda Não tem cadastro?</Text>

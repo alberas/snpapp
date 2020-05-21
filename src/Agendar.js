@@ -1,8 +1,6 @@
 import React from 'react';
-import {ScrollView, Text, View, Platform, TextInput, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
-import { Icon, Picker, Card, CardItem } from 'native-base';
-import  * as COLORS from './constants/colors'
-import * as Calendar from 'expo-calendar';
+import {ScrollView, Text, View, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
+import { Icon, Picker } from 'native-base';
 import * as DataUtil from './util/DataUtil';
 import DefaultButton from './components/DefaultButton/DefaultButton';
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
@@ -13,7 +11,7 @@ import WeatherButton from './components/WeatherButton/WeatherButton';
 
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase("Agendamento.db", 1);
+const db = SQLite.openDatabase("SNPMED.db", 1);
 
 const retornaDataAtual = () => {
     const dt = new Date();
@@ -41,6 +39,23 @@ const convToEn = (dtIn) => {
 
 class Agendar extends React.Component{
 
+    constructor(props){
+        super(props);
+        this.state = {
+            idMedicamento: 0,
+            nomeMedicamento: "",
+            qtdDose: "1",
+            tipoDose: "Capsula",
+            qtdIntervalo: "1",
+            tipoIntervalo: "Dia",
+            lista: []
+        }
+
+        db.transaction(tx => {
+            tx.executeSql("CREATE TABLE IF NOT EXISTS agendamento(id integer primary key not null, id_medicamento, nome_medicamento, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo)");
+        });
+    }
+
     static navigationOptions =({navigation}) => {
         return {
             headerStyle: {
@@ -63,22 +78,7 @@ class Agendar extends React.Component{
         }
     }
     
-    constructor(props){
-        super(props);
-        this.state = {
-            idMedicamento: 0,
-            nomeMedicamento: "",
-            qtdDose: "1",
-            tipoDose: "Capsula",
-            qtdIntervalo: "1",
-            tipoIntervalo: "Dia",
-            lista: []
-        }
-
-        db.transaction(tx => {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS agendamento(id integer primary key not null, id_medicamento, nome_medicamento, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo)");
-        });
-    }
+    
 
     componentDidMount = () => {
         this.setState({

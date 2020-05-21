@@ -30,11 +30,10 @@ class Descontos extends React.Component{
                 fontSize: 25
             },
             headerTitle: "Descontos & Promoções",
-            headerLeft: ({navigation}) => (
+            headerLeft: () => 
                 <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, margin: 5}} onPress={()=>navigation.navigate('Home')}>
                     <Image source={require('../assets/icons/ic_keyboard_arrow_left/ic_keyboard_arrow_left_48px.png')}/>
                 </TouchableOpacity>
-            )
         }
     }
     constructor(props){
@@ -51,12 +50,12 @@ class Descontos extends React.Component{
     }
     
     renderActiveScreen = (navigate) => {
-        
+
         if(this.state.activeScreen==1){
-            return (<Promocoes navigation={navigate}/>);
+            return (<Promocoes navigate={navigate}/>);
         }else{
             if(this.props.usuario!=undefined){
-                return (<Vouchers navigation={navigate} usuario={this.props.usuario}/>)
+                return (<Vouchers navigate={navigate} usuario={this.props.usuario}/>)
             }else{
                 navigate("Login", {previousScreen: "Descontos"});
             }
@@ -101,7 +100,7 @@ class Descontos extends React.Component{
 
     render(){
         const {navigate} = this.props.navigation;
-        
+  
         if(this.state.isLoading){
             return(<Loader/>);
         }

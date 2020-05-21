@@ -1,9 +1,9 @@
 {
-  "name": "snpapp",
-  "displayName": "snpapp",
+  "name": "SNPMED",
+  "displayName": "SNPMED",
   "expo": {
-    "name": "snpapp",
-    "slug": "expo-template-bare",
+    "name": "SNPMED",
+    "slug": "SNPMED",
     "privacy": "unlisted",
     "version": "1.0.0",
     "entryPoint": "node_modules/expo/AppEntry.js",
@@ -17,11 +17,18 @@
     ],
     "ios": {
       "bundleIdentifier": "br.com.sinapse.sinapsemed",
-      "buildNumber": "1.0.2"
+      "buildNumber": "1.0.4",
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "SINAPSE requer acesso ao caledário para organização da administação de medicamentos",
+        "NSCameraUsageDescription": "SINAPSE requer acesso à camera para que você possa identificar os medicamentos existentes em sua receita",
+        "NSLocationAlwaysAndWhenInUseUsageDescription":	"SINAPSE requer acesso à sua localização para mostrar as farmácias próximas",
+        "NSLocationAlwaysUsageDescription":	"SINAPSE requer acesso à sua localização para mostrar as farmácias próximas",
+        "NSLocationWhenInUseUsageDescription":	"SINAPSE requer acesso à sua localização para mostrar as farmácias próximas"
+      }
     },
     "android": {
       "package": "br.com.sinapse.sinapsemed",
-      "versionCode": 4
+      "versionCode": 6
     },
     "packagerOpts": {
       "config": "metro.config.js",

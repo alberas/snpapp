@@ -13,7 +13,7 @@ import DefaultButton from './components/DefaultButton/DefaultButton';
 
 import DeleteIcon from '../assets/icons/ic_delete.svg';
 
-const db = SQLite.openDatabase("Agendamento.db", 1);
+const db = SQLite.openDatabase("SNPMED.db", 1);
 
 
 class Agendamento extends React.Component{

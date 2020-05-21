@@ -3,10 +3,8 @@ import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Ale
 import { Camera } from "expo-camera";
 import { useSelector } from 'react-redux';
 import * as Permissions from "expo-permissions";
-import { Icon, Title } from "native-base";
 import { imageSearch } from "./api/arquivo";
 
-import Loader from "./Loader";
 import Close from '../assets/icons/ic_close.svg';
 
 export default function ScanSearch({ navigation }) {
@@ -102,12 +100,14 @@ export default function ScanSearch({ navigation }) {
                 <TouchableOpacity style={{...styles.capture, backgroundColor: "#F25C5C"}} onPress={this.takePicture.bind(this)} >
                   <Text>PESQUISAR</Text>
                 </TouchableOpacity>
+                {/*
                 <TouchableOpacity  style={{...styles.capture, backgroundColor: "#0AA9FB"}}>
                   <Text>SALVAR</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{...styles.capture, backgroundColor: "#616161"}}>
                   <Text>COMPARTILHAR</Text>
                 </TouchableOpacity>
+                */}
               </View>
               <View style={{borderRadius: 5, borderColor:"#FFFFFF", borderWidth: 1, backgroundColor: "#0000001A", marginTop:20, padding: 10}}>
                 <Text style={{fontSize: 15, color: "#FFFFFF"}}>Aponte a camera para o nome do medicamento e pressione pesquisar</Text>

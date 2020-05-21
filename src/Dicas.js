@@ -33,7 +33,14 @@ import { TextInput } from 'react-native-gesture-handler';
 }
 
 Dicas.navigationOptions = ({navigation}) => ({
-    headerShown: false
+    title: '',
+    headerStyle: {
+        backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
+        height: 50,
+        shadowColor: 'transparent',
+        borderBottomWidth: 0
+    },
+    headerLeft: () => null
 });
 
 export default Dicas;
