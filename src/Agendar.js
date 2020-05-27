@@ -9,9 +9,9 @@ import NumericInput from './components/NumericInput/NumericInput';
 import Pill from '../assets/icons/pills.svg';
 import WeatherButton from './components/WeatherButton/WeatherButton';
 
-import * as SQLite from 'expo-sqlite';
+import AgendamentoDAO from "./dao/AgendamentoDAO";
 
-const db = SQLite.openDatabase("SNPMED.db", 1);
+
 
 const retornaDataAtual = () => {
     const dt = new Date();
@@ -42,6 +42,7 @@ class Agendar extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            msg: "",
             idMedicamento: 0,
             nomeMedicamento: "",
             qtdDose: "1",
@@ -51,9 +52,7 @@ class Agendar extends React.Component{
             lista: []
         }
 
-        db.transaction(tx => {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS agendamento(id integer primary key not null, id_medicamento, nome_medicamento, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo)");
-        });
+        
     }
 
     static navigationOptions =({navigation}) => {
@@ -89,41 +88,27 @@ class Agendar extends React.Component{
  
    
     gravar = async () =>{
+        const {navigate} = this.props.navigation;
         if(this.state.qtdDose=="" || this.state.tipoDose=="" || this.state.qtdIntervalo=="" || this.state.tipoIntervalo==""){
-            Alert.alert("SINAPSE","Preencha todos os campos");
-            return;
+            this.setState({msg: "Preencha todos os campos"});
         }
 
-        var id = 0;
-
-        db.transaction(
-            tx => {
-            tx.executeSql(
-                "SELECT IFNULL(MAX(id),0) + 1 as qtd FROM agendamento",
-                [],
-                (_, { rows }) => id = rows._array[0]["qtd"]);
-            }
-        );
-
-        db.transaction(tx => {
-            tx.executeSql("INSERT INTO agendamento(id, id_medicamento, nome_medicamento, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo) VALUES(?, ?, ?, ?, ?, ?, ?)",
-            [
-                id,
+              
+        const agendamentoDAO = new AgendamentoDAO();
+        agendamentoDAO.inserir([
                 this.state.idMedicamento,
                 this.state.nomeMedicamento,
                 this.state.qtdDose,
                 this.state.tipoDose,
                 this.state.qtdIntervalo,
                 this.state.tipoIntervalo
-            ],
-            (tx, result) => {
-                this.props.navigation.navigate('Agendamento');
-            },
-            (tx, result) => {
-                Alert.alert("SINAPSE",result);
+            ], 
+            () => {
+                navigate('Agendamento')
+            }, (erro) => {
+                this.setState({msg: erro});
             }
-            );
-        });
+        )
     }
 
 
@@ -217,6 +202,11 @@ class Agendar extends React.Component{
                 <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 5}}>
                     <DefaultButton onPress={() => this.gravar()} label="Agendar"/>
                 </View>
+                {this.state.msg != "" ?
+                <Text style={{textAlign:"center", color:"red"}}>{msg}</Text>
+                :
+                null
+                }
                 </BackgroundImage>
         );
     }

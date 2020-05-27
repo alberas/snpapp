@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, Linking } from "react-native";
-import DefaultButton from '../DefaultButton/DefaultButton';
 
 import {calculaDistancia} from '../../util/MapsUtil';
 
 import Seta from '../../../assets/icons/send-2.svg';
 import Pin from '../../../assets/icons/ic_location_on.svg';
 import { connect } from 'react-redux';
+import * as Google from '../../api/google';
 
 export const Farmacia = ({obj, initialLat, initialLng, navigation}) => {
     var t = obj;

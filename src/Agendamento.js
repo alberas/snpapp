@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, Text, View, Alert, TouchableOpacity, Image } from 'react-native';
+import {ScrollView, Text, View, Alert, TouchableOpacity, Image, Linking } from 'react-native';
 import { Icon, Button } from 'native-base';
 import AppLogo from './components/AppLogo/AppLogo';
 import  * as COLORS from './constants/colors'
@@ -12,9 +12,8 @@ import * as SQLite from 'expo-sqlite';
 import DefaultButton from './components/DefaultButton/DefaultButton';
 
 import DeleteIcon from '../assets/icons/ic_delete.svg';
-
-const db = SQLite.openDatabase("SNPMED.db", 1);
-
+import { FileSystem } from 'react-native-unimodules';
+import AgendamentoDAO from './dao/AgendamentoDAO';
 
 class Agendamento extends React.Component{
 
@@ -43,44 +42,35 @@ class Agendamento extends React.Component{
         this.state = {
             isLoading: true,
             lista: [],
+            files: []
         };
-
-        db.transaction(tx => {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS agendamento(id integer primary key not null, qtd_dose, tipo_dose, qtd_intervalo, tipo_intervalo)");
-        });
     }
 
     componentDidMount = () => {
+        /*
+        FileSystem.readDirectoryAsync(FileSystem.documentDirectory + "SQLite").then(
+            t => {
+                this.setState({files: t});
+            }
+        )
+        */
         this.renderList();
     }
 
     renderList = () => {
         this.setState({isLoading: true});
-        var arr = [];
-        db.transaction(
-            tx => {
-                tx.executeSql("SELECT * FROM agendamento",
-                [], 
-                (_, {rows}) => {
-                  this.setState({lista: rows._array, isLoading: false})
-                }
-                ,
-                (tx, erro) =>  {
-                    console.log(erro) 
-            });
+        const agendamentoDAO = new AgendamentoDAO();
+        agendamentoDAO.retornaAgendamentos(result => this.setState({lista: result, isLoading: false}), (erro) => {
+            Alert.alert("SINAPSE", erro);
         });
+            
     }
 
     deleteEvent = async (eventId) => {
-        db.transaction(
-            tx => {
-                tx.executeSql("DELETE FROM agendamento WHERE id = ?", [eventId],
-                (tx, result) => {
-                    this.renderList()
-                }
-            )
-            }
-        )
+        const agendamentoDAO = new AgendamentoDAO();
+        agendamentoDAO.excluir(eventId, () => this.renderList(), (erro) => {
+            Alert.alert("SINAPSE", erro);
+        });
     }
     
     formatDate = (str) => {
@@ -89,6 +79,9 @@ class Agendamento extends React.Component{
     }
     
     render(){
+        
+        const {navigate} = this.props.navigation;
+
         if(this.state.isLoading){
             return(
                 <Loader/>
@@ -126,7 +119,10 @@ class Agendamento extends React.Component{
                         }
                     </ScrollView>
                     <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 5}}>
-                        <DefaultButton onPress={() => this.props.navigation.navigate('Home') } label="Agendar"/>
+                        <TouchableOpacity style={{ backgroundColor: "#616161",  padding: 10, marginBottom: 10, borderRadius: 5}} onPress={() => navigate('Home')}>
+                            <Text style={{textAlign:"center",color: "#fff",}}>Para iniciar um tratamento vá para o início e pesquisa um medicamento</Text>
+                        </TouchableOpacity>
+                        
                     </View>
                 </View>
                 :

@@ -6,6 +6,7 @@ import SectionTitle from './components/SectionTitle/SectionTitle';
 import AppLogo from './components/AppLogo/AppLogo';
 import  * as COLORS from './constants/colors'
 import * as Calendar from 'expo-calendar';
+import { FileSystem } from 'react-native-unimodules';
 
 
 class Agendamento2 extends React.Component{
@@ -140,6 +141,7 @@ class Agendamento2 extends React.Component{
         var nomeMedicamento = this.props.navigation.getParam('nomeMedicamento');
         return (
             <View style={{flex:1}}>
+
                 <ScrollView>
                     <Text style={style.tituloTela}>{nomeMedicamento}</Text>
                     <SectionTitle texto="Dias da semana"/>

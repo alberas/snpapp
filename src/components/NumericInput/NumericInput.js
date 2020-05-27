@@ -16,22 +16,21 @@ class NumericInput extends React.Component{
    }
 
    increment = () => {
-        this.setState({valor: (parseInt(this.state.valor, 10) + 1).toString()});
-        this.sendData();
+        this.setState({valor: (parseInt(this.state.valor, 10) + 1).toString()}, () => this.sendData());
    }
 
    decrement = () => {
-    this.setState({valor: (parseInt(this.state.valor, 10) - 1).toString()});
-    this.sendData();
+    this.setState({valor: (parseInt(this.state.valor, 10) - 1).toString()}, () => this.sendData());
+    ;
 }
 
     render = () => {
         return (
 
             <View style={{alignItems: "center", borderColor: "#F3F3F3", borderWidth: 1, flexDirection: "row", padding: 10, borderRadius: 5}}>
-                <MinusIcon width={20} height={20} style={{flex:1}} onPress={() => this.decrement()}/>
+                <MinusIcon width={25} height={25} style={{flex:1}} onPress={() => this.decrement()}/>
                 <TextInput style={{flex:8, textAlign: "center"}} value={this.props.valor}/>
-                <PlusIcon width={20} height={20} style={{flex:1}} onPress={() => this.increment()}/>
+                <PlusIcon width={25} height={25} style={{flex:1}} onPress={() => this.increment()}/>
             </View>
         );
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TextInput, StyleSheet, Alert, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView }  from 'react-native-keyboard-aware-scrollview';
 import * as actions from './store/actions';
 import  * as COLORS from './constants/colors'
@@ -60,6 +60,9 @@ class Login extends React.Component{
             <BackgroundImage>
                 <KeyboardAwareScrollView>
                     <View>
+                        <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, position: "absolute", top: 5, left: 10, zIndex: 1}} onPress={()=>goBack()}>
+                            <Image source={require('../assets/icons/ic_keyboard_arrow_left/ic_keyboard_arrow_left_48px.png')}/>
+                        </TouchableOpacity>
                         <Image source={require('../assets/icons/mask_group/Mask_Group_1.png')}/>
                         <View style={{ position: "absolute", left: 15, bottom: 15}}>
                             <Text style={{fontSize: 35, color:"#FFABAB"}}>Bem-vindo</Text>

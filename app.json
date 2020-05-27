@@ -17,7 +17,7 @@
     ],
     "ios": {
       "bundleIdentifier": "br.com.sinapse.sinapsemed",
-      "buildNumber": "1.0.4",
+      "buildNumber": "1.0.5",
       "infoPlist": {
         "NSCalendarsUsageDescription": "SINAPSE requer acesso ao caledário para organização da administação de medicamentos",
         "NSCameraUsageDescription": "SINAPSE requer acesso à camera para que você possa identificar os medicamentos existentes em sua receita",
@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "br.com.sinapse.sinapsemed",
-      "versionCode": 6
+      "versionCode": 7
     },
     "packagerOpts": {
       "config": "metro.config.js",

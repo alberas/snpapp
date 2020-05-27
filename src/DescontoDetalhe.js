@@ -47,7 +47,7 @@ const DescontoDetalhe = (props) => {
 
     useEffect(() => {
         (async () => {
-            retornaDadosPromocao(getParam("id"))
+            retornaDadosPromocao(id)
             .then(
                 x => {
                     setDataSource(x.Data);
@@ -55,7 +55,7 @@ const DescontoDetalhe = (props) => {
             )
           setIsLoading(false);
         })();
-      }, []);
+    }, []);
 
       
 

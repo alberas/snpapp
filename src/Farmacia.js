@@ -37,9 +37,11 @@ class Farmacia extends React.Component{
         }
     }
     componentDidMount(){
-        var placeId = this.props.navigation.getParam("place_id");
-        var lat = this.props.navigation.getParam("lat");
-        var long = this.props.navigation.getParam("long");
+        const {getParam} = this.props.navigation;
+
+        var placeId = getParam("place_id");
+        var lat = getParam("lat");
+        var long = getParam("long");
 
         var self = this;
 
@@ -69,18 +71,18 @@ class Farmacia extends React.Component{
         
         var url = google.retornaUrlMapaEstatico(this.state.lat, this.state.long);
 
-
+        const {navigate} = this.props.navigation;
 
         return (
-        <TouchableOpacity
-            onPress={() => {
-                this.props.navigation.navigate('Local',{
-                    lat1: this.state.lat,
-                    lng1: this.state.long,
-                    lat2: geometry.location.lat,
-                    lng2: geometry.location.lng,
-                });
-            }}>
+            <TouchableOpacity
+                onPress={() => {
+                    navigate('Local',{
+                        lat1: this.state.lat,
+                        lng1: this.state.long,
+                        lat2: geometry.location.lat,
+                        lng2: geometry.location.lng,
+                    });
+                }}>
 
                 <Image source={{uri:url}} style={{width:w, height: 250, margin: 5, alignSelf: "center", borderRadius: 5}}/>
                 <TouchableOpacity style={{position: "absolute", bottom: 10, right: 5, backgroundColor: "#fff", borderRadius: 5, padding: 12}}> 
@@ -104,7 +106,7 @@ class Farmacia extends React.Component{
 
     render(){
 
-        const navigation = this.props.navigation;
+        const {goBack,navigate} = this.props.navigation;
 
         if(this.state.isLoading){
             return (
@@ -115,20 +117,16 @@ class Farmacia extends React.Component{
         var item = this.state.dataSource;
         return (
             <BackgroundImage>
-                <View style={{justifyContent: "flex-end", flexDirection: "row", marginRight: 10}}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Close width={20} height={20}/>
-                    </TouchableOpacity>
-                </View>
                 <ScrollView>
                     <View style={{padding: 10}}>
+                        <TouchableOpacity onPress={() => goBack()} style={{position: "absolute", top: 10, right: 10}}>
+                            <Close width={20} height={20}/>
+                        </TouchableOpacity>
                         <View style={{flex: 2, borderColor: "#F3F3F3", borderWidth: 1, justifyContent: "center", alignItems: "center", borderRadius: 7, marginRight: 10, width:75, height: 75, alignSelf: "center", margin: 10}}>
                             <Image source={{uri: item.icon}} style={{width: 60, height: 60}}/>
                         </View>
                         
                         <Text style={{fontSize: 25, textAlign: "center", margin: 25, color:"#242424", fontWeight: "bold"}}>{item.name}</Text>
-                        
-
 
                         <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
                             <View style={style.iconBox}>
@@ -164,7 +162,7 @@ class Farmacia extends React.Component{
                             {this.loadMap(item.geometry)}
                         </View>
                     </View>
-                    <TouchableOpacity style={{marginTop: 400}} onPress={() => this.props.navigation.navigate("CadastroFarmacia", {place_id: item.place_id, txt_nome: item.name, txt_endereco: item.formatted_address})}>
+                    <TouchableOpacity style={{marginTop: 400}} onPress={() => navigate("CadastroFarmacia", {place_id: item.place_id, txt_nome: item.name, txt_endereco: item.formatted_address})}>
                         <Text style={{textAlign: "center"}}>ATUALIZAR CADASTRO DA FARMÁCIA</Text>
                     </TouchableOpacity>
                 </ScrollView>

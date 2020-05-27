@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
 import { KeyboardAwareScrollView }  from 'react-native-keyboard-aware-scrollview';
 import  * as COLORS from './constants/colors'
 import Loader from './Loader';
@@ -15,7 +15,7 @@ class Cadastro extends React.Component{
         title: '',
         headerStyle: {
             backgroundColor: COLORS.HEADER_BACKGROUND_COLOR,
-            height: 50,
+            height: 10,
             shadowColor: 'transparent',
             borderBottomWidth: 0
         },
@@ -60,7 +60,7 @@ class Cadastro extends React.Component{
     }
 
     render(){
-        const {navigate} = this.props.navigation;
+        const {navigate, goBack} = this.props.navigation;
 
         if(this.state.loading){
             return (<Loader/>);
@@ -68,8 +68,10 @@ class Cadastro extends React.Component{
         return(
             <BackgroundImage>
                 <KeyboardAwareScrollView style={style.screen}>
-
-                    <View style={{display: "flex", flex: 3, paddingLeft:10, paddingRight: 10, paddingBottom: 20, backgroundColor: COLORS.HEADER_BACKGROUND_COLOR, borderBottomRightRadius: 40}}>
+                    <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, margin: 5, position: "absolute", top: 5, right:10, zIndex: 1}} onPress={()=>goBack()}>
+                        <Image source={require('../assets/icons/ic_keyboard_arrow_left/ic_keyboard_arrow_left_48px.png')}/>
+                    </TouchableOpacity>
+                    <View style={{display: "flex", flex: 3, paddingLeft:10, paddingRight: 10, paddingBottom: 20, paddingTop: 30, backgroundColor: COLORS.HEADER_BACKGROUND_COLOR, borderBottomRightRadius: 40}}>
                         <Text style={{fontSize: 30, color: '#FFABAB'}}>Olá</Text>
                         <View style={{flexDirection: "row"}}>
                             <Text style={{fontSize: 30, color: '#FFF', fontWeight: "bold"}}>REGISTRE-SE</Text>

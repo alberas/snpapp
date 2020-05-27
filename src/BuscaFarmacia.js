@@ -5,12 +5,13 @@ import Loader from './Loader';
 import AppLogo from './components/AppLogo/AppLogo';
 import  * as colors from './constants/colors'
 import BackgroundImage from './components/BackgroundImage/BackgroundImage';
-import {buscaFarmaciasProximas} from './api/google';
+import * as GoogleApi from './api/google';
 import { Farmacia } from './components/Farmacia/Farmacia';
 import { EmptyResult } from './components/EmptyResult/EmptyResult';
 import HeaderLeftButton from './components/HeaderLeftButton/HeaderLeftButton';
 import Pin from '../assets/icons/ic_location_on_red.svg';
 import { connect } from 'react-redux';
+import { calculaDistancia } from './util/MapsUtil';
 
 class BuscaFarmacia extends React.Component{
 
@@ -45,38 +46,41 @@ class BuscaFarmacia extends React.Component{
         }
     }
     
-    componentDidMount(){
+    async componentDidMount(){
         var self = this;
+        
         navigator.geolocation.getCurrentPosition(
-            position => {
+            async position => {
                 
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
 
-                this.setState({...this.state, lat: lat, lng: lng});
-                this.props.setCoordenadas({lat: lat, lng: lng});
+                self.setState({...self.state, lat: lat, lng: lng});
+                self.props.setCoordenadas({lat: lat, lng: lng});
                 
-                buscaFarmaciasProximas(this.state.lat, this.state.lng).then(
-                    responseJson => {
-                        self.setState({dataSource: responseJson.results});
-                        self.setState({isLoading: false});
-                    }
+                const[pharmacies, drugstores] = await Promise.all([
+                    GoogleApi.buscaFarmaciasProximas(lat, lng),
+                    GoogleApi.buscaDrogariasProximas(lat, lng)
+                ]);
+                let arr = [...pharmacies.results];
+                arr = arr.concat(drugstores.results.filter(
+                    (el) => pharmacies.results.find(x => {return x.place_id == el.place_id}) == undefined
                 )
-                .catch(function(error){
-                    console.log(error);
+                );
+                arr.sort((a,b) => {
+                    const dist1 = calculaDistancia(a.geometry.location.lat,a.geometry.location.lng, lat, lng);
+                    const dist2 = calculaDistancia(b.geometry.location.lat,b.geometry.location.lng, lat, lng);
+                    return Number(dist1) > Number(dist2);
                 });
+
+                self.setState({dataSource: arr, isLoading: false});
             },
             error => Alert.alert(error.message),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
         );
         
         return {};
     }
-
-   
-    
-    
-    
     
     render(){
         if(this.state.isLoading){
@@ -94,11 +98,11 @@ class BuscaFarmacia extends React.Component{
                                 <Pin width={15}  height={15} style={{color: "red"}}/>
                             </View>
                         </View>
-                        <ScrollView>
+                        <ScrollView style={{marginBottom: 30}}>
                             {
-                                this.state.dataSource.map(t=>(
-                                    <Farmacia key={t.place_id} obj={t} initialLat={this.state.lat} initialLng={this.state.lng} navigation={this.props.navigation}/>
-                                    )
+                                this.state.dataSource.map(t=>{
+                                    return (<Farmacia key={t.place_id} obj={t} initialLat={this.state.lat} initialLng={this.state.lng} navigation={this.props.navigation}/>)
+                                    }
                                 )
                             }
                         </ScrollView>

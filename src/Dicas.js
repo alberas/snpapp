@@ -5,13 +5,15 @@ import { View, TouchableOpacity, Image, Text, Picker } from 'react-native';
 import  * as COLORS from './constants/colors'
 import { TextInput } from 'react-native-gesture-handler';
 
- const Dicas = ({navigation}) =>{
+ const Dicas = (props) =>{
+
+    const {goBack} = props.navigation;
 
     return (
         <BackgroundImage>
             <View style={{display: "flex", flex: 3, paddingLeft:10, paddingRight: 10, paddingBottom: 20, backgroundColor: COLORS.HEADER_BACKGROUND_COLOR, borderBottomRightRadius: 40}}>
                 <View style={{flexDirection: "row", marginBottom: 30}}>
-                    <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, margin: 5}} onPress={()=>navigation.navigate('Home')}>
+                    <TouchableOpacity style={{borderWidth:1, borderColor: "#FFEEEE", padding: 10, borderRadius: 5, margin: 5}} onPress={()=>goBack()}>
                         <Image source={require('../assets/icons/ic_keyboard_arrow_left/ic_keyboard_arrow_left_48px.png')}/>
                     </TouchableOpacity>
                     <Text style={{fontSize: 32, color: '#FFFFFF', marginLeft: 10}}>Dicas de saúde</Text>

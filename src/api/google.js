@@ -7,6 +7,21 @@ const STATIC_MAPS_API = "https://maps.googleapis.com/maps/api/staticmap";
 
 export const buscaFarmaciasProximas = async (lat, lng) => {
 
+    var url = PLACES_API + "/nearbysearch/json?location="+lat+","+lng+"&radius=1500&type=pharmacy&key=" + API_KEY;
+    
+    try {
+        const response = await fetch(url);
+        const responseJson = await response.json();
+        return responseJson;
+    }
+    catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export const buscaDrogariasProximas = async (lat, lng) => {
+
     var url = PLACES_API + "/nearbysearch/json?location="+lat+","+lng+"&radius=1500&type=drugstore&key=" + API_KEY;
     
     try {
@@ -54,4 +69,9 @@ export const buscaMapaEstatico = (centerLat, centerLong) => {
         console.error(error);
         return [];
     }
+}
+
+export const retornaPhoto = (photoReference) => {
+    const url = PLACES_API + "/photo?maxwidth=100&maxheight=100&photoreference=" + photoReference + "&key=" + API_KEY;
+    return url;
 }
