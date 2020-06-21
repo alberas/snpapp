@@ -144,20 +144,27 @@ class Farmacia extends React.Component{
 
                         <TextInput multiline={true} style={{height: 170, width: w, fontSize: 20, padding: 5, borderRadius: 5, borderWidth: 1, borderColor:  "#F3F3F3", alignSelf: "center", color:"#616161"}} onPress={(text) => this.setState({mensagem: text}) } value={this.state.mensagem}/>
 
-
-                        <View style={{justifyContent: "space-between", flexDirection: "row", marginBottom: 10, marginTop: 10}}>
-                            <TouchableOpacity
-                                style={{fontSize:30, borderRadius: 5, padding: 20, borderColor: "#15A53B", justifyContent: "center", alignItems: "center", borderWidth: 1, width: 175}}
-                                onPress={() => this.WhatsApp()}>
-                                <Text style={{color: "#15A53B"}}>Enviar mensagem</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={{fontSize: 30, borderRadius: 5, padding: 20, borderColor: "#0AA9FB", justifyContent: "center", alignItems: "center", borderWidth: 1, width: 175}}
-                                onPress={() => Communications.phonecall(item.formatted_phone_number,true) }>
-                                <Text style={{color: "#0AA9FB"}}>Fazer ligação</Text>
-                            </TouchableOpacity>
+                        <View>
+                            <View style={{justifyContent: "space-between", flexDirection: "row", marginBottom: 10, marginTop: 10}}>
+                                <TouchableOpacity
+                                    style={{fontSize:30, borderRadius: 5, padding: 20, borderColor: "#15A53B", justifyContent: "center", alignItems: "center", borderWidth: 1, width: 175}}
+                                    onPress={() => this.WhatsApp()}>
+                                    <Text style={{color: "#15A53B"}}>Enviar mensagem</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                    style={{fontSize: 30, borderRadius: 5, padding: 20, borderColor: "#0AA9FB", justifyContent: "center", alignItems: "center", borderWidth: 1, width: 175}}
+                                    onPress={() => Communications.phonecall(item.formatted_phone_number,true) }>
+                                    <Text style={{color: "#0AA9FB"}}>Fazer ligação</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{justifyContent: "center", flexDirection: "row"}}>
+                                <TouchableOpacity 
+                                    style={{fontSize: 30, borderRadius: 5, padding: 20, borderColor: "#616161", justifyContent: "center", alignItems: "center", borderWidth: 1, width: 200}}
+                                    onPress={() => navigate("Orcamento",{place_id: item.place_id}) }>
+                                    <Text style={{color: "#616161"}}>Solicitar orçamento</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-
                         <View>
                             {this.loadMap(item.geometry)}
                         </View>

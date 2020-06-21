@@ -34,6 +34,7 @@ import Cadastro from './src/Cadastro';
 import DescontoDetalhe from './src/DescontoDetalhe';
 
 import * as COLORS from './src/constants/colors';
+import Orcamento from './src/Orcamento';
 
 
 const MainNavigator = createStackNavigator({
@@ -60,7 +61,8 @@ const MainNavigator = createStackNavigator({
     Documento: {screen: Documento},
     CadastroFarmacia: {screen: CadastroFarmacia},
     Cadastro: {screen: Cadastro},
-    DescontoDetalhe: {screen: DescontoDetalhe}
+    DescontoDetalhe: {screen: DescontoDetalhe},
+    Orcamento: {screen: Orcamento}
   },
   {
     initialRouteName: 'Home',
