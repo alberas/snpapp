@@ -56,23 +56,30 @@ export default function Orcamento({ navigation }) {
               </TouchableOpacity>
           </View>
           <View style={{flex:1, borderRadius: 5, borderColor:"#FFFFFF", borderWidth: 1, backgroundColor: "#0000001A", marginLeft:10, marginRight: 10, marginBottom: 10, padding: 10}}>
-            <Text style={{fontSize: 15, color: "#FFFFFF"}}>Aponte a camera para o nome do medicamento e pressione pesquisar</Text>
+            <Text style={{fontSize: 15, color: "#FFFFFF"}}>Aponte a camêra para a receita e tente enquadra-la no quadro abaixo.</Text>
           </View>
-          <View
-            style={{
-              backgroundColor: "transparent",
-              flexDirection: "row",
-              borderWidth: 1, 
-              borderColor: '#fff',
-              borderStyle: "dashed",
-              marginLeft: 10,
-              marginRight: 10,
-              marginBottom: 10,
-              flex: 6
-            }}
-          >
-         
-        </View>
+            
+            <View
+              style={{
+                backgroundColor: "transparent",
+                flexDirection: "row",
+                borderWidth: 1, 
+                borderColor: '#fff',
+                borderStyle: "dashed",
+                marginLeft: 10,
+                marginRight: 10,
+                marginBottom: 10,
+                flex: 7, 
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+              >
+              {!isLoading ? 
+                <View/>
+                :
+                <ActivityIndicator/>
+              }
+          </View>
         <View style={{ flex: 1 }}>
           { !isLoading ? 
               <View style={{flexDirection: "row", justifyContent: "center"}}>
