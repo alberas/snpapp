@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Dimensions } from "react-native";
-import { upload } from "./api/arquivo";
+import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Dimensions, Alert } from "react-native";
+import { solicitarOrcamento } from "./api/orcamento";
 import * as COLORS from "./constants/colors";
 import Loader from "./Loader";
 
 import Close from '../assets/icons/ic_close.svg';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import BackgroundImage from "./components/BackgroundImage/BackgroundImage";
-import { Accordion } from "native-base";
-import { useSafeArea } from "react-native-safe-area-context";
 
 const w = Math.round(Dimensions.get('window').width);
 const h = Math.round(Dimensions.get('window').height);
 
-
-
 export default function Documento({ navigation }) {
     const [isLoading, setLoading] = useState(false);
     const [activeScreen, setActiveScreen] = useState(1);
-    const bytArquivo = navigation.getParam("bytArquivo");
+    const bytArquivo = navigation.getParam("byt_arquivo");
     const arquivo = "data:image/jpg;base64," + bytArquivo;
     const idUsuario = navigation.getParam("idUsuario");
     const placeId = navigation.getParam("place_id");
@@ -28,8 +24,39 @@ export default function Documento({ navigation }) {
     const [whatsapp, setWhatsapp] = useState("");
     
 
-    sendPicture = () => {
+    sendPicture = async () => {
+      const {navigate, getParam} = navigation;
       setLoading(true);
+
+      var tipo = "";
+      var contato = "";
+      if(sms!=""){
+        tipo = "sms";
+        contato = sms;
+      }
+      if(email!=""){
+        tipo = "email";
+        contato = email;
+      }
+      if(whatsapp!=""){
+        tipo = "whatsapp";
+        contato = whatsapp;
+      }
+
+
+      solicitarOrcamento(tipo, contato,  bytArquivo, placeId)
+      .then((resp) => {
+        if(resp.ErrorCode==0){
+          Alert.alert("SINAPSE", "Sua solicitação foi enviada. Aguarde o contato da farmácia.");
+          navigate("Home");
+        }else{
+          setLoading(false);
+          Alert.alert("SINAPSE", resp.ErrorMsg);
+        }
+      }).catch(err => {
+        setLoading(false);
+        Alert.alert("SINAPSE", err);
+      })
       
     }
 
@@ -88,20 +115,21 @@ export default function Documento({ navigation }) {
                   <TextInput style={retornaSelecaoCampo(1)} placeholder="Digite seu número de telefone" 
                     onFocus={() => changeSelection(1)}
                     value={sms}
-                    onChange={(val) => setSms(val)}
+                    onChangeText={(val) => setSms(val)}
                     ></TextInput>
                 </View>
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5}}>
                     <TextInput style={retornaSelecaoCampo(2)} placeholder="Digite seu E-mail" 
                     onFocus={() => changeSelection(2)}
                     value={email}
-                    onChange={(val) => setEmail(val)}></TextInput>
+                    onChangeText={(val) => setEmail(val)}
+                    ></TextInput>
                 </View>
                 <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5}}>
                   <TextInput style={retornaSelecaoCampo(3)} placeholder="Digite seu número do Whatsapp" 
                   onFocus={() => changeSelection(3)}
                   value={whatsapp}
-                  onChange={(val) => setWhatsapp(val)}></TextInput>
+                  onChangeText={(val) => setWhatsapp(val)}></TextInput>
                 </View>
               </View>
             </View>
@@ -119,7 +147,7 @@ export default function Documento({ navigation }) {
 }
 
 const diminuirProporcional = (input) => {
-  const porcentagemAReduzir = 10;
+  const porcentagemAReduzir = 40;
   return input * ((100 - porcentagemAReduzir) / 100);  
 }
 

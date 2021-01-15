@@ -1,6 +1,6 @@
 import { Form } from "native-base";
 
-const API_URL = "http://snpmed.com.br/api";
+const API_URL = "http://159.65.231.112/api";
 
 export const upload = async (idUsuario, bytArquivo) => {
     const url = API_URL + "/upload/" + idUsuario;

@@ -1,4 +1,4 @@
-const API_URL = "http://snpmed.com.br/api";
+const API_URL = "http://159.65.231.112/api";
 
 export const retornaPromocoes = async () => {
     let url = API_URL + "/promocoes";

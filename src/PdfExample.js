@@ -13,7 +13,7 @@ import Pdf from 'react-native-pdf';
  
 export default class PDFExample extends React.Component {
     render() {
-        const source = {uri:'http://www.snpmed.com.br/temp/1_teste_relat__rio_t__cnico.pdf',cache:true};
+        const source = {uri:'http://www.159.65.231.112/temp/1_teste_relat__rio_t__cnico.pdf',cache:true};
         //const source = require('./test.pdf');  // ios only
         //const source = {uri:'bundle-assets://test.pdf'};
  

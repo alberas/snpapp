@@ -17,7 +17,7 @@ export default function Orcamento({ navigation }) {
   const [idUsuario, setIdUsuario] = useState(useSelector(state => state.usuario.id));
   const [isLoading, setIsLoading] = useState(true);
 
-  takePicture = async () => {
+  enviarSolicitacao = async () => {
     const {navigate, getParam} = navigation;
 
     if (this.camera) {
@@ -26,7 +26,10 @@ export default function Orcamento({ navigation }) {
       const options = { quality: 0.3, base64: true, exif: false, skipProcessing: false };
       const data = await this.camera.takePictureAsync(options);
       
-      navigation.navigate('Documento', {bytArquivo: data.base64, place_id:  getParam("place_id")});
+
+      navigate("Documento", {byt_arquivo: data.base64, place_id: getParam("place_id")});
+    
+
     }
   };
 
@@ -50,7 +53,7 @@ export default function Orcamento({ navigation }) {
     <View style={{ flex: 1 }}>
     
       <Camera style={{ flex: 1 }} type={type} ref={ref => (this.camera = ref)}>
-          <View style={{flex:1,justifyContent: "flex-end", flexDirection: "row", margin: 10, marginTop: 30}}>
+          <View style={{flex:1,justifyContent: "flex-end", flexDirection: "row", margin: 10, marginTop: 30, marginBottom: 0}}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
                   <Close width={20} height={20}/>
               </TouchableOpacity>
@@ -83,7 +86,7 @@ export default function Orcamento({ navigation }) {
         <View style={{ flex: 1 }}>
           { !isLoading ? 
               <View style={{flexDirection: "row", justifyContent: "center"}}>
-                <TouchableOpacity style={{...styles.capture, backgroundColor: "#616161"}} onPress={this.takePicture.bind(this)} >
+                <TouchableOpacity style={{...styles.capture, backgroundColor: "#616161"}} onPress={() => this.enviarSolicitacao()} >
                   <Text>ENVIAR</Text>
                 </TouchableOpacity>
               </View>

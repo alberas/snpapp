@@ -63,7 +63,7 @@ export default function ScanSearch({ navigation }) {
   
 
   if (hasPermission === null) {
-    return <View />;
+    return <Text>Sem acesso à camera</Text>;
   }
   if (hasPermission === false) {
     return <Text>Sem acesso à camera</Text>;

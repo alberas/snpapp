@@ -27,7 +27,7 @@ class Receita extends React.Component {
   componentDidMount(){
     var id = this.props.navigation.getParam('id'); 
 
-    return fetch("http://www.snpmed.com.br/api/protocolo/" + id + "/medicamentos")
+    return fetch("http://www.159.65.231.112/api/protocolo/" + id + "/medicamentos")
         .then((response) => response.json())
         .then((responseJson) => {
 

@@ -1,4 +1,4 @@
-const API_URL = "http://snpmed.com.br/api";
+const API_URL = "http://159.65.231.112/api";
 
 export const cadastrar = async (txtNome, txtEmail, dtNascimento, txtSenha1, txtSenha2) => {
         const url = API_URL + "/usuario/inserir";

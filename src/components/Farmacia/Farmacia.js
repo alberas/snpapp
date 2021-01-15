@@ -16,10 +16,8 @@ export const Farmacia = ({obj, initialLat, initialLng, navigation}) => {
         onPress={() => navigation.navigate("Farmacia", {place_id: t.place_id, lat: t.geometry.location.lat, long: t.geometry.location.lng})}
         >
         <View style={{flexDirection: "row"}}>
-            <View style={{flex: 2, borderColor: "#F3F3F3", borderWidth: 1, justifyContent: "center", alignItems: "center", borderRadius: 7, marginRight: 10}}>
-                <Image source={{uri: t.icon}} style={{width: 50, height: 50}}/>
-            </View>
-            <View style={{flex: 8}}>
+            
+            <View style={{flex: 1}}>
                 <Text style={{fontWeight: "bold", fontSize: 20, color: "#242424", marginBottom: 5}}>{t.name}</Text>
                 <View style={{flexDirection: "row", marginBottom: 5}}>
                     <View style={style.iconBox}>

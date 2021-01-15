@@ -19,7 +19,7 @@ export default class BuscaPaciente extends React.Component{
 
         var self = this;
 
-        fetch("http://www.snpmed.com.br/api/paciente/" + this.state.termo)
+        fetch("http://www.159.65.231.112/api/paciente/" + this.state.termo)
         .then((response) => response.json())
             .then((responseJson) => {
 
